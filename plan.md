@@ -1,9 +1,9 @@
 # Plan
 
-* PROJECT TITLE
-* YOUR NAME
-* STUDENT ID
-* SUPERVISOR NAME
+* hotOrNot: Tracking company attractiveness and profitability from news streams 
+* Euan O'Neill
+* 2312420o
+* Richard McCreadie 
 
 Week-by-week plan for the whole project. Update this as you go along.
 

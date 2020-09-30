@@ -1,9 +1,9 @@
 # Timelog
 
-* PROJECT NAME
-* YOUR NAME
-* STUDENT_ID
-* SUPERVISOR NAME
+* hotOrNot: Tracking company attractiveness and profitability from news streams 
+* Euan O'Neill
+* 2312420o
+* Richard McCreadie 
 
 ## Guidance
 
@@ -14,13 +14,12 @@
 
 ## Week 1
 
-### 19 Oct 2019
+### 29 Sep 2020
 
-* *4 hours* Read the project guidance notes
-* *0.5 hour* Created GitLab repository and cloned the cookiecutter for the projects
-* *1 hour* Modified dissertation template, compiled  
+* *2 hours* Read the project guidance notes
+* *2 hours* Establishing ideas for the project
 
-## 20 Oct 2019
+## 30 Oct 2020
 
-* *1 hour* meeting with supervisor
-* *2 hours* writing initial version of test harness
+* *0.5 hour* Read the project guidance notes
+* *0.5 hour* Created GitLab repository and setup project structure
