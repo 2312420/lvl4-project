@@ -19,7 +19,50 @@
 * *2 hours* Read the project guidance notes
 * *2 hours* Establishing ideas for the project
 
-## 30 Oct 2020
+## 30 SEP 2020
 
 * *0.5 hour* Read the project guidance notes
 * *0.5 hour* Created GitLab repository and setup project structure
+* *2 hours* Researching project
+
+## 06 OCT 
+
+* *1 hour* Creating User stories using MoSCoW
+* *0.5 hour* Forming list of requirements
+* *1 hour* Researching Field
+
+## 07 OCT
+
+* *1.5 hours* Researching similar projects / field
+
+## 08 OCT
+
+* *1.5 hours* Researching
+* *1 hour* going over list of requirments and user stories
+* *2 hours* prepping for meeting and compiling notes and information
+
+## 09 OCT
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* post-meeting notes and reflection
+* *2 hours* Requirements / note gathering   
+
+## 12 OCT
+
+* *1 hour* Researching technologies
+
+## 13 OCT
+
+* *2 hours* Researching technologies
+* *0.5 hour* Project documentation
+
+## 14 OCT
+
+* *1 hour* Project documentation
+* *1 hour* Researching technologies and Architecture
+
+## 15 OCT
+
+* *1 hour* Researching technologies and Architecture
+* *2 hours* Testing technologies
+* *1.5 hours* Metting prep
