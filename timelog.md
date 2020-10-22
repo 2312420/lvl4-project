@@ -66,3 +66,23 @@
 * *1 hour* Researching technologies and Architecture
 * *2 hours* Testing technologies
 * *1.5 hours* Metting prep
+
+## 16 OCT
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* post-meeting notes and reflection
+* *1 hours* Requirment and specifcation planning
+* *2 hours* Researching and testing technologies
+
+## 19 OCT
+
+* *1 hour* Working on news crawler
+
+## 20 OCT 
+
+* *1.5 hours* Working on news crawler
+
+## 22 OCT
+
+* *1 hour* Working on weekly notes
+* *1 hour* Working on newscrawler prototype
