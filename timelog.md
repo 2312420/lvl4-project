@@ -44,7 +44,7 @@
 ## 09 OCT
 
 * *0.5 hour* Meeting with advisor
-* *0.5 hour* post-meeting notes and reflection
+* *0.5 hour* post-meeting notes and planning
 * *2 hours* Requirements / note gathering   
 
 ## 12 OCT
@@ -70,7 +70,7 @@
 ## 16 OCT
 
 * *0.5 hour* Meeting with advisor
-* *0.5 hour* post-meeting notes and reflection
+* *0.5 hour* post-meeting notes and planning
 * *1 hours* Requirment and specifcation planning
 * *2 hours* Researching and testing technologies
 
@@ -86,3 +86,8 @@
 
 * *1 hour* Working on weekly notes
 * *1 hour* Working on newscrawler prototype
+
+## 23 OCT
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* post-meeting notes and planning
