@@ -1,7 +1,7 @@
 import psycopg2
 import json
 from datetime import datetime
-from newspaper import Article
+from newspaper import Article, ArticleException
 import feedparser as fp
 
 #conn = psycopg2.connect(
@@ -29,10 +29,13 @@ def get_articles(articles_source):
     d = fp.parse(rss)
     articles = []
     for entry in d['entries']:
-        content = Article(entry.link)
-        content.download()
-        content.parse()
-        articles.append([entry.title , content.text])
+        try:
+            content = Article(entry.link)
+            content.download()
+            content.parse()
+            articles.append([entry.title, content.text])
+        except ArticleException:
+            print("Something went wrong when downloading article")
 
     return articles
 
@@ -56,6 +59,7 @@ def get_articles(articles_source):
 #    conn.commit()
 
 
+# Checks if article has already been downloaded
 def check(article_title):
     if article_title in titles:
         return False
@@ -63,10 +67,9 @@ def check(article_title):
         return True
 
 
-def output(article_title, article_data):
-
-    j = {article_title: [article_data, datetime.now().strftime("%m/%d/%Y, %H:%M:%S")]}
-
+# Outputs json to text file
+def output(article_title, article_data, article_source):
+    j = {article_title: [article_data, article_source, datetime.now().strftime("%m/%d/%Y, %H:%M:%S")]}
     with open("data.txt", "a") as file:
         file.write(json.dumps(j) + '\n')
 
@@ -75,12 +78,12 @@ if __name__ == '__main__':
     while True:
         for source in sources:
             print("Fetching from " + source)
-            timenow = datetime.now()
             data = get_articles(sources[source])
-            print((datetime.now() - timenow))
+            count = 0
             for article in data:
                 title = article[0]
                 if check(title):
-                    print("Uploading to database...")
-                    output(title, article)
+                    count += 1
+                    output(title, article, source)
+            print("new articles found: " + str(count))
         print("Round Complete")
