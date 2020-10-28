@@ -1,4 +1,3 @@
-import psycopg2
 import json
 from datetime import datetime
 from newspaper import Article, ArticleException
@@ -34,8 +33,11 @@ def get_articles(articles_source):
             content.download()
             content.parse()
             articles.append([entry.title, content.text])
-        except ArticleException:
-            print("Something went wrong when downloading article")
+        except Exception as e:
+            print("Something went wrong:")
+            print(e)
+        #except ArticleException:
+        #    print("Something went wrong when downloading article")
 
     return articles
 
