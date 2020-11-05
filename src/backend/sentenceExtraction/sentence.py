@@ -12,7 +12,7 @@ conn = psycopg2.connect(
 
 def get_articles():
     cur = conn.cursor()
-    cur.execute('''SELECT * FROM articles''')
+    cur.execute('''SELECT * FROM articles WHERE analyzed = false ''')
     articles = cur.fetchmany(10)
     return articles
 
@@ -25,7 +25,24 @@ def extract_sentences(article):
     return sentences
 
 
+def update_article(article_id):
+    cur = conn.cursor()
+    cur.execute('''UPDATE articles SET analyzed = %s WHERE articles.id = %s''', ("true", article_id))
+    conn.commit()
+
+
+def upload_sentence(article_id, article_sentence):
+    cur = conn.cursor()
+    cur.execute('''INSERT INTO sent (text, article_id) VALUES (%s, %s) ''', (article_sentence, article_id))
+    conn.commit()
+
+
 if __name__ == '__main__':
     nltk.download('punkt')
     articles = get_articles()
-    print(extract_sentences(articles[0]))
+    for article in articles:
+        id = article[0]
+        for sentence in extract_sentences(article):
+            upload_sentence(id, sentence)
+            update_article(id)
+
