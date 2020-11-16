@@ -1,11 +1,12 @@
 from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def root():
-    return 'Hot or Not api'
+    return render_template('index.html')
 
 
 # <!---- Source calls ----!> #
@@ -69,11 +70,6 @@ def find_sentence_by_status():
     return 'finds sentence by status'
 
 
-@app.route('/sentence/<sentence_id>', methods=['DELETE'])
-def delete_sentence(sentence_id):
-    return sentence_id
-
-
 @app.route('/sentence/<sentence_id>/context', methods=['POST'])
 def update_sentence_context(sentence_id):
     return sentence_id
@@ -89,11 +85,6 @@ def update_sentence_sentiment(sentence_id):
 @app.route('/company', methods=['POST'])
 def add_company():
     return 'adds company'
-
-
-@app.route('/company/<stock_code>', methods=['DELETE'])
-def delete_articles(stock_code):
-    return stock_code
 
 
 @app.route('/company/<stock_code>/articles', methods=['GET'])
