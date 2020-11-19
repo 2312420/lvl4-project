@@ -1,7 +1,20 @@
 from flask import Flask
 from flask import render_template
+import json
+import psycopg2
 
 app = Flask(__name__)
+
+connection_data = {}
+with open("connection.json") as f:
+    connection_data = json.load(f)
+
+conn = psycopg2.connect(
+    host=connection_data["host"],
+    database=connection_data["database"],
+    user=connection_data["user"],
+    password=connection_data["password"]
+)
 
 
 @app.route('/')
