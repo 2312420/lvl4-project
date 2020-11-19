@@ -1,6 +1,0 @@
-{
-  "host"     : "localhost",
-  "database" : "HotOrNot",
-  "user"     : "postgres",
-  "password" : "2206"
-}

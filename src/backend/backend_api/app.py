@@ -6,7 +6,7 @@ from datetime import datetime
 import psycopg2
 
 
-from models import Article
+from models import Company, Source, Article, Sentence
 
 
 def register_extensions(app):
@@ -50,12 +50,18 @@ def delete_source(source_id):
 
 @app.route('/article', methods=['POST'])
 def add_article():
+    if request.is_json():
+        try:
+            content = request.get_json()
+            to_add = Article(content['id'], content['data'])
+            db.session.add(to_add)
+            db.session.commit()
+            return "added Article"
+        except:
+            return "unable to add itme to datbase"
+    else:
+        return "JSON not provided"
 
-    content = request.get_json()
-    to_add = Article(content['id'], content['data'])
-    db.session.add(to_add)
-    db.session.commit()
-    return "adds Article"
 
 @app.route('/sources', methods=['PUT'])
 def update_article():
