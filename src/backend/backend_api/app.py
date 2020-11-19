@@ -1,20 +1,27 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 import json
+from datetime import datetime
 import psycopg2
 
-app = Flask(__name__)
 
-connection_data = {}
-with open("connection.json") as f:
-    connection_data = json.load(f)
+from models import Article
 
-conn = psycopg2.connect(
-    host=connection_data["host"],
-    database=connection_data["database"],
-    user=connection_data["user"],
-    password=connection_data["password"]
-)
+
+def register_extensions(app):
+    db.init_app(app)
+
+
+def create_app(config):
+    app = Flask(__name__)
+    app.config.from_pyfile(config)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    register_extensions(app)
+    return app
+
+
+app = create_app('config.py')
 
 
 @app.route('/')
@@ -43,8 +50,12 @@ def delete_source(source_id):
 
 @app.route('/article', methods=['POST'])
 def add_article():
-    return 'adds article'
 
+    content = request.get_json()
+    to_add = Article(content['id'], content['data'])
+    db.session.add(to_add)
+    db.session.commit()
+    return "adds Article"
 
 @app.route('/sources', methods=['PUT'])
 def update_article():
