@@ -50,42 +50,113 @@ def delete_source(source_id):
 
 @app.route('/article', methods=['POST'])
 def add_article():
-    if request.is_json():
+    if request.is_json:
         try:
             content = request.get_json()
-            to_add = Article(content['id'], content['data'])
+            to_add = Article(content['id'], content['title'], content['transcript'], content['source_id'])
             db.session.add(to_add)
             db.session.commit()
-            return "added Article"
+            return "200: added Article"
         except:
-            return "unable to add itme to datbase"
+            return "400"
     else:
-        return "JSON not provided"
+        return "405: Validation exception, JSON not provided"
 
 
-@app.route('/sources', methods=['PUT'])
+@app.route('/update_article', methods=['PUT'])
 def update_article():
-    return 'updates article'
+    if request.is_json:
+        try:
+            content = request.get_json()
+            article = Article.query.get(content['id'])
+            article.title = content['title']
+            article.transcript = content['transcript']
+            db.session.commit()
+            return "200: updated Article"
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 @app.route('/article/<article_id>', methods=['GET'])
 def get_article(article_id):
-    return article_id
+    try:
+        article = Article.query.get(article_id)
+        if article == None:
+            return "404: article not found"
+        else:
+            return json.dumps(article.serialize())
+    except:
+        return "405: Validation exception"
 
 
 @app.route('/article/<article_id>', methods=['DELETE'])
 def delete_article(article_id):
-    return article_id
+    if request.is_json():
+        try:
+            content = request.get_json()
+            article = Article.query.get(content['id'])
+            if article == None:
+                return "404: article not found"
+            else:
+                db.session.delete(article)
+                db.session.commit()
+                return "200: Article deleted"
+
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 @app.route('/article/<article_id>/context', methods=['PUT'])
 def update_article_context(article_id):
-    return article_id
+    if request.is_json:
+        try:
+            content = request.get_json()
+            article = Article.query.get(content['id'])
+            if article == None:
+                return "404: article not found"
+            else:
+                article.title = content['context']
+                db.session.commit()
+                return "200: updated article"
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
+
+
+@app.route('/article/<article_id>/status', methods=['PUT'])
+def update_article_status(article_id):
+    if request.is_json:
+        try:
+            content = request.get_json()
+            article = Article.query.get(article_id)
+            if article == None:
+                return "404: article not found"
+            else:
+                article.title = content['status']
+                db.session.commit()
+            return "200: updated article status"
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 @app.route('/article/findByStatus', methods=['GET'])
 def find_article_by_status():
-    return 'finds article by status'
+    if request.is_json():
+        try:
+            content = request.get_json()
+            articles = Article.query.filter_by(status= content['status'])
+            return articles
+        except:
+            return "400: Invalid status value"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 # <!---- Sentence calls ----!> #

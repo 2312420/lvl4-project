@@ -1,7 +1,7 @@
 from extensions import db
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON
-
+import json
 
 class Source(db.Model):
     __tablename__ = 'source'
@@ -39,20 +39,36 @@ class Article(db.Model):
     id = db.Column(db.String(), primary_key=True)
     title = db.Column(db.String())
     transcript = db.Column(db.String())
-    date = db.Column(db.String())
     status = db.Column(db.String())
+    source_id = db.Column(db.String())
 
-    source = db.Column(db.String())
-    sentences = db.relationship("Sentence")
+    date = db.Column(db.String())
+    time = db.Column(db.String())
 
-    def __init__(self, id, title, transcript):
+    def __init__(self, id, title, transcript, source_id):
         self.id = id
         self.title = title
         self.transcript = transcript
         self.date = datetime.now()
+        self.time = datetime.now()
+        self.source_id = source_id
+        self.status = ""
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'transcript': self.transcript,
+            'date': self.date.strftime("%m/%d/%Y"),
+            'time': self.time.strftime("%H:%M:%S"),
+            'source_id': self.source_id,
+            'status': self.status
+        }
+    #def to_json(self):
+    #    return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 class Sentence(db.Model):
@@ -61,7 +77,7 @@ class Sentence(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.String())
     sentiment = db.Column(db.Integer())
-    status = db.Column(db.Integer())
+    status = db.Column(db.String())
 
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))
     context = db.Column(db.String(), db.ForeignKey("company.stock_code"))
