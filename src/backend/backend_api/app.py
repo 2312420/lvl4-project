@@ -33,17 +33,59 @@ def root():
 
 @app.route('/sources', methods=['GET'])
 def get_sources():
-    return 'gets Sources'
+    try:
+        sources = Source.query.all()
+        if sources == None:
+            return "400: No source found"
+        else:
+            to_return = []
+            for source in sources:
+                to_return.append(source.serialize())
+            return to_return
+    except:
+        return "408: Unable to acess db"
 
 
 @app.route('/sources', methods=['POST'])
 def add_source():
+
+    if request.is_json:
+        try:
+            content = request.get_json()
+            to_add = Source(content['id'], content['short_hand'], content['rss'])
+            try:
+                db.session.add(to_add)
+                db.session.commit()
+                return "200: item created"
+            except:
+                return "409: existing source already exists"
+
+        except:
+            return "400: Invalid input, object invalid"
+
+    else:
+        return "400: Invalid input, object invalid"
+
+
     return 'adds source'
 
 
 @app.route('/sources/<source_id>', methods=['DELETE'])
 def delete_source(source_id):
-    return source_id
+    if request.is_json():
+        try:
+            content = request.get_json()
+            source = Source.query.get(source_id)
+            if source == None:
+                return "404: Source not found"
+            else:
+                db.session.delete(source)
+                db.session.commit()
+                return "200: Source deleted"
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 # <!---- Article calls ----!> #
@@ -96,7 +138,7 @@ def delete_article(article_id):
     if request.is_json():
         try:
             content = request.get_json()
-            article = Article.query.get(content['id'])
+            article = Article.query.get(article_id)
             if article == None:
                 return "404: article not found"
             else:

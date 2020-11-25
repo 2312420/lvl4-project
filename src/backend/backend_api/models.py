@@ -18,6 +18,12 @@ class Source(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'short_hand': self.short_hand,
+            'rss': self.rss,
+        }
 
 class Company(db.Model):
     __tablename__ = 'company'
