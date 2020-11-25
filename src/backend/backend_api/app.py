@@ -52,11 +52,11 @@ def add_source():
     if request.is_json:
         try:
             content = request.get_json()
-            to_add = Source(content['id'], content['short_hand'], content['rss'])
+            to_add = Source(content['short_hand'], content['rss'])
             try:
                 db.session.add(to_add)
                 db.session.commit()
-                return "200: item created"
+                return "201: item created"
             except:
                 return "409: existing source already exists"
 
@@ -65,9 +65,6 @@ def add_source():
 
     else:
         return "400: Invalid input, object invalid"
-
-
-    return 'adds source'
 
 
 @app.route('/sources/<source_id>', methods=['DELETE'])
@@ -157,7 +154,7 @@ def update_article_context(article_id):
     if request.is_json:
         try:
             content = request.get_json()
-            article = Article.query.get(content['id'])
+            article = Article.query.get(article_id)
             if article == None:
                 return "404: article not found"
             else:
@@ -194,7 +191,10 @@ def find_article_by_status():
         try:
             content = request.get_json()
             articles = Article.query.filter_by(status= content['status'])
-            return articles
+            output = []
+            for article in articles:
+                output.append(article.serialize())
+            return output
         except:
             return "400: Invalid status value"
     else:
@@ -205,22 +205,69 @@ def find_article_by_status():
 
 @app.route('/sentence', methods=['POST'])
 def add_sentence():
-    return 'adds sentence'
+    if request.is_json:
+        try:
+            content = request.get_json()
+            to_add = Sentence(content['text'], content['article_id'])
+            db.session.add(to_add)
+            db.session.commit()
+            return "201: item created"
+        except:
+            return "400: Invalid input, object invalid"
+    else:
+        return "400: Invalid input, object invalid"
 
 
 @app.route('/sentence/findByStatus', methods=['GET'])
 def find_sentence_by_status():
-    return 'finds sentence by status'
+    if request.is_json():
+        try:
+            content = request.get_json()
+            sentences = Sentence.query.filter_by(status=content['status'])
+            output = []
+            for sentence in sentences:
+                output.append(sentence.serialize())
+            return output
+        except:
+            return "400: Invalid status value"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 @app.route('/sentence/<sentence_id>/context', methods=['POST'])
 def update_sentence_context(sentence_id):
-    return sentence_id
+    if request.is_json:
+        try:
+            content = request.get_json()
+            sentence = Source.query.get(sentence_id)
+            if sentence == None:
+                return "404: article not found"
+            else:
+                sentence.title = content['context']
+                db.session.commit()
+                return "200: updated article"
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 @app.route('/sentence/<sentence_id>/sentiment', methods=['POST'])
 def update_sentence_sentiment(sentence_id):
-    return sentence_id
+    if request.is_json:
+        try:
+            content = request.get_json()
+            sentence = Source.query.get(sentence_id)
+            if sentence == None:
+                return "404: article not found"
+            else:
+                sentence.title = content['sentiment']
+                db.session.commit()
+                return "200: updated article"
+        except:
+            return "400: Invalid id supplied"
+    else:
+        return "405: Validation exception, JSON not provided"
 
 
 # <!---- Company calls ----!> #

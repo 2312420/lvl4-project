@@ -10,8 +10,7 @@ class Source(db.Model):
     short_hand = db.Column(db.String())
     rss = db.Column(db.String())
 
-    def __init__(self, id, short_hand, rss):
-        self.id = id
+    def __init__(self, short_hand, rss):
         self.short_hand = short_hand
         self.rss = rss
 
@@ -73,8 +72,6 @@ class Article(db.Model):
             'source_id': self.source_id,
             'status': self.status
         }
-    #def to_json(self):
-    #    return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 class Sentence(db.Model):
@@ -88,11 +85,18 @@ class Sentence(db.Model):
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))
     context = db.Column(db.String(), db.ForeignKey("company.stock_code"))
 
-    def __init__(self, id, text, article_id):
-        self.id = id
-        self.title = text
+    def __init__(self, text, article_id):
+        #self.id = id
         self.text = text
         self.article_id = article_id
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'sentiment': self.sentiment,
+            'status': self.status
+        }
