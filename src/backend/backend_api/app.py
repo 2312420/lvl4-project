@@ -142,7 +142,6 @@ def delete_article(article_id):
                 db.session.delete(article)
                 db.session.commit()
                 return "200: Article deleted"
-
         except:
             return "400: Invalid id supplied"
     else:
@@ -194,7 +193,7 @@ def find_article_by_status():
             output = []
             for article in articles:
                 output.append(article.serialize())
-            return output
+            return json.dumps(output)
         except:
             return "400: Invalid status value"
     else:
@@ -227,7 +226,7 @@ def find_sentence_by_status():
             output = []
             for sentence in sentences:
                 output.append(sentence.serialize())
-            return output
+            return json.dumps(output)
         except:
             return "400: Invalid status value"
     else:
@@ -272,19 +271,50 @@ def update_sentence_sentiment(sentence_id):
 
 # <!---- Company calls ----!> #
 
+
 @app.route('/company', methods=['POST'])
 def add_company():
-    return 'adds company'
+    if request.is_json:
+        try:
+            content = request.get_json()
+            to_add = Company(content['stock_code'], content['short_hand'])
+            try:
+                db.session.add(to_add)
+                db.session.commit()
+                return "201: item created"
+            except:
+                return "409: Existing company already exists"
+        except:
+            return "400: Invalid input, object invalid"
+    else:
+        return "400: Invalid input, object invalid"
 
 
-@app.route('/company/<stock_code>/articles', methods=['GET'])
-def get_company_articles(stock_code):
-    return stock_code
+@app.route('/company/<stock_code>', methods=['GET'])
+def get_company(stock_code):
+    try:
+        company = Company.query.get(stock_code)
+        if company == None:
+            return "404: article not found"
+        else:
+            return json.dumps(company.serialize())
+    except:
+        return "405: Validation exception"
 
 
-@app.route('/company/<stock_code>/sentences', methods=['POST'])
+@app.route('/company/<stock_code>/sentences', methods=['GET'])
 def get_company_sentences(stock_code):
-    return stock_code
+    try:
+        sentences = Sentence.query.filter_by(context=stock_code).all()
+        if sentences == []:
+            return "404: No sentences found"
+        else:
+            output = []
+            for sentence in sentences:
+                output.append(sentence.serialize())
+            return json.dumps(output)
+    except:
+        return "400: Invalid Input"
 
 
 if __name__ == '__main__':
