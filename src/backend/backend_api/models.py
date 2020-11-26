@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON
 import json
 
+
 class Source(db.Model):
     __tablename__ = 'source'
 
@@ -85,7 +86,7 @@ class Sentence(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.String())
     sentiment = db.Column(db.Integer())
-    status = db.Column(db.String())
+    status = db.Column(db.String()) #CONTEXT, SENTIMENT, DONE
 
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))
     context = db.Column(db.String(), db.ForeignKey("company.stock_code"))
@@ -94,6 +95,7 @@ class Sentence(db.Model):
         #self.id = id
         self.text = text
         self.article_id = article_id
+        self.status = "CONTEXT"
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

@@ -41,7 +41,7 @@ def get_sources():
             to_return = []
             for source in sources:
                 to_return.append(source.serialize())
-            return to_return
+            return json.dumps(to_return)
     except:
         return "408: Unable to acess db"
 
@@ -69,20 +69,18 @@ def add_source():
 
 @app.route('/sources/<source_id>', methods=['DELETE'])
 def delete_source(source_id):
-    if request.is_json():
-        try:
-            content = request.get_json()
-            source = Source.query.get(source_id)
-            if source == None:
-                return "404: Source not found"
-            else:
-                db.session.delete(source)
-                db.session.commit()
-                return "200: Source deleted"
-        except:
-            return "400: Invalid id supplied"
-    else:
-        return "405: Validation exception, JSON not provided"
+    try:
+        content = request.get_json()
+        source = Source.query.get(source_id)
+        if source == None:
+            return "404: Source not found"
+        else:
+            db.session.delete(source)
+            db.session.commit()
+            return "200: Source deleted"
+    except:
+        return "400: Invalid id supplied"
+    
 
 
 # <!---- Article calls ----!> #
@@ -95,7 +93,7 @@ def add_article():
             to_add = Article(content['id'], content['title'], content['transcript'], content['source_id'])
             db.session.add(to_add)
             db.session.commit()
-            return "200: added Article"
+            return "200: item created"
         except:
             return "400"
     else:
@@ -132,20 +130,18 @@ def get_article(article_id):
 
 @app.route('/article/<article_id>', methods=['DELETE'])
 def delete_article(article_id):
-    if request.is_json():
-        try:
-            content = request.get_json()
-            article = Article.query.get(article_id)
-            if article == None:
-                return "404: article not found"
-            else:
-                db.session.delete(article)
-                db.session.commit()
-                return "200: Article deleted"
-        except:
-            return "400: Invalid id supplied"
-    else:
-        return "405: Validation exception, JSON not provided"
+    try:
+        content = request.get_json()
+        article = Article.query.get(article_id)
+        if article == None:
+            return "404: article not found"
+        else:
+            db.session.delete(article)
+            db.session.commit()
+            return "200: Article deleted"
+    except:
+        return "400: Invalid id supplied"
+    
 
 
 @app.route('/article/<article_id>/context', methods=['PUT'])
@@ -157,7 +153,7 @@ def update_article_context(article_id):
             if article == None:
                 return "404: article not found"
             else:
-                article.title = content['context']
+                article.context = content['context']
                 db.session.commit()
                 return "200: updated article"
         except:
@@ -175,7 +171,7 @@ def update_article_status(article_id):
             if article == None:
                 return "404: article not found"
             else:
-                article.title = content['status']
+                article.status = content['status']
                 db.session.commit()
             return "200: updated article status"
         except:
@@ -186,7 +182,7 @@ def update_article_status(article_id):
 
 @app.route('/article/findByStatus', methods=['GET'])
 def find_article_by_status():
-    if request.is_json():
+    if request.is_json:
         try:
             content = request.get_json()
             articles = Article.query.filter_by(status= content['status'])
@@ -219,9 +215,10 @@ def add_sentence():
 
 @app.route('/sentence/findByStatus', methods=['GET'])
 def find_sentence_by_status():
-    if request.is_json():
+    if request.is_json:
         try:
             content = request.get_json()
+            print(content)
             sentences = Sentence.query.filter_by(status=content['status'])
             output = []
             for sentence in sentences:
@@ -231,6 +228,21 @@ def find_sentence_by_status():
             return "400: Invalid status value"
     else:
         return "405: Validation exception, JSON not provided"
+
+
+@app.route('/sentence/<sentence_id>/', methods=['DELETE'])
+def delete_sentence(sentence_id):
+    try:
+        content = request.get_json()
+        sentence = Sentence.query.get(sentence_id)
+        if sentence == None:
+            return "404: sentence not found"
+        else:
+            db.session.delete(sentence)
+            db.session.commit()
+            return "200: sentence deleted"
+    except:
+        return "400: Invalid id supplied"
 
 
 @app.route('/sentence/<sentence_id>/context', methods=['POST'])
@@ -295,7 +307,7 @@ def get_company(stock_code):
     try:
         company = Company.query.get(stock_code)
         if company == None:
-            return "404: article not found"
+            return "404: company not found"
         else:
             return json.dumps(company.serialize())
     except:
