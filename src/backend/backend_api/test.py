@@ -81,7 +81,6 @@ class TestSentenceCalls(unittest.TestCase):
         for item in r:
             if item['text'] == "this is a test sentence":
                 url = baseurl + "/sentence/" + item['id']
-                print(item[id])
                 r = requests.delete(url)
                 self.assertTrue(r, "200: sentence deleted")
         return False
