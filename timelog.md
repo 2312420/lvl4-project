@@ -91,3 +91,75 @@
 
 * *0.5 hour* Meeting with advisor
 * *0.5 hour* post-meeting notes and planning
+
+## 27 OCT
+
+* *1.5 hour* Working on newscrawler
+* *0.5 hour* Installing docker and req technologies
+* *0.5 hour* Containerizing crawler 
+
+## 28 OCT
+
+* *1 hour* Working on entity identifcation
+
+## 29 OCT
+
+* *0.5 hour* Error handling for news crawler
+* *1.5 hours* Working on entity identifcation
+
+## 30 OCT
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post meeting notes
+* *0.5 hour* Uploading image to dockerhub 
+* *0.5 hour* Familiarization with uni hosting  
+
+## 3 Nov
+
+* *1 hour* Working on deployment (uni system blocked progress)
+
+## 4 Nov
+
+* *2.5 hours* Working on sentence extraction
+
+## 6 Nov
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post meeting notes
+
+## 10 Nov
+
+* *3 hours* Working on swagger api
+
+## 12 Nov
+
+* *1 hour* Learning cluster system
+* *1 hour* deploying newscrawler
+
+## 14 Nov
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post metting notes
+* *1 hour* Working on building api
+
+## 16 Nov
+
+* *1 hour* Working on building api
+
+## 19 Nov
+
+* *2 hours* Working on api
+
+## 24 Nov
+
+* *3 hours* Working on api
+
+## 25 Nov
+
+* *2 hours* Working on api 
+
+## 26 Nov
+
+* *1.5 hours* Finishing api
+* *1.5 hours* Writing test cases for api
+* *1 hour* Working on sentiment analysis
