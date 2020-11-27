@@ -90,7 +90,7 @@ def add_article():
     if request.is_json:
         try:
             content = request.get_json()
-            to_add = Article(content['id'], content['title'], content['transcript'], content['source_id'])
+            to_add = Article(content['title'], content['transcript'], content['source_id'])
             db.session.add(to_add)
             db.session.commit()
             return "200: item created"
