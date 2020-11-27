@@ -57,14 +57,19 @@ class Article(db.Model):
     date = db.Column(db.String())
     time = db.Column(db.String())
 
-    def __init__(self, title, transcript, source_id):
-        self.title = title
-        self.transcript = transcript
-        self.date = datetime.now()
-        self.time = datetime.now()
-        self.source_id = source_id
+    #def __init__(self, title, transcript, source_id, date, time):
+    def __init__(self, *args):
+        self.title = args[0]
+        self.transcript = args[1]
+        self.source_id = args[2]
         self.status = "CONTEXT"
         self.id = self.hash()
+
+        if len(args) > 3:
+            self.date = self.time = datetime.strptime(args[3], '%m/%d/%Y, %H:%M:%S')
+        else:
+            self.date = datetime.now()
+            self.time = datetime.now()
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
