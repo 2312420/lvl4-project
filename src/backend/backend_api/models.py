@@ -2,6 +2,7 @@ from extensions import db
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON
 import json
+import hashlib
 
 
 class Source(db.Model):
@@ -56,17 +57,26 @@ class Article(db.Model):
     date = db.Column(db.String())
     time = db.Column(db.String())
 
-    def __init__(self, id, title, transcript, source_id):
-        self.id = id
+    def __init__(self, title, transcript, source_id):
         self.title = title
         self.transcript = transcript
         self.date = datetime.now()
         self.time = datetime.now()
         self.source_id = source_id
-        self.status = ""
+        self.status = "CONTEXT"
+        self.id = self.hash()
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+    def hash(self):
+        title = self.title
+        transcript = self.transcript.split()
+        first_word = transcript[0]
+        last_word = transcript[-1]
+        hash_string = first_word + title + last_word
+        hash_obj = hashlib.md5(hash_string.encode())
+        return hash_obj.hexdigest()
 
     def serialize(self):
         return {

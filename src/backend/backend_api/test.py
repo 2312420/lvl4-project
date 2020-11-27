@@ -1,7 +1,7 @@
 import requests
 import json
 import unittest
-
+from models import Article
 baseurl = "http://127.0.0.1:5000"
 
 
@@ -31,35 +31,37 @@ class TestSourceCalls(unittest.TestCase):
 
 class TestArticleCalls(unittest.TestCase):
 
+    test_article = Article("this is a test title", "this is a test transcript ", "1")
+
     def test_add_article(self):
         url = baseurl + "/article"
-        payload = {"id": "test_id", "title": "this is a test title", "transcript": "test, test, test", "source_id": "1"}
+        payload = {"title": "this is a test title", "transcript": "this is a test transcript ", "source_id": "1"}
         r = requests.post(url, json=payload)
         self.assertTrue(r, "201: item created")
 
     def test_update_article(self):
         url = baseurl + "/update_article"
-        payload = {"id": "test_id", "title": "update title", "transcript": "update transcript"}
+        payload = {"id": self.test_article.id, "title": "update title", "transcript": "update transcript"}
         r = requests.put(url, json=payload)
         self.assertTrue(r, "200: updated Article")
 
     def test_article_status(self):
-        url = baseurl + "/article/test_id/status"
+        url = baseurl + "/article/" + self.test_article.id + "/status"
         payload = {"status": "TESTING"}
         r = requests.put(url, json=payload)
         self.assertTrue(r, "200: updated article")
 
     def test_article_context(self):
-        url = baseurl + "/article/test_id/context"
+        url = baseurl + "/article/" + self.test_article.id + "/context"
         payload = {"context": "AAPL"}
         r = requests.put(url, json=payload)
         self.assertTrue(r, "200: updated article")
 
     def test_get_and_delete_article(self):
-        url = baseurl + "/article/test_id"
+        url = baseurl + "/article/" + self.test_article.id
         r = (requests.get(url)).json()
         if r['status'] == "TESTING":
-            url = baseurl + "/article/test_id"
+            url = baseurl + "/article/" + self.test_article.id
             r = requests.delete(url)
             self.assertTrue(r, "200: Article deleted")
         else:
