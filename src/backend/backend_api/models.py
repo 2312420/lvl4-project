@@ -85,7 +85,7 @@ class Sentence(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.String())
-    sentiment = db.Column(db.Integer())
+    sentiment = db.Column(db.Float())
     status = db.Column(db.String()) #CONTEXT, SENTIMENT, DONE
 
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))

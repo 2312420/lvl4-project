@@ -218,7 +218,6 @@ def find_sentence_by_status():
     if request.is_json:
         try:
             content = request.get_json()
-            print(content)
             sentences = Sentence.query.filter_by(status=content['status'])
             output = []
             for sentence in sentences:
@@ -245,16 +244,17 @@ def delete_sentence(sentence_id):
         return "400: Invalid id supplied"
 
 
-@app.route('/sentence/<sentence_id>/context', methods=['POST'])
+@app.route('/sentence/<sentence_id>/context', methods=['PUT'])
 def update_sentence_context(sentence_id):
     if request.is_json:
         try:
             content = request.get_json()
-            sentence = Source.query.get(sentence_id)
+            sentence = Sentence.query.get(sentence_id)
             if sentence == None:
                 return "404: article not found"
             else:
-                sentence.title = content['context']
+                sentence.context = content['context']
+                sentence.status = "SENTIMENT"
                 db.session.commit()
                 return "200: updated article"
         except:
@@ -263,16 +263,17 @@ def update_sentence_context(sentence_id):
         return "405: Validation exception, JSON not provided"
 
 
-@app.route('/sentence/<sentence_id>/sentiment', methods=['POST'])
+@app.route('/sentence/<sentence_id>/sentiment', methods=['PUT'])
 def update_sentence_sentiment(sentence_id):
     if request.is_json:
         try:
             content = request.get_json()
-            sentence = Source.query.get(sentence_id)
+            sentence = Sentence.query.get(sentence_id)
             if sentence == None:
                 return "404: article not found"
             else:
-                sentence.title = content['sentiment']
+                sentence.sentiment = content['sentiment']
+                sentence.status = "DONE"
                 db.session.commit()
                 return "200: updated article"
         except:
