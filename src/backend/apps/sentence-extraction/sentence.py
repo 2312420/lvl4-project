@@ -1,43 +1,36 @@
-import re
-import psycopg2
 import nltk.data
+import requests
 
-conn = psycopg2.connect(
-    host="localhost",
-    database="HotOrNot",
-    user="postgres",
-    password="2206"
-)
+base_url = "http://127.0.0.1:5000/"
+
 
 # Gets 10 articles from database
 def get_articles():
-    cur = conn.cursor()
-    cur.execute('''SELECT * FROM articles WHERE analyzed = false ''')
-    articles = cur.fetchmany(10)
-    return articles
+    url = base_url + 'article/findByStatus'
+    payload = {"status": "CONTEXT"}
+    r = requests.get(url, json=payload)
+    return r.json()#r.json()22
 
 
 # Divides text from article into list of sentences
-def extract_sentences(article):
-    title = article[1][0]
-    text = article[1][1]
+def extract_sentences(article_transcript):
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-    sentences = tokenizer.tokenize(text)
+    sentences = tokenizer.tokenize(article_transcript)
     return sentences
 
 
 # Updates article analyzed field
 def update_article(article_id):
-    cur = conn.cursor()
-    cur.execute('''UPDATE articles SET analyzed = %s WHERE articles.id = %s''', ("true", article_id))
-    conn.commit()
+    url = base_url + "article/" + article_id + "/status"
+    payload = {"status": "CONTEXT"}
+    r = requests.put(url, json=payload)
 
 
 # Uploads sentences to database
 def upload_sentence(article_id, article_sentence):
-    cur = conn.cursor()
-    cur.execute('''INSERT INTO sent (text, article_id) VALUES (%s, %s) ''', (article_sentence, article_id))
-    conn.commit()
+    url = base_url + "sentence"
+    payload = {"text": article_sentence, "article_id": article_id}
+    r = requests.post(url, json=payload)
 
 
 if __name__ == '__main__':
@@ -45,11 +38,7 @@ if __name__ == '__main__':
     while True:
         articles = get_articles()
         for article in articles:
-            id = article[0]
-            print(id)
+            id = article['id']
             update_article(id)
-            for sentence in extract_sentences(article):
+            for sentence in extract_sentences(article['transcript']):
                 upload_sentence(id, sentence)
-
-
-
