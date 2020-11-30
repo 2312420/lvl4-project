@@ -7,7 +7,7 @@ base_url = "http://127.0.0.1:5000/"
 # Gets 10 articles from database
 def get_articles():
     url = base_url + 'article/findByStatus'
-    payload = {"status": "CONTEXT"}
+    payload = {"status": "SENTENCES"}
     r = requests.get(url, json=payload)
     return r.json()#r.json()22
 
@@ -22,7 +22,7 @@ def extract_sentences(article_transcript):
 # Updates article analyzed field
 def update_article(article_id):
     url = base_url + "article/" + article_id + "/status"
-    payload = {"status": "CONTEXT"}
+    payload = {"status": "DONE"}
     r = requests.put(url, json=payload)
 
 
