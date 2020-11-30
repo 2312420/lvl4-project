@@ -48,7 +48,6 @@ def get_sources():
 
 @app.route('/sources', methods=['POST'])
 def add_source():
-
     if request.is_json:
         try:
             content = request.get_json()
