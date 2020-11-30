@@ -82,7 +82,6 @@ def delete_source(source_id):
         return "400: Invalid id supplied"
     
 
-
 # <!---- Article calls ----!> #
 
 @app.route('/article', methods=['POST'])
@@ -91,6 +90,21 @@ def add_article():
         try:
             content = request.get_json()
             to_add = Article(content['title'], content['transcript'], content['source_id'])
+            db.session.add(to_add)
+            db.session.commit()
+            return "200: item created"
+        except:
+            return "400"
+    else:
+        return "405: Validation exception, JSON not provided"
+
+
+@app.route('/article_with_date', methods=['POST'])
+def add_article_with_date():
+    if request.is_json:
+        try:
+            content = request.get_json()
+            to_add = Article(content['title'], content['transcript'], content['source_id'], content['date-time'])
             db.session.add(to_add)
             db.session.commit()
             return "200: item created"
