@@ -8,7 +8,7 @@ nlp = spacy.load('en_core_web_sm')
 # Get articles from db via api
 def get_articles():
     url = base_url + '/article/findByStatus'
-    payload = {"status": "TEST"}
+    payload = {"status": "CONTEXT"}
     r = requests.get(url, json=payload)
     return r.json()#r.json()22
 
@@ -27,7 +27,7 @@ def analyse(transcript):
 # Updates article analyzed field
 def update_article(article_id):
     url = base_url + "/article/" + article_id + "/status"
-    payload = {"status": "TEST"}
+    payload = {"status": "SENTENCES"}
     r = requests.put(url, json=payload)
 
 
