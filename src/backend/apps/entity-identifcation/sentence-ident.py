@@ -38,45 +38,39 @@ def analyse(transcript):
     return orgs
 
 
-# Create list ranking of possible companies
-def context_list(parent_contexts, sentence_contexts):
-    if not sentence_contexts:
-        # No context can be gathered from sentence
-        return Counter(parent_contexts)
-    else:
-        # Sentence pertains to some context
-        #for item in parent_contexts:
-        #    sentence_contexts.append(item)
-        return Counter(sentence_contexts)
-
-
-# Searches through context list to see if company available
-def decider(parent_id, potential_context):
-    article = get_article(parent_id)
-    companies = context_list(article['context'], potential_context)
-    for company in companies.keys():
+# Given a list of companies fuzzy searches db through api for company
+def find_company(company_list):
+    for company in company_list:
         r = search_for_company(company)
         if r.status_code == 200:
+            # Company has been found
             company = r.json()
             return company
     return None
 
 
+# Decides if company context comes from article or sentence
+def decider(parent_id, potential_context):
+    companies = Counter(potential_context).keys()
+    company = find_company(companies)
+    if company == None:
+        article = get_article(parent_id)
+        return find_company(Counter(article['context']).keys())
+    else:
+        return company
+
+
 # Updates article analyzed field
-def update_sentence(sentence_id):
-    url = base_url + "/sentence/" + sentence_id + "/context"
-    payload = {"status": "SENTIMENT"}
+def update_sentence(sentence_id, stock_code):
+    url = base_url + "/sentence/" + str(sentence_id) + "/context"
+    payload = {"context": stock_code}
     r = requests.put(url, json=payload)
 
 
 if __name__ == '__main__':
-
-    for sentence in get_sentences():
-        potential_entities = analyse(sentence['text'])
-        company = decider(sentence['article_id'], potential_entities)
-        if company:
-            print(company)
-        else:
-            print("No Company")
-
-
+    while True:
+        for sentence in get_sentences():
+            potential_entities = analyse(sentence['text'])
+            company = decider(sentence['article_id'], potential_entities)
+            if company:
+                update_sentence(sentence['id'], company[0]['stock_code'])
