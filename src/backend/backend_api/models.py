@@ -26,6 +26,7 @@ class Source(db.Model):
             'rss': self.rss,
         }
 
+
 class Company(db.Model):
     __tablename__ = 'company'
 
@@ -45,6 +46,7 @@ class Company(db.Model):
             'short_hand': self.short_hand
         }
 
+
 class Article(db.Model):
     __tablename__ = 'article'
 
@@ -58,7 +60,7 @@ class Article(db.Model):
     date = db.Column(db.String())
     time = db.Column(db.String())
 
-    #def __init__(self, title, transcript, source_id, date, time):
+    # def __init__(self, title, transcript, source_id, date, time):
     def __init__(self, *args):
         self.title = args[0]
         self.transcript = args[1]
