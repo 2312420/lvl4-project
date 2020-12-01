@@ -1,15 +1,12 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
+from models import Company, Source, Article, Sentence
 from flask_sqlalchemy import SQLAlchemy
 import flask
 from extensions import db
 import json
-from datetime import datetime
-import psycopg2
 
 
-from models import Company, Source, Article, Sentence
-
-
+# Register database for api use
 def register_extensions(app):
     db.init_app(app)
 
