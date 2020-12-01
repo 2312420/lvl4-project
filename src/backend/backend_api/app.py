@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import flask
 from extensions import db
 import json
 from datetime import datetime
@@ -48,7 +49,6 @@ def get_sources():
 
 @app.route('/sources', methods=['POST'])
 def add_source():
-
     if request.is_json:
         try:
             content = request.get_json()
@@ -156,7 +156,6 @@ def delete_article(article_id):
     except:
         return "400: Invalid id supplied"
     
-
 
 @app.route('/article/<article_id>/context', methods=['PUT'])
 def update_article_context(article_id):
@@ -325,6 +324,23 @@ def get_company(stock_code):
             return "404: company not found"
         else:
             return json.dumps(company.serialize())
+    except:
+        return "405: Validation exception"
+
+
+@app.route('/company/search/<short_hand>', methods=['GET'])
+def search_for_company(short_hand):
+    try:
+        search = "%{}%".format(short_hand)
+        companies = Company.query.filter(Company.short_hand.like(search)).all()
+        output = []
+        for company in companies:
+            output.append(company.serialize())
+
+        if output == []:
+            return flask.Response(status=401)
+        else:
+            return json.dumps(output)
     except:
         return "405: Validation exception"
 

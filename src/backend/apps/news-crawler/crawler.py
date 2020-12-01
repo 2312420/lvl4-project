@@ -2,31 +2,24 @@ import json
 from datetime import datetime
 from newspaper import Article, ArticleException
 import feedparser as fp
+import requests
 
-#conn = psycopg2.connect(
-#    host="localhost",
-#    database="HotOrNot",
-#    user="postgres",
-#    password=""
-#)
-
-sources = {}
-with open('sources.json') as json_file:
-    sources = json.load(json_file)
-
+base_url = "http://127.0.0.1:5000/"
 titles = []
-with open('data.txt') as file:
-    for line in file:
-        j = json.loads(line)
-        for title in j.keys():
-            titles.append(title)
+
+
+# Gets list of sources from DB
+def get_source():
+    url = base_url + '/sources'
+    r = requests.get(url)
+    return r.json()
 
 
 # Gets list of current articles for specified source
-def get_articles(articles_source):
-    rss = articles_source['rss']
+def get_articles(rss):
     d = fp.parse(rss)
     articles = []
+    error = False
     for entry in d['entries']:
         try:
             content = Article(entry.link)
@@ -34,34 +27,13 @@ def get_articles(articles_source):
             content.parse()
             articles.append([entry.title, content.text])
         except Exception as e:
-            print("Something went wrong:")
-            print(e)
-        #except ArticleException:
-        #    print("Something went wrong when downloading article")
-
+            error = True
+    if error:
+        print("Something went wrong when downloading articles")
     return articles
 
 
-# Checks if article is already in the database
-#def check(article_title):
-#    cur = conn.cursor()
-#    cur.execute('''SELECT * FROM articles WHERE articles.id = %s ''', (article_title,))
-#    ver = cur.fetchone()
-#    if ver is None:
-#        return True
-#    else:
-#        return False
-#
-#
-# Creates new entry for article in the database, not being uses during this version
-# def upload(article_title,article_data):
-#    cur = conn.cursor()
-#    date = time = datetime.now()
-#    cur.execute('''INSERT INTO articles(id,data,date,time) VALUES(%s,%s,%s,%s)''', (article_title, json.dumps(article_data), date, time))
-#    conn.commit()
-
-
-# Checks if article has already been downloaded
+# Checks if article has already been downloaded by the crawler
 def check(article_title):
     if article_title in titles:
         return False
@@ -69,23 +41,24 @@ def check(article_title):
         return True
 
 
-# Outputs json to text file
-def output(article_title, article_data, article_source):
-    j = {article_title: [article_data, article_source, datetime.now().strftime("%m/%d/%Y, %H:%M:%S")]}
-    with open("data.txt", "a") as file:
-        file.write(json.dumps(j) + '\n')
+# Posts given article to db via api
+def output(article_data, article_source_id):
+    url = base_url + "/article"
+    payload = {"title": article_data[0], "transcript": article_data[1], "source_id": article_source_id}
+    r = requests.post(url, json=payload)
 
 
 if __name__ == '__main__':
+    sources = get_source()
     while True:
         for source in sources:
-            print("Fetching from " + source)
-            data = get_articles(sources[source])
+            print("Fetching from " + source['short_hand'])
+            data = get_articles(source['rss'])
             count = 0
             for article in data:
                 title = article[0]
                 if check(title):
                     count += 1
-                    output(title, article, source)
+                    output(article, source['id'])
             print("new articles found: " + str(count))
         print("Round Complete")
