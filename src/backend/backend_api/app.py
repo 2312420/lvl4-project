@@ -37,14 +37,14 @@ def get_sources():
     try:
         sources = Source.query.all()
         if sources == None:
-            return "400: No source found"
+            return flask.Response(status=400)
         else:
             to_return = []
             for source in sources:
                 to_return.append(source.serialize())
             return json.dumps(to_return)
     except:
-        return "408: Unable to acess db"
+        return flask.Response(status=408)
 
 
 @app.route('/sources', methods=['POST'])
@@ -56,15 +56,15 @@ def add_source():
             try:
                 db.session.add(to_add)
                 db.session.commit()
-                return "201: item created"
+                return flask.Response(status=201)
             except:
-                return "409: existing source already exists"
+                return flask.Response(status=409)
 
         except:
-            return "400: Invalid input, object invalid"
+            return flask.Response(status=401)
 
     else:
-        return "400: Invalid input, object invalid"
+        return flask.Response(status=400)
 
 
 @app.route('/sources/<source_id>', methods=['DELETE'])
@@ -73,13 +73,13 @@ def delete_source(source_id):
         content = request.get_json()
         source = Source.query.get(source_id)
         if source == None:
-            return "404: Source not found"
+            return flask.Response(status=404)
         else:
             db.session.delete(source)
             db.session.commit()
-            return "200: Source deleted"
+            return flask.Response(status=200)
     except:
-        return "400: Invalid id supplied"
+        return flask.Response(status=400)
     
 
 # <!---- Article calls ----!> #
@@ -92,11 +92,11 @@ def add_article():
             to_add = Article(content['title'], content['transcript'], content['source_id'])
             db.session.add(to_add)
             db.session.commit()
-            return "200: item created"
+            return flask.Response(status=200)
         except:
-            return "400"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/article_with_date', methods=['POST'])
@@ -107,11 +107,11 @@ def add_article_with_date():
             to_add = Article(content['title'], content['transcript'], content['source_id'], content['date-time'])
             db.session.add(to_add)
             db.session.commit()
-            return "200: item created"
+            return flask.Response(status=200)
         except:
-            return "400"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/update_article', methods=['PUT'])
@@ -123,11 +123,11 @@ def update_article():
             article.title = content['title']
             article.transcript = content['transcript']
             db.session.commit()
-            return "200: updated Article"
+            return flask.Response(status=200)
         except:
-            return "400: Invalid id supplied"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/article/<article_id>', methods=['GET'])
@@ -135,11 +135,11 @@ def get_article(article_id):
     try:
         article = Article.query.get(article_id)
         if article == None:
-            return "404: article not found"
+            return flask.Response(status=404)
         else:
             return json.dumps(article.serialize())
     except:
-        return "405: Validation exception"
+        return flask.Response(status=405)
 
 
 @app.route('/article/<article_id>', methods=['DELETE'])
@@ -148,13 +148,13 @@ def delete_article(article_id):
         content = request.get_json()
         article = Article.query.get(article_id)
         if article == None:
-            return "404: article not found"
+            return flask.Response(status=404)
         else:
             db.session.delete(article)
             db.session.commit()
-            return "200: Article deleted"
+            return flask.Response(status=202)
     except:
-        return "400: Invalid id supplied"
+        return flask.Response(status=400)
     
 
 @app.route('/article/<article_id>/context', methods=['PUT'])
@@ -168,11 +168,11 @@ def update_article_context(article_id):
             else:
                 article.context = content['context']
                 db.session.commit()
-                return "200: updated article"
+                return flask.Response(status=200)
         except:
-            return "400: Invalid id supplied"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/article/<article_id>/status', methods=['PUT'])
@@ -186,11 +186,11 @@ def update_article_status(article_id):
             else:
                 article.status = content['status']
                 db.session.commit()
-            return "200: updated article status"
+            return flask.Response(status=200)
         except:
-            return "400: Invalid id supplied"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/article/findByStatus', methods=['GET'])
@@ -204,9 +204,9 @@ def find_article_by_status():
                 output.append(article.serialize())
             return json.dumps(output)
         except:
-            return "400: Invalid status value"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 # <!---- Sentence calls ----!> #
@@ -219,11 +219,11 @@ def add_sentence():
             to_add = Sentence(content['text'], content['article_id'])
             db.session.add(to_add)
             db.session.commit()
-            return "201: item created"
+            return flask.Response(status=201)
         except:
-            return "400: Invalid input, object invalid"
+            return flask.Response(status=400)
     else:
-        return "400: Invalid input, object invalid"
+        return flask.Response(status=400)
 
 
 @app.route('/sentence/findByStatus', methods=['GET'])
@@ -237,9 +237,9 @@ def find_sentence_by_status():
                 output.append(sentence.serialize())
             return json.dumps(output)
         except:
-            return "400: Invalid status value"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/sentence/<sentence_id>/', methods=['DELETE'])
@@ -248,13 +248,13 @@ def delete_sentence(sentence_id):
         content = request.get_json()
         sentence = Sentence.query.get(sentence_id)
         if sentence == None:
-            return "404: sentence not found"
+            return flask.Response(status=404)
         else:
             db.session.delete(sentence)
             db.session.commit()
-            return "200: sentence deleted"
+            return flask.Response(status=200)
     except:
-        return "400: Invalid id supplied"
+        return flask.Response(status=400)
 
 
 @app.route('/sentence/<sentence_id>/context', methods=['PUT'])
@@ -264,16 +264,16 @@ def update_sentence_context(sentence_id):
             content = request.get_json()
             sentence = Sentence.query.get(sentence_id)
             if sentence == None:
-                return "404: article not found"
+                return flask.Response(status=404)
             else:
                 sentence.context = content['context']
                 sentence.status = "SENTIMENT"
                 db.session.commit()
-                return "200: updated article"
+                return flask.Response(status=200)
         except:
-            return "400: Invalid id supplied"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 @app.route('/sentence/<sentence_id>/sentiment', methods=['PUT'])
@@ -283,16 +283,16 @@ def update_sentence_sentiment(sentence_id):
             content = request.get_json()
             sentence = Sentence.query.get(sentence_id)
             if sentence == None:
-                return "404: article not found"
+                return flask.Response(status=404)
             else:
                 sentence.sentiment = content['sentiment']
                 sentence.status = "DONE"
                 db.session.commit()
-                return "200: updated article"
+                return flask.Response(status=200)
         except:
-            return "400: Invalid id supplied"
+            return flask.Response(status=400)
     else:
-        return "405: Validation exception, JSON not provided"
+        return flask.Response(status=405)
 
 
 # <!---- Company calls ----!> #
@@ -307,13 +307,13 @@ def add_company():
             try:
                 db.session.add(to_add)
                 db.session.commit()
-                return "201: item created"
+                return flask.Response(status=201)
             except:
-                return "409: Existing company already exists"
+                return flask.Response(status=400)
         except:
-            return "400: Invalid input, object invalid"
+            return flask.Response(status=400)
     else:
-        return "400: Invalid input, object invalid"
+        return flask.Response(status=400)
 
 
 @app.route('/company/<stock_code>', methods=['GET'])
@@ -321,11 +321,11 @@ def get_company(stock_code):
     try:
         company = Company.query.get(stock_code)
         if company == None:
-            return "404: company not found"
+            return flask.Response(status=404)
         else:
             return json.dumps(company.serialize())
     except:
-        return "405: Validation exception"
+        return flask.Response(status=405)
 
 
 @app.route('/company/search/<short_hand>', methods=['GET'])
@@ -342,7 +342,7 @@ def search_for_company(short_hand):
         else:
             return json.dumps(output)
     except:
-        return "405: Validation exception"
+        return flask.Response(status=405)
 
 
 @app.route('/company/<stock_code>/sentences', methods=['GET'])
@@ -350,14 +350,14 @@ def get_company_sentences(stock_code):
     try:
         sentences = Sentence.query.filter_by(context=stock_code).all()
         if sentences == []:
-            return "404: No sentences found"
+            return flask.Response(status=404)
         else:
             output = []
             for sentence in sentences:
                 output.append(sentence.serialize())
             return json.dumps(output)
     except:
-        return "400: Invalid Input"
+        return flask.Response(status=400)
 
 
 if __name__ == '__main__':
