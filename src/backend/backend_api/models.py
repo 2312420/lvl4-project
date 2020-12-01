@@ -37,7 +37,7 @@ class Company(db.Model):
         self.short_hand = short_hand
 
     def __repr__(self):
-        return '<id {}>'.format(self.id)
+        return '<stock_code {}>'.format(self.stock_code)
 
     def serialize(self):
         return {
@@ -53,6 +53,7 @@ class Article(db.Model):
     transcript = db.Column(db.String())
     status = db.Column(db.String())
     source_id = db.Column(db.String())
+    context = db.Column(db.ARRAY(db.String()))
 
     date = db.Column(db.String())
     time = db.Column(db.String())
@@ -64,6 +65,7 @@ class Article(db.Model):
         self.source_id = args[2]
         self.status = "CONTEXT"
         self.id = self.hash()
+        self.context = []
 
         if len(args) > 3:
             self.date = self.time = datetime.strptime(args[3], '%m/%d/%Y, %H:%M:%S')
@@ -91,7 +93,8 @@ class Article(db.Model):
             'date': self.date.strftime("%m/%d/%Y"),
             'time': self.time.strftime("%H:%M:%S"),
             'source_id': self.source_id,
-            'status': self.status
+            'status': self.status,
+            'context': self.context
         }
 
 
@@ -120,5 +123,6 @@ class Sentence(db.Model):
             'id': self.id,
             'text': self.text,
             'sentiment': self.sentiment,
-            'status': self.status
+            'status': self.status,
+            'article_id': self.article_id,
         }

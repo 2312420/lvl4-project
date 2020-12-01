@@ -1,4 +1,3 @@
-import psycopg2
 import spacy
 import requests
 
@@ -9,7 +8,7 @@ nlp = spacy.load('en_core_web_sm')
 # Get articles from db via api
 def get_articles():
     url = base_url + '/article/findByStatus'
-    payload = {"status": "CONTEXT"}
+    payload = {"status": "TEST"}
     r = requests.get(url, json=payload)
     return r.json()#r.json()22
 
@@ -19,6 +18,7 @@ def analyse(transcript):
     doc = nlp(transcript)
     orgs = []
     for ent in doc.ents:
+
         if ent.label_ == 'ORG':
             orgs.append(ent.text)
     return orgs
@@ -27,7 +27,7 @@ def analyse(transcript):
 # Updates article analyzed field
 def update_article(article_id):
     url = base_url + "/article/" + article_id + "/status"
-    payload = {"status": "SENTENCES"}
+    payload = {"status": "TEST"}
     r = requests.put(url, json=payload)
 
 
@@ -35,7 +35,7 @@ def update_article(article_id):
 def upload_entities(article_id, article_entites):
     url = base_url + "/article/" + article_id + "/context"
     payload = {"context": article_entites}
-    r = requests.put(url, payload)
+    r = requests.put(url, json=payload)
 
 
 if __name__ == '__main__':
