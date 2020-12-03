@@ -6,6 +6,7 @@ from extensions import db
 import json
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from datetime import datetime
 
 # Register database for api use
 def register_extensions(app):
@@ -376,6 +377,26 @@ def get_data_points(company_id):
     cursor.execute("SELECT * FROM points WHERE company_id= %s ORDER BY time DESC LIMIT 100", [company_id])
     points = json.dumps(cursor.fetchall(), indent=2, default=str)
     return points
+
+
+@app.route('/points/<company_id>', methods=['POST'])
+def add_data_point(company_id):
+    conn = psycopg2.connect(host='localhost',
+                            port='5433',
+                            user='postgres',
+                            password='2206',
+                            database='company_data')
+    cursor = conn.cursor()
+    content = request.get_json()
+
+    datetime_obj = datetime.strptime(content['time'], "%Y-%m-%d %H:%M:%S")
+
+    cursor.execute("INSERT INTO points(time, company_id, sentiment) VALUES(%s, %s, %s)",
+                   [datetime_obj, company_id, content['sentiment']])
+    conn.commit()
+
+    return "Done"
+
 
 if __name__ == '__main__':
     app.run()
