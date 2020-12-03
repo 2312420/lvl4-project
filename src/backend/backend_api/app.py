@@ -218,7 +218,7 @@ def add_sentence():
     if request.is_json:
         try:
             content = request.get_json()
-            to_add = Sentence(content['text'], content['article_id'])
+            to_add = Sentence(content['text'], content['article_id'], content['date'], content['time'])
             db.session.add(to_add)
             db.session.commit()
             return flask.Response(status=201)
@@ -299,6 +299,7 @@ def update_sentence_sentiment(sentence_id):
 # <------------------------->
 # <----- Company calls ----->
 # <------------------------->
+
 
 @app.route('/company', methods=['POST'])
 def add_company():

@@ -17,4 +17,3 @@ for company in companies_df.iterrows():
     stock_code = company[1]['Ticker symbol']
     short_hand = company[1]['Security']
     add_company(stock_code, short_hand)
-    print("Company added")
