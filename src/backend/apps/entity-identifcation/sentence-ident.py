@@ -74,3 +74,4 @@ if __name__ == '__main__':
             company = decider(sentence['article_id'], potential_entities)
             if company:
                 update_sentence(sentence['id'], company[0]['stock_code'])
+            print("sentence analyzed")

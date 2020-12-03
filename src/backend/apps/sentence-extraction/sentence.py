@@ -31,7 +31,7 @@ def upload_sentence(article_id, article_sentence, article_date, article_time):
     url = base_url + "sentence"
     payload = {"text": article_sentence, "article_id": article_id, "date": article_date, "time": article_time}
     r = requests.post(url, json=payload)
-    print(r)
+
 
 if __name__ == '__main__':
     nltk.download('punkt')
@@ -42,3 +42,4 @@ if __name__ == '__main__':
             update_article(id)
             for sentence in extract_sentences(article['transcript']):
                 upload_sentence(id, sentence, article['date'], article['time'])
+            print("Article sentences extracted")
