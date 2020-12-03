@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 import flask
 from extensions import db
 import json
-
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 # Register database for api use
 def register_extensions(app):
@@ -26,8 +27,9 @@ app = create_app('config.py')
 def root():
     return render_template('index.html')
 
-
-# <!---- Source calls ----!> #
+# <------------------------->
+# <----- Source calls ------>
+# <------------------------->
 
 @app.route('/sources', methods=['GET'])
 def get_sources():
@@ -77,9 +79,10 @@ def delete_source(source_id):
             return flask.Response(status=200)
     except:
         return flask.Response(status=400)
-    
 
-# <!---- Article calls ----!> #
+# <------------------------->
+# <----- Article calls ----->
+# <------------------------->
 
 @app.route('/article', methods=['POST'])
 def add_article():
@@ -205,8 +208,9 @@ def find_article_by_status():
     else:
         return flask.Response(status=405)
 
-
-# <!---- Sentence calls ----!> #
+# <-------------------------->
+# <----- Sentence calls ----->
+# <-------------------------->
 
 @app.route('/sentence', methods=['POST'])
 def add_sentence():
@@ -291,9 +295,9 @@ def update_sentence_sentiment(sentence_id):
     else:
         return flask.Response(status=405)
 
-
-# <!---- Company calls ----!> #
-
+# <------------------------->
+# <----- Company calls ----->
+# <------------------------->
 
 @app.route('/company', methods=['POST'])
 def add_company():
@@ -356,6 +360,22 @@ def get_company_sentences(stock_code):
     except:
         return flask.Response(status=400)
 
+# <---------------------------->
+# <----- timeseries Calls ----->
+# <---------------------------->
+
+
+@app.route('/points/<company_id>', methods=['GET'])
+def get_data_points(company_id):
+    conn =psycopg2.connect(host='localhost',
+                           port='5433',
+                           user='postgres',
+                           password='2206',
+                           database='company_data')
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute("SELECT * FROM points WHERE company_id= %s ORDER BY time DESC LIMIT 100", [company_id])
+    points = json.dumps(cursor.fetchall(), indent=2, default=str)
+    return points
 
 if __name__ == '__main__':
     app.run()
