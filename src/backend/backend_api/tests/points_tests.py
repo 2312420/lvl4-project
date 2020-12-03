@@ -23,5 +23,11 @@ def test_post():
     return r
 
 
+def test_get_interval():
+    url = baseurl + "/points/" + "test/" + "12 hours"
+    r = requests.get(url)
+    print(r.json())
+
+
 if __name__ == '__main__':
-    test_get()
+    test_get_interval()

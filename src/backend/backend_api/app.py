@@ -315,7 +315,7 @@ def add_company():
         except:
             return flask.Response(status=400)
     else:
-        return flask.Response(status=400)
+        return flask.Response(status=405)
 
 
 @app.route('/company/<stock_code>', methods=['GET'])
@@ -381,21 +381,40 @@ def get_data_points(company_id):
 
 @app.route('/points/<company_id>', methods=['POST'])
 def add_data_point(company_id):
-    conn = psycopg2.connect(host='localhost',
-                            port='5433',
-                            user='postgres',
-                            password='2206',
-                            database='company_data')
-    cursor = conn.cursor()
-    content = request.get_json()
+    if request.is_json:
+        try:
+            conn = psycopg2.connect(host='localhost',
+                                    port='5433',
+                                    user='postgres',
+                                    password='2206',
+                                    database='company_data')
+            cursor = conn.cursor()
+            content = request.get_json()
+            datetime_obj = datetime.strptime(content['time'], "%Y-%m-%d %H:%M:%S")
+            cursor.execute("INSERT INTO points(time, company_id, sentiment) VALUES(%s, %s, %s)",
+                           [datetime_obj, company_id, content['sentiment']])
+            conn.commit()
+            return flask.Response(status=201)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
 
-    datetime_obj = datetime.strptime(content['time'], "%Y-%m-%d %H:%M:%S")
 
-    cursor.execute("INSERT INTO points(time, company_id, sentiment) VALUES(%s, %s, %s)",
-                   [datetime_obj, company_id, content['sentiment']])
-    conn.commit()
-
-    return "Done"
+@app.route('/points/<company_id>/<interval>', methods=['GET'])
+def points_from_time_frame(company_id, interval):
+    try:
+        conn = psycopg2.connect(host='localhost',
+                                port='5433',
+                                user='postgres',
+                                password='2206',
+                                database='company_data')
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("SELECT * FROM points WHERE time > NOW() - INTERVAL %s AND company_id = %s", [interval, company_id])
+        points = json.dumps(cursor.fetchall(), indent=2, default=str)
+        return points
+    except:
+        return flask.Response(status=400)
 
 
 if __name__ == '__main__':
