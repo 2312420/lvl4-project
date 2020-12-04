@@ -163,3 +163,33 @@
 * *1.5 hours* Finishing api
 * *1.5 hours* Writing test cases for api
 * *1 hour* Working on sentiment analysis
+
+## 27 Nov
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* post metting notes
+* *1 hour* Creating hash function and updating api
+* *1 hour* Creating script to process crawler data
+
+## 30 Nov
+
+* *2 hours* 
+
+## 1 Dec
+
+* *2 hours* Trying out sklearn predicton with kagle data
+* *5 hours* Integrating system components 
+
+## 2 Dec
+
+* *0.5 hour* Researching time series database
+
+## 3 Dec
+
+* *3 hours* Working on setting up time series database  
+
+## 4 Dec
+
+* *0.5* Meeting with advisor
+* *0.5* Post meeting reflection and project documentation
+ 
