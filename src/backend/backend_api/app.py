@@ -296,6 +296,18 @@ def update_sentence_sentiment(sentence_id):
     else:
         return flask.Response(status=405)
 
+
+@app.route('/sentence/<sentence_id>/status', methods=['PUT'])
+def update_sentence_status(sentence_id):
+    if request.is_json:
+        content = request.get_json()
+        sentence = Sentence.query.get(sentence_id)
+        sentence.status = content['status']
+        db.session.commit()
+        return flask.Response(status=200)
+    else:
+        return flask.Response(status=405)
+
 # <------------------------->
 # <----- Company calls ----->
 # <------------------------->
@@ -391,11 +403,16 @@ def add_data_point():
                                     database='company_data')
             cursor = conn.cursor()
             content = request.get_json()
-            print(content['time'])
-            datetime_obj = datetime.strptime(content['time'], "%d/%m/%Y %H:%M:%S")
+
+            datetime_obj = datetime.strptime(content['time'], "%m/%d/%Y %H:%M:%S")
             cursor.execute("INSERT INTO points(time, company_id, sentiment, sentence_id) VALUES(%s, %s, %s, %s)",
                            [datetime_obj, content['company_id'], content['sentiment'], content['sentence_id']])
             conn.commit()
+
+            sentence = Sentence.query.get(content['sentence_id'])
+            sentence.status = "DONE"
+            db.session.commit()
+
             return flask.Response(status=201)
         except:
             return flask.Response(status=400)

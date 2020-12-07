@@ -5,9 +5,10 @@ import requests
 
 baseurl = "http://127.0.0.1:5000"
 
+
 def get_sentences():
     url = baseurl + "/sentence/findByStatus"
-    payload = {"status": "DONE"}
+    payload = {"status": "PRED"}
     r = requests.get(url, json=payload)
     if r.status_code == 200:
         return r.json()
@@ -23,7 +24,7 @@ def sentence_to_point(sentence_json):
                "sentiment": sentence_json['sentiment'],
                "sentence_id": sentence_json['id']}
     r = requests.post(url, json=payload)
-    print(r.status_code)
+
 
 #id
 #text
@@ -34,9 +35,11 @@ def sentence_to_point(sentence_json):
 #article_id
 #Context
 
-for sentence in get_sentences():
-    url = baseurl + ""
 
-    #print(sentence)
-    #sentence_to_point(sentence)
-    #break
+#while True:
+if __name__ == '__main__':
+    while(True):
+        for sentence in get_sentences():
+            sentence_to_point(sentence)
+            print("point created")
+
