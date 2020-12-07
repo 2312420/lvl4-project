@@ -107,15 +107,20 @@ class Sentence(db.Model):
     text = db.Column(db.String())
     sentiment = db.Column(db.Float())
     status = db.Column(db.String()) #CONTEXT, SENTIMENT, DONE
+    date = db.Column(db.String())
+    time = db.Column(db.String())
 
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))
     context = db.Column(db.String(), db.ForeignKey("company.stock_code"))
 
-    def __init__(self, text, article_id):
+
+    def __init__(self, text, article_id, date, time):
         #self.id = id
         self.text = text
         self.article_id = article_id
         self.status = "CONTEXT"
+        self.date = self.time = datetime.strptime(date, '%m/%d/%Y')
+        self.time = datetime.strptime(time, '%H:%M:%S')
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -127,4 +132,7 @@ class Sentence(db.Model):
             'sentiment': self.sentiment,
             'status': self.status,
             'article_id': self.article_id,
+            'date': self.date.strftime("%m/%d/%Y"),
+            'time': self.time.strftime("%H:%M:%S"),
+            'context': self.context
         }

@@ -27,9 +27,9 @@ def update_article(article_id):
 
 
 # Uploads sentences to database
-def upload_sentence(article_id, article_sentence):
+def upload_sentence(article_id, article_sentence, article_date, article_time):
     url = base_url + "sentence"
-    payload = {"text": article_sentence, "article_id": article_id}
+    payload = {"text": article_sentence, "article_id": article_id, "date": article_date, "time": article_time}
     r = requests.post(url, json=payload)
 
 
@@ -41,4 +41,5 @@ if __name__ == '__main__':
             id = article['id']
             update_article(id)
             for sentence in extract_sentences(article['transcript']):
-                upload_sentence(id, sentence)
+                upload_sentence(id, sentence, article['date'], article['time'])
+            print("Article sentences extracted")

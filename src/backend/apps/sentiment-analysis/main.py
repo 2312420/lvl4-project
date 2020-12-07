@@ -24,11 +24,12 @@ def update_sentiment(sentence_id, score):
     url = baseurl + '/sentence/' + str(sentence_id) + "/sentiment"
     payload = {"sentiment": score}
     r = requests.put(url, json=payload)
-    print(r)
 
 
 if __name__ == "__main__":
-    sentences = get_sentences()
-    for sentence in sentences:
-        sentiment = get_sentiment_score(sentence['text'])
-        update_sentiment(sentence['id'], sentiment)
+    while True:
+        sentences = get_sentences()
+        for sentence in sentences:
+            sentiment = get_sentiment_score(sentence['text'])
+            update_sentiment(sentence['id'], sentiment)
+            print("Sentence sentiment analyzed")

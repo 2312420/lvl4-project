@@ -4,7 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 import flask
 from extensions import db
 import json
-
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from datetime import datetime
 
 # Register database for api use
 def register_extensions(app):
@@ -26,8 +28,9 @@ app = create_app('config.py')
 def root():
     return render_template('index.html')
 
-
-# <!---- Source calls ----!> #
+# <------------------------->
+# <----- Source calls ------>
+# <------------------------->
 
 @app.route('/sources', methods=['GET'])
 def get_sources():
@@ -77,9 +80,10 @@ def delete_source(source_id):
             return flask.Response(status=200)
     except:
         return flask.Response(status=400)
-    
 
-# <!---- Article calls ----!> #
+# <------------------------->
+# <----- Article calls ----->
+# <------------------------->
 
 @app.route('/article', methods=['POST'])
 def add_article():
@@ -205,15 +209,16 @@ def find_article_by_status():
     else:
         return flask.Response(status=405)
 
-
-# <!---- Sentence calls ----!> #
+# <-------------------------->
+# <----- Sentence calls ----->
+# <-------------------------->
 
 @app.route('/sentence', methods=['POST'])
 def add_sentence():
     if request.is_json:
         try:
             content = request.get_json()
-            to_add = Sentence(content['text'], content['article_id'])
+            to_add = Sentence(content['text'], content['article_id'], content['date'], content['time'])
             db.session.add(to_add)
             db.session.commit()
             return flask.Response(status=201)
@@ -283,7 +288,7 @@ def update_sentence_sentiment(sentence_id):
                 return flask.Response(status=404)
             else:
                 sentence.sentiment = content['sentiment']
-                sentence.status = "DONE"
+                sentence.status = "PRED"
                 db.session.commit()
                 return flask.Response(status=200)
         except:
@@ -292,7 +297,20 @@ def update_sentence_sentiment(sentence_id):
         return flask.Response(status=405)
 
 
-# <!---- Company calls ----!> #
+@app.route('/sentence/<sentence_id>/status', methods=['PUT'])
+def update_sentence_status(sentence_id):
+    if request.is_json:
+        content = request.get_json()
+        sentence = Sentence.query.get(sentence_id)
+        sentence.status = content['status']
+        db.session.commit()
+        return flask.Response(status=200)
+    else:
+        return flask.Response(status=405)
+
+# <------------------------->
+# <----- Company calls ----->
+# <------------------------->
 
 
 @app.route('/company', methods=['POST'])
@@ -310,7 +328,7 @@ def add_company():
         except:
             return flask.Response(status=400)
     else:
-        return flask.Response(status=400)
+        return flask.Response(status=405)
 
 
 @app.route('/company/<stock_code>', methods=['GET'])
@@ -353,6 +371,67 @@ def get_company_sentences(stock_code):
             for sentence in sentences:
                 output.append(sentence.serialize())
             return json.dumps(output)
+    except:
+        return flask.Response(status=400)
+
+# <---------------------------->
+# <----- timeseries Calls ----->
+# <---------------------------->
+
+
+@app.route('/points/<company_id>', methods=['GET'])
+def get_data_points(company_id):
+    conn =psycopg2.connect(host='localhost',
+                           port='5433',
+                           user='postgres',
+                           password='2206',
+                           database='company_data')
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute("SELECT * FROM points WHERE company_id= %s ORDER BY time DESC LIMIT 100", [company_id])
+    points = json.dumps(cursor.fetchall(), indent=2, default=str)
+    return points
+
+
+@app.route('/points', methods=['POST'])
+def add_data_point():
+    if request.is_json:
+        try:
+            conn = psycopg2.connect(host='localhost',
+                                    port='5433',
+                                    user='postgres',
+                                    password='2206',
+                                    database='company_data')
+            cursor = conn.cursor()
+            content = request.get_json()
+
+            datetime_obj = datetime.strptime(content['time'], "%m/%d/%Y %H:%M:%S")
+            cursor.execute("INSERT INTO points(time, company_id, sentiment, sentence_id) VALUES(%s, %s, %s, %s)",
+                           [datetime_obj, content['company_id'], content['sentiment'], content['sentence_id']])
+            conn.commit()
+
+            sentence = Sentence.query.get(content['sentence_id'])
+            sentence.status = "DONE"
+            db.session.commit()
+
+            return flask.Response(status=201)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
+
+
+@app.route('/points/<company_id>/<interval>', methods=['GET'])
+def points_from_time_frame(company_id, interval):
+    try:
+        conn = psycopg2.connect(host='localhost',
+                                port='5433',
+                                user='postgres',
+                                password='2206',
+                                database='company_data')
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("SELECT * FROM points WHERE time > NOW() - INTERVAL %s AND company_id = %s", [interval, company_id])
+        points = json.dumps(cursor.fetchall(), indent=2, default=str)
+        return points
     except:
         return flask.Response(status=400)
 

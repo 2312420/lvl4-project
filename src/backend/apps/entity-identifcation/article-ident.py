@@ -39,9 +39,12 @@ def upload_entities(article_id, article_entites):
 
 
 if __name__ == '__main__':
-    while(True):
+    while True:
         for article in get_articles():
             id = article['id']
             entities = analyse(article['transcript'])
             upload_entities(id, entities)
+            update_article(article['id'])
+            print("Article analyzed")
+
 
