@@ -288,7 +288,7 @@ def update_sentence_sentiment(sentence_id):
                 return flask.Response(status=404)
             else:
                 sentence.sentiment = content['sentiment']
-                sentence.status = "DONE"
+                sentence.status = "PRED"
                 db.session.commit()
                 return flask.Response(status=200)
         except:
@@ -380,8 +380,8 @@ def get_data_points(company_id):
     return points
 
 
-@app.route('/points/<company_id>', methods=['POST'])
-def add_data_point(company_id):
+@app.route('/points', methods=['POST'])
+def add_data_point():
     if request.is_json:
         try:
             conn = psycopg2.connect(host='localhost',
@@ -391,9 +391,10 @@ def add_data_point(company_id):
                                     database='company_data')
             cursor = conn.cursor()
             content = request.get_json()
-            datetime_obj = datetime.strptime(content['time'], "%Y-%m-%d %H:%M:%S")
-            cursor.execute("INSERT INTO points(time, company_id, sentiment) VALUES(%s, %s, %s)",
-                           [datetime_obj, company_id, content['sentiment']])
+            print(content['time'])
+            datetime_obj = datetime.strptime(content['time'], "%d/%m/%Y %H:%M:%S")
+            cursor.execute("INSERT INTO points(time, company_id, sentiment, sentence_id) VALUES(%s, %s, %s, %s)",
+                           [datetime_obj, content['company_id'], content['sentiment'], content['sentence_id']])
             conn.commit()
             return flask.Response(status=201)
         except:

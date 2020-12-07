@@ -134,4 +134,5 @@ class Sentence(db.Model):
             'article_id': self.article_id,
             'date': self.date.strftime("%m/%d/%Y"),
             'time': self.time.strftime("%H:%M:%S"),
+            'context': self.context
         }
