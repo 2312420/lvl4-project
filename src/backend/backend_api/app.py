@@ -420,6 +420,33 @@ def add_data_point():
         return flask.Response(status=405)
 
 
+@app.route('/points', methods=['GET'])
+def get_all_points():
+    try:
+        conn = psycopg2.connect(host='localhost',
+                                    port='5433',
+                                    user='postgres',
+                                    password='2206',
+                                    database='company_data')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM points")
+        points = cursor.fetchall()
+        output = []
+        for row in points:
+            point = {
+                "stock_code": row[0],
+                "sentiment": row[1],
+                "time": row[2].strftime("%Y-%m-%d %H:%M:%S"),
+                "sentence_id": row[3],
+                "id": row[4]
+            }
+            output.append(point)
+
+        return json.dumps(output)
+    except:
+        return flask.Response(status=400)
+
+
 @app.route('/points/<company_id>/<interval>', methods=['GET'])
 def points_from_time_frame(company_id, interval):
     try:
