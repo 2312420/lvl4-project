@@ -1,9 +1,16 @@
 #from sklearn.preprocessing import PolynomialFeatures
-#from sklearn.linear_model import LinearRegression
+#
 #import pandas as pd
 #import matplotlib.pyplot as plt
 
+from sklearn.linear_model import LinearRegression
+import numpy as np
 import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+import stock_data
+
+from datetime import datetime
 
 baseurl = "http://127.0.0.1:5000"
 
@@ -12,38 +19,65 @@ baseurl = "http://127.0.0.1:5000"
 def get_points(stock_code, interval):
     url = baseurl + "/points/" + stock_code + "/" + interval
     r = requests.get(url)
-    return r
+    return r.json()
 
+
+# Filter points that are missing data
+def filter_points(points):
+    output = []
+    for point in points:
+        if point['high']:
+            output.append(point)
+    return output
+
+
+# Given points squish down into single points for each date
+def squish_sentiment(points):
+    output = []
+    sentiment = []
+    cur_date = None
+    for point in points:
+
+        if cur_date == None:
+            cur_date = point['time']
+            to_add = point
+            sentiment.append(point['sentiment'])
+        elif cur_date == point['time']:
+            sentiment.append(point['sentiment'])
+            pass
+        else:
+            to_add['sentiment'] = np.mean(sentiment)
+            output.append(to_add)
+            cur_date = point['time']
+            to_add = point
+
+    return output
+
+
+# Plot sentiment
+def plot_sentiment(df):
+    points = []
+    y = []
+    for i in range(len(df)):
+        points.append(df.iloc[i].at['sentiment'])
+        y.append(i)
+
+    start_date = df.iloc[0].at['time']
+    end_date = df.iloc[-1].at['time']
+    plt.title("Sentiment for " + df.iloc[0].at["company_id"])
+    plt.xlabel(start_date + " to " + end_date)
+    plt.ylabel("sentiment")
+    plt.plot(y, points)
+    plt.show()
 
 if __name__ == '__main__':
-    points = get_points("FB", "2 month")
+    data = get_points("FB", "2 month")
+    points = squish_sentiment(filter_points(data))
+
+    df = pd.DataFrame(points) #[["time", "sentiment", "open", "high", "low", "close", "volume"]]
 
 
-# def get_data():
-#    return pd.read_csv('A.csv', infer_datetime_format=True)
+    #df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
+    #df.index = df['time']
 
-#def process_data(data, degree):
-#    poly = PolynomialFeatures(degree=degree)
-#    data_poly = poly.fit_transform(data)
-#    return data_poly
-
-
-#if __name__ == '__main__':
-#    degree = 3
-#
-#    data = get_data()
-#    t = data['High']
-#    X = data[['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']]
-
-#    #Model data
-#    X_poly = process_data(X, degree)
-#    lin_reg = LinearRegression()
-#    lin_reg.fit(X_poly, t)
-
-    #Plot data
-#    plt.xlabel('Date')
-#    plt.ylabel('Price-High')
-#    plt.title('Degree: ' + str(degree))
-#    plt.plot(X['Date'], t)
-#    plt.plot(X['Date'], lin_reg.predict(X_poly), color='red')
-#    plt.show()
+    plot_sentiment(df)
