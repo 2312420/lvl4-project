@@ -4,6 +4,7 @@
 #import matplotlib.pyplot as plt
 
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 import requests
 import pandas as pd
@@ -83,6 +84,7 @@ def format_df(points_array):
     df.drop('company_id', axis=1, inplace=True)
     df.drop('sentence_id', axis=1, inplace=True)
     df.drop('id', axis=1, inplace=True)
+    df.drop('time', axis=1, inplace=True)
     return df.sort_index(ascending=True, axis=0)
 
 
@@ -93,47 +95,29 @@ if __name__ == '__main__':
     data = squish_sentiment(filter_points(get_points("FB", "2 month")))
     df = format_df(data)
 
-    print(df)
-    #plt.plot(df['close'])
-    #plt.show()
+    train = df[:32].copy()
+    valid = df[32:].copy()
 
-    plt.plot(df['sentiment'])
-    plt.show()
+    x_train = train.drop('close', axis=1)
+    y_train = train['close']
+    x_valid = valid.drop('close', axis=1)
+    y_valid = valid['close']
 
-    #train = df[:32]
-    #valid = df[32:]
+    model = LinearRegression()
+    model.fit(x_train, y_train)
 
-    #x_train = train.drop('close', axis=1)
-    #y_train = train['close']
-    #x_valid = valid.drop('close', axis=1)
-    #y_valid = valid['close']
+    preds = model.predict(x_valid)
 
-    #model = LinearRegression()
-    #model.fit(x_train, y_train)
-
-    #preds = model.predict(x_valid)
+    print(preds)
 
     # plot
-    #valid['Predictions'] = 0
-    #valid['Predictions'] = preds
+    valid['predictions'] = 0
+    valid['predictions'] = preds
 
-    #valid.index = df[120:].index
-    #train.index = df[:120].index
+    valid.index = df[32:].index
+    train.index = df[:32].index
 
-   # plt.plot(df['close'])
-    #plt.plot(valid[['close', 'predictions']])
-    #plt.show()
-    #train = df[]
+    plt.plot(train['close'])
+    plt.plot(valid[['close', 'predictions']], )
 
-
-    #T = df['close']
-    #X = df.drop('close', axis=1)
-
-
-    #model = LinearRegression()
-    #model.fit(X,T)
-
-
-
-    #create_date_time_features(new_data)
-
+    plt.show()
