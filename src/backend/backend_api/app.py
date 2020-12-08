@@ -405,8 +405,10 @@ def add_data_point():
             content = request.get_json()
 
             datetime_obj = datetime.strptime(content['time'], "%m/%d/%Y %H:%M:%S")
-            cursor.execute("INSERT INTO points(time, company_id, sentiment, sentence_id) VALUES(%s, %s, %s, %s)",
-                           [datetime_obj, content['company_id'], content['sentiment'], content['sentence_id']])
+            cursor.execute("INSERT INTO points(time, company_id, sentiment, sentence_id, open, high, low, close, volume) "
+                           "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                           [datetime_obj, content['company_id'], content['sentiment'], content['sentence_id'],
+                            content['open'], content['high'], content['low'], content['close'], content['volume']])
             conn.commit()
 
             sentence = Sentence.query.get(content['sentence_id'])
@@ -414,6 +416,56 @@ def add_data_point():
             db.session.commit()
 
             return flask.Response(status=201)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
+
+
+@app.route('/points', methods=['GET'])
+def get_all_points():
+    try:
+        conn = psycopg2.connect(host='localhost',
+                                    port='5433',
+                                    user='postgres',
+                                    password='2206',
+                                    database='company_data')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM points")
+        points = cursor.fetchall()
+        output = []
+        for row in points:
+            point = {
+                "stock_code": row[0],
+                "sentiment": row[1],
+                "date_time": row[2].strftime("%Y-%m-%d %H:%M:%S"),
+                "sentence_id": row[3],
+                "id": row[4],
+                "open": row[5]
+            }
+            output.append(point)
+
+        return json.dumps(output)
+    except:
+        return flask.Response(status=400)
+
+
+@app.route('/points/price', methods=['PUT'])
+def points_update_price():
+    if request.is_json:
+        try:
+            content = request.get_json()
+            conn = psycopg2.connect(host='localhost',
+                                    port='5433',
+                                    user='postgres',
+                                    password='2206',
+                                    database='company_data')
+            cursor = conn.cursor()
+            cursor.execute("UPDATE points SET open=%s, high=%s, low=%s, close=%s, volume=%s WHERE id=%s",
+                           [content['open'], content['high'], content['low'], content['close'], content['volume'],
+                            content['id']])
+            conn.commit()
+            return flask.Response(status=200)
         except:
             return flask.Response(status=400)
     else:
