@@ -8,10 +8,7 @@ import numpy as np
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
-import stock_data
-
-from datetime import datetime
-
+import fastai_code
 baseurl = "http://127.0.0.1:5000"
 
 
@@ -70,14 +67,33 @@ def plot_sentiment(df):
     plt.plot(y, points)
     plt.show()
 
+
+# Takes an array of points and turns it into workable dataset
+def format_df(points_array):
+    df = pd.DataFrame(points_array)
+
+    # set time as index
+    df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
+    df.index = df['time']
+
+    # Use fastai to create new coloumns
+    fastai_code.add_datepart(df, "time")
+
+    # Drop useless fields
+    df.drop('timeElapsed', axis=1, inplace=True)
+    df.drop('company_id', axis=1, inplace=True)
+    df.drop('sentence_id', axis=1, inplace=True)
+    df.drop('id', axis=1, inplace=True)
+    return df
+
+
 if __name__ == '__main__':
     data = get_points("FB", "2 month")
     points = squish_sentiment(filter_points(data))
 
-    df = pd.DataFrame(points) #[["time", "sentiment", "open", "high", "low", "close", "volume"]]
+    df = format_df(points)
 
+    print(df)
 
-    #df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
-    #df.index = df['time']
+    #create_date_time_features(new_data)
 
-    plot_sentiment(df)
