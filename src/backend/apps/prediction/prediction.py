@@ -8,7 +8,7 @@ import numpy as np
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
-import fastai_code
+import stock_data
 baseurl = "http://127.0.0.1:5000"
 
 
@@ -33,8 +33,8 @@ def squish_sentiment(points):
     output = []
     sentiment = []
     cur_date = None
-    for point in points:
 
+    for point in points:
         if cur_date == None:
             cur_date = point['time']
             to_add = point
@@ -77,23 +77,63 @@ def format_df(points_array):
     df.index = df['time']
 
     # Use fastai to create new coloumns
-    fastai_code.add_datepart(df, "time")
+    #fastai_code.add_datepart(df, "time")
 
     # Drop useless fields
-    df.drop('timeElapsed', axis=1, inplace=True)
     df.drop('company_id', axis=1, inplace=True)
     df.drop('sentence_id', axis=1, inplace=True)
     df.drop('id', axis=1, inplace=True)
-    return df
+    return df.sort_index(ascending=True, axis=0)
 
+
+def squish_sentiment2(df):
+    pass
 
 if __name__ == '__main__':
-    data = get_points("FB", "2 month")
-    points = squish_sentiment(filter_points(data))
-
-    df = format_df(points)
+    data = squish_sentiment(filter_points(get_points("FB", "2 month")))
+    df = format_df(data)
 
     print(df)
+    #plt.plot(df['close'])
+    #plt.show()
+
+    plt.plot(df['sentiment'])
+    plt.show()
+
+    #train = df[:32]
+    #valid = df[32:]
+
+    #x_train = train.drop('close', axis=1)
+    #y_train = train['close']
+    #x_valid = valid.drop('close', axis=1)
+    #y_valid = valid['close']
+
+    #model = LinearRegression()
+    #model.fit(x_train, y_train)
+
+    #preds = model.predict(x_valid)
+
+    # plot
+    #valid['Predictions'] = 0
+    #valid['Predictions'] = preds
+
+    #valid.index = df[120:].index
+    #train.index = df[:120].index
+
+   # plt.plot(df['close'])
+    #plt.plot(valid[['close', 'predictions']])
+    #plt.show()
+    #train = df[]
+
+
+    #T = df['close']
+    #X = df.drop('close', axis=1)
+
+
+    #model = LinearRegression()
+    #model.fit(X,T)
+
+
 
     #create_date_time_features(new_data)
 
