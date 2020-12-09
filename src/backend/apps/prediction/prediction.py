@@ -72,7 +72,7 @@ def plot_sentiment(df):
 
 
 # Takes an array of points and turns it into workable dataset
-def format_df(points_array):
+def format_df(points_array, stock_code):
     df = pd.DataFrame(points_array)
 
     # Drop undesired fields
@@ -84,12 +84,12 @@ def format_df(points_array):
     df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
 
     # Add missing days to data frame
-    df = add_stock_data(df, "FB", 8)
+    df = add_stock_data(df, stock_code, 8)
 
     # Set time as index
     df.index = df['time']
 
-    df.drop('time', axis=1, inplace=True)
+    #df.drop('time', axis=1, inplace=True)
     return df.sort_index(ascending=True, axis=0)
 
 
@@ -122,14 +122,17 @@ def add_stock_data(df, stock_code, start_month,):
     return df
 
 if __name__ == '__main__':
-    data = squish_sentiment(filter_points(get_points("FB", "2 month")))
-    df = format_df(data)
 
-    print(df.shape)
+    stock_code = "FB"
 
-    split = 70
+    data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
+    df = format_df(data, stock_code)
 
-    preds, train, valid = models.linear_regression(df, split, "close")
+    print(df)
+
+    split = 105
+
+    preds, train, valid = models.linear_regression_2(df, split, "close")
 
     # plot
     valid['predictions'] = 0
