@@ -3,9 +3,16 @@
 
 {% block body_block %}
     <h3>Companies</h3>
+
+    <input type="search" placeholder="search" aria-label="Search">
+
     <div>
     {% for company in companies %}
-        <p>{{ company.short_hand }}</p>
+        <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
+            <div>
+            <p>{{ company.short_hand }}</p>
+            </div>
+        </a>
     {% endfor %}
     </div>
 
