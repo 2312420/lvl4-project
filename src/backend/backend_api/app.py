@@ -481,7 +481,7 @@ def points_from_time_frame(company_id, interval):
                                 password='2206',
                                 database='company_data')
         cursor = conn.cursor(cursor_factory=RealDictCursor)
-        cursor.execute("SELECT * FROM points WHERE time > NOW() - INTERVAL %s AND company_id = %s", [interval, company_id])
+        cursor.execute("SELECT * FROM points WHERE time > NOW() - INTERVAL %s AND company_id = %s ORDER BY time", [interval, company_id])
         points = json.dumps(cursor.fetchall(), indent=2, default=str)
         return points
     except:

@@ -7,7 +7,7 @@ from datetime import timedelta
 # Data format is Year-Month-day
 def get_stock_data(stock_code, start_date, end_date, peroid):
     stock_data = yf.Ticker(stock_code)
-    stock_df = stock_data.history(period=peroid, start=start_date, end=end_date)
+    stock_df = stock_data.history(interval = peroid, start=start_date, end=end_date)
     return stock_df
     #Stock DF: Open, High, Low, Close, Volume, Dividends, Split
 
@@ -18,7 +18,7 @@ def to_datetime(date_string):
     return date_time
 
 
-# Get the data of stock given a date, accounts for weekends
+# Get the data of stock at current date, accounts for weekends
 def date_at_date(stock_code, date_time):
     base_date = to_datetime(date_time)
     stock_data = yf.Ticker(stock_code)

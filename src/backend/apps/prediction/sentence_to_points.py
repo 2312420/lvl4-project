@@ -58,16 +58,16 @@ def update_price(point):
 
 
 if __name__ == '__main__':
-    # If need to updated existing point data
-    # for point in get_points():
-    #    if point['open'] == None:
-    #        update_price(point)
-    #        print("Point updated")
+     #If need to updated existing point data
+     for point in get_points():
+        if point['open'] == None:
+            update_price(point)
+            print("Point updated")
 
-    while(True):
-        for sentence in get_sentences():
-            sentence_to_point(sentence)
-            print("Point created")
+    #while(True):
+    #    for sentence in get_sentences():
+    #        sentence_to_point(sentence)
+    #        print("Point created")
 
 
 
