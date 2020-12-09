@@ -3,6 +3,8 @@ import numpy as np
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # Python files
 import stock_data
@@ -73,36 +75,73 @@ def plot_sentiment(df):
 def format_df(points_array):
     df = pd.DataFrame(points_array)
 
-    # set time as index
-    df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
-    df.index = df['time']
-
-    # Drop useless fields
+    # Drop undesired fields
     df.drop('company_id', axis=1, inplace=True)
     df.drop('sentence_id', axis=1, inplace=True)
     df.drop('id', axis=1, inplace=True)
+
+    # Set time to datetiem
+    df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
+
+    # Add missing days to data frame
+    df = add_stock_data(df, "FB", 8)
+
+    # Set time as index
+    df.index = df['time']
+
     df.drop('time', axis=1, inplace=True)
     return df.sort_index(ascending=True, axis=0)
 
 
+# Takes dataframe with stock data and adds any missing data
+def add_stock_data(df, stock_code, start_month,):
 
+    # Build model for predicting sentiment
+    model = models.sentiment_regression(df)
+
+    # Reading in stock data
+    start = datetime.now() - relativedelta(month=start_month)
+    data = stock_data.get_stock_data(stock_code, start, datetime.now(), "1d")
+    dates = []
+    for index, item in df.iterrows():
+        dates.append(item["time"].date())
+
+    for index, item in data.iterrows():
+        if index.date() not in dates:
+            pred = model.predict([item[["Open","High","Low","Close","Volume"]]])
+            df = df.append({
+                "sentiment": pred[0],
+                "time": index,
+                "open": item["Open"],
+                "high": item["High"],
+                "low": item["Low"],
+                "close": item["Close"],
+                "volume": item["Volume"]
+                }, ignore_index=True)
+
+    return df
 
 if __name__ == '__main__':
     data = squish_sentiment(filter_points(get_points("FB", "2 month")))
     df = format_df(data)
 
-    print(data)
+    print(df.shape)
 
-    For_preds, train, valid = models.linear_regression(df)
+    split = 70
+
+    preds, train, valid = models.linear_regression(df, split, "close")
 
     # plot
     valid['predictions'] = 0
-    valid['predictions'] = For_preds
+    valid['predictions'] = preds
 
-    valid.index = df[32:].index
-    train.index = df[:32].index
+    valid.index = df[split:].index
+    train.index = df[:split].index
 
     plt.plot(train['close'])
-    plt.plot(valid[['close', 'predictions']], )
-
+    plt.plot(valid[['close', 'predictions']])
+    plt.xticks(fontsize=5)
     plt.show()
+
+
+
