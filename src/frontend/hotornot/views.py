@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from hotornot.models import Company
 
 
 def index(request):
-    return HttpResponse("Welcome to hot or not!")
+    companies = Company.objects.all()
+    print(companies)
+    return render(request, 'home.html', context={'companies': companies})

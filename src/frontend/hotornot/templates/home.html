@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+    <h3>Companies</h3>
+    <div>
+    {% for company in companies %}
+        <p>{{ company.short_hand }}</p>
+    {% endfor %}
+    </div>
+
+{%  endblock %}
