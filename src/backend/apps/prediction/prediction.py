@@ -18,7 +18,6 @@ baseurl = "http://127.0.0.1:5000"
 def get_companies():
     url = baseurl + "/company"
     r = requests.get(url)
-    print(r)
     if r.status_code == 200:
         return r.json()
     else:
@@ -66,6 +65,11 @@ def squish_sentiment(points):
             cur_date = point['time']
             to_add = point
 
+        if output == []:
+            # All data points are from same time
+            to_add['sentiment'] = np.mean(sentiment)
+            output.append(to_add)
+
     return output
 
 
@@ -82,7 +86,7 @@ def format_df(points_array, stock_code):
     df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
 
     # Add missing days to data frame
-    df = add_stock_data(df, stock_code, 3)
+    df = add_stock_data(df, stock_code, 2)
 
     # Set time as index
     df.index = df['time']
@@ -126,39 +130,16 @@ if __name__ == '__main__':
     while True:
         for company in companies:
             stock_code = company['stock_code']
-            print(stock_code)
-            data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
-            df = format_df(data, stock_code)
+            points = get_points(stock_code, "3 month")
+            if points == []:
+                print("No data")
+            else:
+                if(points[0]['close'] == None):
+                    pass
+                else:
+                    data = squish_sentiment(filter_points(points))
+                    df = format_df(data, stock_code)
 
-
-            models.linear_regression(df, "close", 5)
-
-
-            break
+                    days_into_future = 10
+                    prediction_df = models.linear_regression(df, "close", days_into_future)
         break
-
-    #stock_code = "FB"
-
-    #data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
-    #df = format_df(data, stock_code)
-
-    #print(df)
-
-    #split = 110
-
-    #preds, train, valid = models.linear_regression_2(df, split, "close")
-
-    # plot
-    #valid['predictions'] = 0
-    #valid['predictions'] = preds
-
-    #valid.index = df[split:].index
-    #train.index = df[:split].index
-
-    #plt.plot(train['close'])
-    #plt.plot(valid[['close', 'predictions']])
-    #plt.xticks(fontsize=5)
-    #plt.show()
-
-
-
