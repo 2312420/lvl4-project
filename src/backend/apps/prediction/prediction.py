@@ -78,7 +78,7 @@ def format_df(points_array, stock_code):
     df.drop('sentence_id', axis=1, inplace=True)
     df.drop('id', axis=1, inplace=True)
 
-    # Set time to datetiem
+    # Set time to datetieme
     df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
 
     # Add missing days to data frame
@@ -92,15 +92,16 @@ def format_df(points_array, stock_code):
 
 
 # Takes dataframe with stock data and adds any missing data
-def add_stock_data(df, stock_code, start_month,):
+def add_stock_data(df, stock_code, start_month):
 
     # Build model for predicting sentiment
-    model = models.sentiment_regression(df)
+    model = models.past_sentiment_regression(df)
 
     # Reading in stock data
     start = datetime.now() - relativedelta(month=start_month)
     data = stock_data.get_stock_data(stock_code, start, datetime.now(), "1d")
     dates = []
+
     for index, item in df.iterrows():
         dates.append(item["time"].date())
 
@@ -129,9 +130,8 @@ if __name__ == '__main__':
             data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
             df = format_df(data, stock_code)
 
-            
-            split = 220
-            models.test_model(df, split, "close")
+
+            models.linear_regression(df, "close", 5)
 
 
             break
