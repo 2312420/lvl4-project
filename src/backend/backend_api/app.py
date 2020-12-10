@@ -313,6 +313,18 @@ def update_sentence_status(sentence_id):
 # <------------------------->
 
 
+@app.route('/company', methods=['GET'])
+def get_companies():
+    #try:
+        companies = Company.query.all()
+        to_return = []
+        for company in companies:
+            to_return.append(company.serialize())
+        return json.dumps(to_return)
+    #except:
+    #    return flask.request(status=400)
+
+
 @app.route('/company', methods=['POST'])
 def add_company():
     if request.is_json:

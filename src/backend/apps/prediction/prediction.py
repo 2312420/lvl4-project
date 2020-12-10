@@ -1,4 +1,4 @@
-from sklearn.linear_model import LinearRegression
+# Imports
 import numpy as np
 import requests
 import pandas as pd
@@ -13,6 +13,15 @@ import models
 # Variables
 baseurl = "http://127.0.0.1:5000"
 
+# Get all companies from db
+def get_companies():
+    url = baseurl + "/company"
+    r = requests.get(url)
+    print(r)
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return None
 
 # Get data points from db given a stock code and time frame
 def get_points(stock_code, interval):
@@ -55,20 +64,20 @@ def squish_sentiment(points):
 
 
 # Plot sentiment graph
-def plot_sentiment(df):
-    points = []
-    y = []
-    for i in range(len(df)):
-        points.append(df.iloc[i].at['sentiment'])
-        y.append(i)
+#def plot_sentiment(df):
+#    points = []
+#    y = []
+#    for i in range(len(df)):
+#        points.append(df.iloc[i].at['sentiment'])
+#        y.append(i)
 
-    start_date = df.iloc[0].at['time']
-    end_date = df.iloc[-1].at['time']
-    plt.title("Sentiment for " + df.iloc[0].at["company_id"])
-    plt.xlabel(start_date + " to " + end_date)
-    plt.ylabel("sentiment")
-    plt.plot(y, points)
-    plt.show()
+#    start_date = df.iloc[0].at['time']
+#    end_date = df.iloc[-1].at['time']
+#    plt.title("Sentiment for " + df.iloc[0].at["company_id"])
+#    plt.xlabel(start_date + " to " + end_date)
+#    plt.ylabel("sentiment")
+#    plt.plot(y, points)
+#    plt.show()
 
 
 # Takes an array of points and turns it into workable dataset
@@ -84,7 +93,7 @@ def format_df(points_array, stock_code):
     df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
 
     # Add missing days to data frame
-    df = add_stock_data(df, stock_code, 8)
+    df = add_stock_data(df, stock_code, 3)
 
     # Set time as index
     df.index = df['time']
@@ -121,30 +130,57 @@ def add_stock_data(df, stock_code, start_month,):
 
     return df
 
+
 if __name__ == '__main__':
+    companies = get_companies()
+    while True:
+        for company in companies:
+            stock_code = company['stock_code']
+            print(stock_code)
+            data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
+            df = format_df(data, stock_code)
 
-    stock_code = "FB"
+            print(df)
 
-    data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
-    df = format_df(data, stock_code)
+            split = 220
+            preds, train, valid = models.linear_regression_2(df, split, "close")
 
-    print(df)
+            #plot
+            valid['predictions'] = 0
+            valid['predictions'] = preds
 
-    split = 105
+            valid.index = df[split:].index
+            train.index = df[:split].index
 
-    preds, train, valid = models.linear_regression_2(df, split, "close")
+            plt.plot(train['close'])
+            plt.plot(valid[['close', 'predictions']])
+            plt.xticks(fontsize=5)
+            plt.show()
+            break
+        break
+
+    #stock_code = "FB"
+
+    #data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
+    #df = format_df(data, stock_code)
+
+    #print(df)
+
+    #split = 110
+
+    #preds, train, valid = models.linear_regression_2(df, split, "close")
 
     # plot
-    valid['predictions'] = 0
-    valid['predictions'] = preds
+    #valid['predictions'] = 0
+    #valid['predictions'] = preds
 
-    valid.index = df[split:].index
-    train.index = df[:split].index
+    #valid.index = df[split:].index
+    #train.index = df[:split].index
 
-    plt.plot(train['close'])
-    plt.plot(valid[['close', 'predictions']])
-    plt.xticks(fontsize=5)
-    plt.show()
+    #plt.plot(train['close'])
+    #plt.plot(valid[['close', 'predictions']])
+    #plt.xticks(fontsize=5)
+    #plt.show()
 
 
 
