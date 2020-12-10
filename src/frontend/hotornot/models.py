@@ -6,7 +6,7 @@ from django.db import models
 class Company(models.Model):
     stock_code = models.TextField(primary_key=True)
     short_hand = models.TextField()
-
+    verdict = models.TextField()
     class Meta:
         db_table = "company"
 

@@ -10,7 +10,13 @@
     {% for company in companies %}
         <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
             <div>
-            <p>{{ company.short_hand }}</p>
+                {% if company.verdict != "NO-DATA" %}
+                    {% if company.verdict == "HOT" %}
+                        <p>{{ company.short_hand }} , HOT</p>
+                    {%  else %}
+                        <p>{{ company.short_hand }}, NOT</p>
+                    {% endif %}
+                {% endif %}
             </div>
         </a>
     {% endfor %}

@@ -11,5 +11,4 @@ def index(request):
 
 def company_page(request, stock_code):
     company = Company.objects.get(stock_code=stock_code)
-
     return render(request, 'company.html', context={'company': company})
