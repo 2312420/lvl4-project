@@ -13,6 +13,7 @@ import models
 # Variables
 baseurl = "http://127.0.0.1:5000"
 
+
 # Get all companies from db
 def get_companies():
     url = baseurl + "/company"
@@ -22,6 +23,7 @@ def get_companies():
         return r.json()
     else:
         return None
+
 
 # Get data points from db given a stock code and time frame
 def get_points(stock_code, interval):
@@ -37,6 +39,10 @@ def filter_points(points):
         if point['high']:
             output.append(point)
     return output
+
+
+def update_verdict():
+    url = baseurl + '/company'
 
 
 # Given ordered data set of points combine points with common time into single point
@@ -61,23 +67,6 @@ def squish_sentiment(points):
             to_add = point
 
     return output
-
-
-# Plot sentiment graph
-#def plot_sentiment(df):
-#    points = []
-#    y = []
-#    for i in range(len(df)):
-#        points.append(df.iloc[i].at['sentiment'])
-#        y.append(i)
-
-#    start_date = df.iloc[0].at['time']
-#    end_date = df.iloc[-1].at['time']
-#    plt.title("Sentiment for " + df.iloc[0].at["company_id"])
-#    plt.xlabel(start_date + " to " + end_date)
-#    plt.ylabel("sentiment")
-#    plt.plot(y, points)
-#    plt.show()
 
 
 # Takes an array of points and turns it into workable dataset
@@ -140,22 +129,11 @@ if __name__ == '__main__':
             data = squish_sentiment(filter_points(get_points(stock_code, "2 month")))
             df = format_df(data, stock_code)
 
-            print(df)
-
+            
             split = 220
-            preds, train, valid = models.linear_regression_2(df, split, "close")
+            models.test_model(df, split, "close")
 
-            #plot
-            valid['predictions'] = 0
-            valid['predictions'] = preds
 
-            valid.index = df[split:].index
-            train.index = df[:split].index
-
-            plt.plot(train['close'])
-            plt.plot(valid[['close', 'predictions']])
-            plt.xticks(fontsize=5)
-            plt.show()
             break
         break
 

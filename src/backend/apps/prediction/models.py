@@ -1,30 +1,10 @@
 # Contains predictions models
 from sklearn.linear_model import LinearRegression
-
-from sklearn.linear_model import BayesianRidge
-
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import PolynomialFeatures
+import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime
-
-
-# Linear regression model
-def linear_regression(df, split, target_feature):
-    train = df[:split].copy()
-    valid = df[split:].copy()
-
-    x_train = train.drop(target_feature, axis=1)
-    y_train = train[target_feature]
-    x_valid = valid.drop(target_feature, axis=1)
-    y_valid = valid[target_feature]
-
-    model = LinearRegression()
-    model.fit(x_train, y_train)
-
-    preds = model.predict(x_valid)
-    return preds, train, valid
 
 
 # Take time feature and expand it into multiple features
@@ -39,7 +19,17 @@ def expand_time(df):
     return df
 
 
-def linear_regression_2(df, split, target_feature):
+# Used to make actual predictions
+def linear_regression(df):
+    data = df.copy()
+
+    x_train = data[['sentiment', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    y_train = data['close']
+
+    pipe = make_pipeline(StandardScaler(),)
+
+# Used for testing data on self
+def test_model(df, split, target_feature):
     train = df[:split].copy()
     valid = df[split:].copy()
 
@@ -52,13 +42,21 @@ def linear_regression_2(df, split, target_feature):
     x_valid = valid[['sentiment', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
     y_valid = valid['close']
 
-    pipe = make_pipeline(StandardScaler(), BayesianRidge())
+    pipe = make_pipeline(StandardScaler(), LinearRegression())
     pipe.fit(x_train, y_train)
-    #model = LinearRegression()
-    #model.fit(x_train, y_train)
 
     preds = pipe.predict(x_valid)
-    return preds, train, valid
+
+    valid['predictions'] = 0
+    valid['predictions'] = preds
+
+    valid.index = df[split:].index
+    train.index = df[:split].index
+
+    plt.plot(train['close'])
+    plt.plot(valid[['close', 'predictions']])
+    plt.xticks(fontsize=5)
+    plt.show()
 
 
 def sentiment_regression(df):
