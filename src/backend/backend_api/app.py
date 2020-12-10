@@ -313,6 +313,18 @@ def update_sentence_status(sentence_id):
 # <------------------------->
 
 
+@app.route('/company', methods=['GET'])
+def get_companies():
+    #try:
+        companies = Company.query.all()
+        to_return = []
+        for company in companies:
+            to_return.append(company.serialize())
+        return json.dumps(to_return)
+    #except:
+    #    return flask.request(status=400)
+
+
 @app.route('/company', methods=['POST'])
 def add_company():
     if request.is_json:
@@ -373,6 +385,18 @@ def get_company_sentences(stock_code):
             return json.dumps(output)
     except:
         return flask.Response(status=400)
+
+
+@app.route('/company/verdict', methods=['POST'])
+def update_company_verdict():
+    if request.is_json:
+        content = request.get_json()
+        company = Company.query.get(content['stock_code'])
+        company.verdict = content['verdict']
+        db.session.commit()
+        return flask.Response(status=200)
+    else:
+        return flask.Response(status=405)
 
 # <---------------------------->
 # <----- timeseries Calls ----->
