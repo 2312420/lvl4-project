@@ -386,6 +386,18 @@ def get_company_sentences(stock_code):
     except:
         return flask.Response(status=400)
 
+
+@app.route('/company/verdict', methods=['POST'])
+def update_company_verdict():
+    if request.is_json:
+        content = request.get_json()
+        company = Company.query.get(content['stock_code'])
+        company.verdict = content['verdict']
+        db.session.commit()
+        return flask.Response(status=200)
+    else:
+        return flask.Response(status=405)
+
 # <---------------------------->
 # <----- timeseries Calls ----->
 # <---------------------------->

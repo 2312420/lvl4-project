@@ -40,8 +40,15 @@ def filter_points(points):
     return output
 
 
-def update_verdict():
-    url = baseurl + '/company'
+# Updates verdict of company in database
+def update_verdict(stock_code, verdict):
+    url = baseurl + '/company/verdict'
+    payload = {'stock_code': stock_code, 'verdict': verdict}
+    r = requests.post(url, json=payload)
+    if r.status_code == 200:
+        return "verdict updated"
+    else:
+        return "something went wrong"
 
 
 # Given ordered data set of points combine points with common time into single point
@@ -64,7 +71,6 @@ def squish_sentiment(points):
             output.append(to_add)
             cur_date = point['time']
             to_add = point
-
         if output == []:
             # All data points are from same time
             to_add['sentiment'] = np.mean(sentiment)
@@ -133,13 +139,18 @@ if __name__ == '__main__':
             points = get_points(stock_code, "3 month")
             if points == []:
                 print("No data")
+                update_verdict(stock_code, "NO-DATA")
             else:
                 if(points[0]['close'] == None):
-                    pass
+                    update_verdict(stock_code, "NO-DATA")
                 else:
                     data = squish_sentiment(filter_points(points))
                     df = format_df(data, stock_code)
 
                     days_into_future = 10
                     prediction_df = models.linear_regression(df, "close", days_into_future)
-        break
+
+                    if prediction_df['predictions'][-(days_into_future-1)] < prediction_df['predictions'][-1]:
+                        print(update_verdict(stock_code, "HOT"))
+                    else:
+                        print(update_verdict(stock_code, "NOT"))
