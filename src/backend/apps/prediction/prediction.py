@@ -154,3 +154,4 @@ if __name__ == '__main__':
                         print(update_verdict(stock_code, "HOT"))
                     else:
                         print(update_verdict(stock_code, "NOT"))
+        break
