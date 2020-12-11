@@ -23,6 +23,61 @@
     min-width: 100px;
 }
 
+
+.card-wrapper {
+    float: left;
+    width: 26%;
+    margin-left: 5.5%;
+    background-color: whitesmoke;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+    position: relative;
+}
+
+.card-wrapper:hover, .card-wrapper:focus{
+    border: 1px solid #009688;
+    background-color: white;
+}
+
+a{color: inherit}
+
+.card-header{
+    content: "";
+    display: table;
+    clear: both;
+    border: 1px solid darkgrey;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: relative;
+}
+
+.card-header-title{
+    float: left;
+    width: 80%;
+    background: whitesmoke;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.card-header-status{
+    float: left;
+    width: 20%;
+}
+
+.info-box{
+    padding-bottom: 50px;
+    padding-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background: ghostwhite;
+}
+
+/* OLD CARD STUFF
 .card {
     width: 20%;
     height: 200px;
@@ -74,3 +129,4 @@
     margin-right: auto;
 }
 
+*/
