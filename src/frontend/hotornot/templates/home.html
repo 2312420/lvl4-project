@@ -12,9 +12,9 @@
             <div>
                 {% if company.verdict != "NO-DATA" %}
                     {% if company.verdict == "HOT" %}
-                        <p>{{ company.short_hand }} , <img width="0.5%" src="{% static 'arrow_up.png' %}" alt="HOT"></p>
+                        <p>{{ company.short_hand }} , <img width="0.5%" src="{% static 'imgs/arrow_up.png' %}" alt="HOT"></p>
                     {%  else %}
-                        <p>{{ company.short_hand }}, <img width="0.5%" src="{% static 'arrow_down.png' %}" alt="NOT"></p>
+                        <p>{{ company.short_hand }}, <img width="0.5%" src="{% static 'imgs/arrow_down.png' %}" alt="NOT"></p>
                     {% endif %}
                 {% endif %}
             </div>

@@ -1,14 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>HotOrNot</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
 </head>
 
 <body>
 
-    <h1 style="text-align: center">HOT or NOT</h1>
+    <img class="title" src="{% static 'imgs/Logo V1.png' %}">
+
 
 
 {% block body_block %}
