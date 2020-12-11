@@ -1,25 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block body_block %}
-    <h3>Companies</h3>
 
-    <input type="search" placeholder="search" aria-label="Search">
+
+{% block body_block %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/homepage.css' %}">
+
+    <div class = search-wrapper>
+        <input class="search" type="search" placeholder="search" >
+    </div>
 
     <div>
     {% for company in companies %}
-        <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
-            <div>
-                {% if company.verdict != "NO-DATA" %}
-                    {% if company.verdict == "HOT" %}
-                        <p>{{ company.short_hand }} , <img width="0.5%" src="{% static 'imgs/arrow_up.png' %}" alt="HOT"></p>
-                    {%  else %}
-                        <p>{{ company.short_hand }}, <img width="0.5%" src="{% static 'imgs/arrow_down.png' %}" alt="NOT"></p>
-                    {% endif %}
-                {% endif %}
-            </div>
-        </a>
+        {% if company.verdict != "NO-DATA" %}
+            <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
+                <div class = card>
+                    <div class = card-head>
+
+                        <span class = card-title>{{ company.short_hand }}</span>
+
+                        {% if company.verdict == "HOT" %}
+                            <img class = card-status src="{% static 'imgs/arrow_up.png' %}" alt="HOT">
+                        {%  else %}
+                            <img class = card-status src="{% static 'imgs/arrow_down.png' %}" alt="NOT">
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class = card-content> </div>
+                </div>
+            </a>
+        {% endif %}
     {% endfor %}
     </div>
 
 {%  endblock %}
+
+<!---
+<div class = card-head>
+                        {{ company.short_hand }}
+                        {% if company.verdict == "HOT" %}
+                            <p> <img class = card-status src="{% static 'imgs/arrow_up.png' %}" alt="HOT"></p>
+                        {%  else %}
+                            <p> <img class = card-status width="5%" src="{% static 'imgs/arrow_down.png' %}" alt="NOT"></p>
+                        {% endif %}
+
+                    </div>
