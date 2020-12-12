@@ -33,3 +33,5 @@ def company_page(request, stock_code):
     return render(request, 'company.html', context={'company': company})
 
 
+def redirect(request):
+    return redirect('/hotornot/')
