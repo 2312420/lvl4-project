@@ -1,0 +1,19 @@
+{% load static %}
+<div>
+
+    {% if current_data.pos == True %}
+        {{ current_data.price }}
+        <span style="color: green"> {{ current_data.diff }} {{ current_data.per }} </span>
+
+    {% elif current_data.pos == False %}
+        {{ current_data.price }}
+        <span style="color: red"> {{ current_data.diff }} {{ current_data.per }} </span>
+
+    {% else %}
+
+        <div class = "loader"></div>
+
+    {% endif %}
+
+</div>
+
