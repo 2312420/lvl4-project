@@ -37,21 +37,37 @@ def index(request):
 
 # Company page view
 def company_page(request, stock_code):
+    # Company DB data
     company = Company.objects.get(stock_code=stock_code)
 
+    # Company Current Price data
     current_price = round(si.get_live_price(stock_code), 2)
-    print(current_price)
+
+    info = si.get_quote_table(stock_code)
+    cur_diff = round(current_price - info['Previous Close'],2)
+    cur_per = round(cur_diff / info['Previous Close'] * 100, 2)
+
+    pos = True
+    if cur_diff > 0:
+        cur_diff = "+" + str(cur_diff)
+        cur_per = "+" + str(cur_per)
+    else:
+        cur_diff = "-" + str(cur_diff)
+        cur_per = "-" + str(cur_per)
+        pos = False
 
     if request.is_ajax():
-        print("!")
         html = render_to_string(
             template_name="company-price-ticker.html",
-            context={'current_data': {'price': current_price}}
+            context={'current_data': {'price': current_price,
+                                      'diff': cur_diff,
+                                      'per': cur_per,
+                                      'pos': pos}}
         )
         data_dict = {"html_from_view": html}
         return JsonResponse(data=data_dict, safe=False)
 
-    ## Stock Information
+    # Historical stock Information
     stock_data = yf.Ticker(stock_code)
     stock_df = stock_data.history(start=(datetime.now() - timedelta(days=20)), end=datetime.now())
 
@@ -60,11 +76,12 @@ def company_page(request, stock_code):
         close_labels.append(datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S'))
     close_prices = stock_df['Close'].to_list()
 
-
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels': close_labels,
                                                                      'prices': close_prices},
-                                                    'current_data': {'price': current_price }
+                                                    'current_data': {'price': current_price,
+                                                                     'diff': cur_diff,
+                                                                     'per': cur_per}
                                                     })
 
 

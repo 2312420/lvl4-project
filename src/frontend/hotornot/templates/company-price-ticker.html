@@ -1,3 +1,15 @@
 {% load static %}
-<div>{{ current_data.price }}</div>
+<div> {{ current_data.price }}
+
+    {% if current_data.pos == True %}
+
+        <span style="color: green"> {{ current_data.diff }} ({{ current_data.per }}) </span>
+
+    {% else %}
+
+        <span style="color: red"> {{ current_data.diff }} ({{ current_data.per }}) </span>
+
+    {% endif %}
+
+</div>
 

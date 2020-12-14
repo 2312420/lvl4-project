@@ -4,19 +4,27 @@
 {% block body_block %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
-    <h3>{{ company.short_hand }}</h3>
-    <h3>{{ company.stock_code }}</h3>
 
-    <div id="price_div">
-        {% include 'company-price-ticker.html' %}
+    <div class = "head">
+        <span> <h1 style="font-size: 30pt; display: inline-block">{{ company.short_hand }} </h1>  ({{ company.stock_code }}) </span>
+
+        <div id="price_div" class="price">
+            {% include 'company-price-ticker.html' %}
+        </div>
+
     </div>
+
+
 
     <div>
         <canvas id="myChart" width="100px" height="200px"></canvas>
     </div>
 
 
-    <!-- Chart Scripts -->
+
+
+
+    <!-- Scripts -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
@@ -68,6 +76,5 @@
             maintainAspectRatio: false
         }
     });
-
     </script>
 {%  endblock %}
