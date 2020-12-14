@@ -2,7 +2,67 @@
 {% load static %}
 
 {% block body_block %}
-    <h3>{{ company.stock_code }}</h3>
     <h3>{{ company.short_hand }}</h3>
+    <h3>{{ company.stock_code }}</h3>
 
+    <div>
+        <canvas id="myChart" width="100px" height="200px"></canvas>
+    </div>
+
+
+    <!-- Chart Scripts -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+    <script>
+
+    function htmlDecode(str) {
+        const doc = new DOMParser().parseFromString(str, "text/html");
+        let item_str = doc.documentElement.textContent;
+        item_str = item_str.replace("[","");
+        item_str = item_str.replace("]","")
+        item_str = item_str.replaceAll("'","");
+        return item_str.split(",")
+    }
+
+    data = htmlDecode("{{ labels }}")
+    dates = []
+
+
+
+    //console.log(labels.length)
+    //var dates = []
+    for(i = 0; i < data.length; i++){
+        console.log(data[i])
+        console.log(new Date(data[i]))
+        dates = dates.concat(new Date(data[i]))
+    }
+    console.log(dates)
+
+    var ctx = document.getElementById('myChart');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                data: {{ close }},
+                label: "Closing Price History",
+                borderColor: "#3e95cd",
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                }]
+            },
+            maintainAspectRatio: false
+        }
+    });
+    </script>
 {%  endblock %}
