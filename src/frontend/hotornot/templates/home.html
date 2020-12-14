@@ -2,74 +2,20 @@
 {% load static %}
 
 
-
 {% block body_block %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/homepage.css' %}">
 
+
     <div class = search-wrapper>
-        <input class="search" type="search" placeholder="search" >
+
+        <i id="search-icon" class="fas fa-search"></i>
+        <input id="user-input" class="search" type="text" placeholder="search" >
+
     </div>
 
-    <div>
-    {% for company in companies %}
-        {% if company.verdict != "NO-DATA" %}
-
-            <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
-            <div class = card-wrapper>
-
-                <div class = card-header>
-                    <div class = card-header-title>
-                    {{ company.short_hand }}
-                    </div>
-
-                    <div class="card-header-status">
-                        {% if company.verdict == "HOT" %}
-                            <img width="10%" src="{% static 'imgs/arrow_up.png' %}" alt="HOT">
-                        {%  else %}
-                            <img width="10%" src="{% static 'imgs/arrow_down.png' %}" alt="NOT">
-                        {% endif %}
-                    </div>
-                </div>
-
-
-                <div class = info-box> info box</div>
-
-            </div>
-            </a>
-
-
-            <!--
-            <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
-                <div href="{% url 'company_page' company.stock_code %}" class = card>
-                    <div class = card-head>
-
-                        <span class = card-title>{{ company.short_hand }}</span>
-
-                        {% if company.verdict == "HOT" %}
-                            <img class = card-status src="{% static 'imgs/arrow_up.png' %}" alt="HOT">
-                        {%  else %}
-                            <img class = card-status src="{% static 'imgs/arrow_down.png' %}" alt="NOT">
-                        {% endif %}
-
-                    </div>
-                    <div class = card-content> </div>
-                </div>
-            </a>
-            --!>
-
-        {% endif %}
-    {% endfor %}
+    <div id = replaceable-content>
+        {% include 'homepage-results.html' %}
     </div>
+
 
 {%  endblock %}
-
-<!---
-<div class = card-head>
-                        {{ company.short_hand }}
-                        {% if company.verdict == "HOT" %}
-                            <p> <img class = card-status src="{% static 'imgs/arrow_up.png' %}" alt="HOT"></p>
-                        {%  else %}
-                            <p> <img class = card-status width="5%" src="{% static 'imgs/arrow_down.png' %}" alt="NOT"></p>
-                        {% endif %}
-
-                    </div>
