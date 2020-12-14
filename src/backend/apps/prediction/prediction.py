@@ -41,9 +41,9 @@ def filter_points(points):
 
 
 # Updates verdict of company in database
-def update_verdict(stock_code, verdict):
-    url = baseurl + '/company/verdict'
-    payload = {'stock_code': stock_code, 'verdict': verdict}
+def update_verdict(stock_code, verdict, preds):
+    url = baseurl + '/company/predictions'
+    payload = {'stock_code': stock_code, 'verdict': verdict, 'predictions': preds}
     r = requests.post(url, json=payload)
     if r.status_code == 200:
         return "verdict updated"
@@ -110,10 +110,12 @@ def add_stock_data(df, stock_code, start_month):
     # Reading in stock data
     start = datetime.now() - relativedelta(month=start_month)
     data = stock_data.get_stock_data(stock_code, start, datetime.now(), "1d")
+    data = data.dropna()
     dates = []
 
     for index, item in df.iterrows():
         dates.append(item["time"].date())
+
 
     for index, item in data.iterrows():
         if index.date() not in dates:
@@ -126,7 +128,7 @@ def add_stock_data(df, stock_code, start_month):
                 "low": item["Low"],
                 "close": item["Close"],
                 "volume": item["Volume"]
-                }, ignore_index=True)
+            }, ignore_index=True)
 
     return df
 
@@ -139,10 +141,10 @@ if __name__ == '__main__':
             points = get_points(stock_code, "3 month")
             if points == []:
                 print("No data")
-                update_verdict(stock_code, "NO-DATA")
+                update_verdict(stock_code, "NO-DATA", [])
             else:
                 if(points[0]['close'] == None):
-                    update_verdict(stock_code, "NO-DATA")
+                    update_verdict(stock_code, "NO-DATA", [])
                 else:
                     data = squish_sentiment(filter_points(points))
                     df = format_df(data, stock_code)
@@ -150,8 +152,13 @@ if __name__ == '__main__':
                     days_into_future = 10
                     prediction_df = models.linear_regression(df, "close", days_into_future)
 
+                    new_preds = []
+                    for index, item in prediction_df[-(days_into_future-1):].iterrows():
+                        date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+                        pred = item['predictions']
+                        new_preds.append([date, pred])
+
                     if prediction_df['predictions'][-(days_into_future-1)] < prediction_df['predictions'][-1]:
-                        print(update_verdict(stock_code, "HOT"))
+                        print(update_verdict(stock_code, "HOT", new_preds) + " for " + stock_code)
                     else:
-                        print(update_verdict(stock_code, "NOT"))
-        break
+                        print(update_verdict(stock_code, "NOT", new_preds) + " for " + stock_code)
