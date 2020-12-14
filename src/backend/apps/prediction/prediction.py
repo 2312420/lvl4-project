@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 # Python files
 import stock_data
 import models
+import json
 
 # Variables
 baseurl = "http://127.0.0.1:5000"
@@ -43,7 +44,7 @@ def filter_points(points):
 # Updates verdict of company in database
 def update_verdict(stock_code, verdict, preds):
     url = baseurl + '/company/predictions'
-    payload = {'stock_code': stock_code, 'verdict': verdict, 'predictions': preds}
+    payload = {'stock_code': stock_code, 'verdict': verdict, 'predictions': json.dumps(preds)}
     r = requests.post(url, json=payload)
     if r.status_code == 200:
         return "verdict updated"
@@ -162,3 +163,4 @@ if __name__ == '__main__':
                         print(update_verdict(stock_code, "HOT", new_preds) + " for " + stock_code)
                     else:
                         print(update_verdict(stock_code, "NOT", new_preds) + " for " + stock_code)
+        break

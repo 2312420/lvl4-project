@@ -7,6 +7,8 @@ class Company(models.Model):
     stock_code = models.TextField(primary_key=True)
     short_hand = models.TextField()
     verdict = models.TextField()
+    predictions = models.JSONField()
+
     class Meta:
         db_table = "company"
 
