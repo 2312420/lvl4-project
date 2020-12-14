@@ -51,8 +51,11 @@ def company_page(request, stock_code):
         pos = False
         if cur_diff > 0:
             cur_diff = "+" + str(cur_diff)
-            cur_per = "(+" + str(cur_per) + ")"
+            cur_per = "(+" + str(cur_per) + "%)"
             pos = True
+        else:
+            cur_diff = str(cur_diff)
+            cur_per = "(" + str(cur_per) + "%)"
 
         html = render_to_string(
             template_name="company-price-ticker.html",
