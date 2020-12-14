@@ -2,8 +2,14 @@
 {% load static %}
 
 {% block body_block %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
+
     <h3>{{ company.short_hand }}</h3>
     <h3>{{ company.stock_code }}</h3>
+
+    <div id="price_div">
+        {% include 'company-price-ticker.html' %}
+    </div>
 
     <div>
         <canvas id="myChart" width="100px" height="200px"></canvas>
@@ -14,9 +20,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
 
     <script>
-
     function htmlDecode(str) {
         const doc = new DOMParser().parseFromString(str, "text/html");
         let item_str = doc.documentElement.textContent;
@@ -26,10 +32,8 @@
         return item_str.split(",")
     }
 
-    data = htmlDecode("{{ labels }}")
+    data = htmlDecode("{{ close_data.labels }}")
     dates = []
-
-
 
     //console.log(labels.length)
     //var dates = []
@@ -46,7 +50,7 @@
         data: {
             labels: dates,
             datasets: [{
-                data: {{ close }},
+                data: {{ close_data.prices }},
                 label: "Closing Price History",
                 borderColor: "#3e95cd",
                 fill: false
@@ -64,5 +68,6 @@
             maintainAspectRatio: false
         }
     });
+
     </script>
 {%  endblock %}
