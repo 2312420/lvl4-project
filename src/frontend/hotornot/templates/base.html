@@ -17,8 +17,9 @@
 
 
 <body>
-
-    <img class="title" src="{% static 'imgs/Logo V1.png' %}">
+    <a href="{% url 'index' %}">
+        <img class="title" src="{% static 'imgs/Logo V1.png' %}">
+    </a>
 
     {% block body_block %}
     {% endblock %}
