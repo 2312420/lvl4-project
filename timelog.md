@@ -44,7 +44,7 @@
 ## 09 OCT
 
 * *0.5 hour* Meeting with advisor
-* *0.5 hour* post-meeting notes and reflection
+* *0.5 hour* post-meeting notes and planning
 * *2 hours* Requirements / note gathering   
 
 ## 12 OCT
@@ -70,7 +70,7 @@
 ## 16 OCT
 
 * *0.5 hour* Meeting with advisor
-* *0.5 hour* post-meeting notes and reflection
+* *0.5 hour* post-meeting notes and planning
 * *1 hours* Requirment and specifcation planning
 * *2 hours* Researching and testing technologies
 
@@ -86,3 +86,110 @@
 
 * *1 hour* Working on weekly notes
 * *1 hour* Working on newscrawler prototype
+
+## 23 OCT
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* post-meeting notes and planning
+
+## 27 OCT
+
+* *1.5 hour* Working on newscrawler
+* *0.5 hour* Installing docker and req technologies
+* *0.5 hour* Containerizing crawler 
+
+## 28 OCT
+
+* *1 hour* Working on entity identifcation
+
+## 29 OCT
+
+* *0.5 hour* Error handling for news crawler
+* *1.5 hours* Working on entity identifcation
+
+## 30 OCT
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post meeting notes
+* *0.5 hour* Uploading image to dockerhub 
+* *0.5 hour* Familiarization with uni hosting  
+
+## 3 Nov
+
+* *1 hour* Working on deployment (uni system blocked progress)
+
+## 4 Nov
+
+* *2.5 hours* Working on sentence extraction
+
+## 6 Nov
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post meeting notes
+
+## 10 Nov
+
+* *3 hours* Working on swagger api
+
+## 12 Nov
+
+* *1 hour* Learning cluster system
+* *1 hour* deploying newscrawler
+
+## 14 Nov
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post metting notes
+* *1 hour* Working on building api
+
+## 16 Nov
+
+* *1 hour* Working on building api
+
+## 19 Nov
+
+* *2 hours* Working on api
+
+## 24 Nov
+
+* *3 hours* Working on api
+
+## 25 Nov
+
+* *2 hours* Working on api 
+
+## 26 Nov
+
+* *1.5 hours* Finishing api
+* *1.5 hours* Writing test cases for api
+* *1 hour* Working on sentiment analysis
+
+## 27 Nov
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* post metting notes
+* *1 hour* Creating hash function and updating api
+* *1 hour* Creating script to process crawler data
+
+## 30 Nov
+
+* *2 hours* 
+
+## 1 Dec
+
+* *2 hours* Trying out sklearn predicton with kagle data
+* *5 hours* Integrating system components 
+
+## 2 Dec
+
+* *0.5 hour* Researching time series database
+
+## 3 Dec
+
+* *3 hours* Working on setting up time series database  
+
+## 4 Dec
+
+* *0.5* Meeting with advisor
+* *0.5* Post meeting reflection and project documentation
+ 
