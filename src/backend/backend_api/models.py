@@ -33,6 +33,7 @@ class Company(db.Model):
     stock_code = db.Column(db.String, primary_key=True)
     short_hand = db.Column(db.String)
     verdict = db.Column(db.String)
+    predictions = db.Column(db.JSON)
 
     def __init__(self, stock_code, short_hand):
         self.stock_code = stock_code
@@ -44,7 +45,8 @@ class Company(db.Model):
     def serialize(self):
         return {
             'stock_code': self.stock_code,
-            'short_hand': self.short_hand
+            'short_hand': self.short_hand,
+            'predictions': self.predictions
         }
 
 

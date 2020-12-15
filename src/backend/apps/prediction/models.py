@@ -33,16 +33,21 @@ def linear_regression(df, target_feature, future_days):
     y_train = data[target_feature]
 
     x_future = future_sentiment_regression(x_train, future_days)
+    x_future = x_future[['sentiment', 'day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+
+    x_future = pd.concat([x_train,x_future])
 
     model = LinearRegression().fit(x_train, y_train)
     preds = model.predict(x_future)
     x_future['predictions'] = preds
 
+
+
     # Plot graph (for testing)
-    #plt.plot(data['close'])
-    #plt.plot(x_future['predictions'], color='green', alpha=0.4)
-    #plt.xticks(fontsize=5)
-    #plt.show()
+    plt.plot(data['close'])
+    plt.plot(x_future['predictions'], color='green', alpha=0.4)
+    plt.xticks(fontsize=5)
+    plt.show()
 
     return x_future
 
@@ -62,23 +67,26 @@ def future_sentiment_regression(df, future_days):
     # Create future dataframe
     now = datetime.now().replace(microsecond=0, minute=0, hour=0, second=0)
 
-    recent_sent = df['sentiment'][-1]
-    future_df = pd.DataFrame({'time': [now], 'sentiment': recent_sent})
+    data = df.copy()
+    x_train = data[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    y_train = data['sentiment']
 
-    for i in range(future_days - 1):
-        future_df = future_df.append({'time': now + timedelta(i), 'sentiment': recent_sent}, ignore_index=True)
+    model = LinearRegression()
+    model.fit(x_train[-future_days:], y_train[-future_days:])
+
+    recent_sent = df['sentiment'][-1]
+    future_df = pd.DataFrame({'time': [now], })#'sentiment': recent_sent})
+
+    for i in range(1, future_days - 1):
+        future_df = future_df.append({'time': now + timedelta(i)}, ignore_index=True)
 
     future_df = expand_time(future_df)
     future_df.index = future_df['time']
     future_df = future_df.drop(['time'], axis=1)
+    future_df = future_df[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
 
-    future_df = pd.concat([df, future_df])
-
-    #imp = SimpleImputer(missing_values=np.nan, strategy='median')
-    #future_df['sentiment'] = imp.fit_transform(future_df)[:,0]
-
-    #imp = IterativeImputer(max_iter=10, random_state=0)
-    #future_df['sentiment'] = imp.fit_transform(future_df)[:,0]
+    preds = model.predict(future_df)
+    future_df['sentiment'] = preds
 
     return future_df
 

@@ -48,14 +48,14 @@ def company_page(request, stock_code):
         cur_diff = round(current_price - info['Previous Close'], 2)
         cur_per = round(cur_diff / info['Previous Close'] * 100, 2)
 
-        pos = True
+        pos = False
         if cur_diff > 0:
             cur_diff = "+" + str(cur_diff)
-            cur_per = "(+" + str(cur_per) + ")"
+            cur_per = "(+" + str(cur_per) + "%)"
+            pos = True
         else:
-            cur_diff = "-" + str(cur_diff)
-            cur_per = "(-" + str(cur_per) + ")"
-            pos = False
+            cur_diff = str(cur_diff)
+            cur_per = "(" + str(cur_per) + "%)"
 
         html = render_to_string(
             template_name="company-price-ticker.html",
@@ -72,17 +72,25 @@ def company_page(request, stock_code):
     stock_df = stock_data.history(start=(datetime.now() - timedelta(days=50)), end=datetime.now())
 
     close_labels = []
+    pred_labels = []
     for item in stock_df.index.to_list():
-        close_labels.append(datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S'))
+        time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+        close_labels.append(time)
+
     close_prices = stock_df['Close'].to_list()
+    pred_prices = stock_df['Close'].to_list()
+
+    print(len(company.predictions))
+    for item in company.predictions:
+        print(item[0])
+        close_labels.append(item[0])
+        pred_prices.append(item[1])
 
     return render(request, 'company.html', context={'company': company,
-                                                    'close_data':   {'labels': close_labels,
-                                                                     'prices': close_prices},
-                                                    'current_data': {'price': "...Fetching price",
-                                                                     'diff': "",
-                                                                     'per': "",
-                                                                     'pos': "NONE"}
+                                                    'close_data':   {'labels':  close_labels,
+                                                                     'prices':  close_prices},
+                                                    'pred_data':    {'prices':  pred_prices},
+                                                    'current_data': {'pos': "NONE"}
                                                     })
 
 
