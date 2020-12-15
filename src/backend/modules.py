@@ -25,6 +25,15 @@ def update_sentence_context(sentence):
         url = base_url + "/sentence/" + str(content['sentence_id']) + "/context"
         payload = {"context": content['context']}
         r = requests.put(url, json=payload)
+        print("Sentence context")
+    else:
+        url = base_url + "/sentence/" + str(sentence['id']) + "/status"
+        payload = {"status": "BLOCKED"}
+        r = requests.put(url, json=payload)
+        if r.status_code == 200:
+            print("Sentence BLOCKED")
+        else:
+            print("Something went wrong")
 
 
 def update_article_context(article):
@@ -76,6 +85,7 @@ def article_sentence_extraction(article):
         for sentence in content['sentences']:
             payload = {"text": sentence, "article_id": article['id'], "date": article['date'], "time": article['time']}
             r = requests.post(url, json=payload)
+        print("Sentences extracted")
 
 
 def get_articles_for_extract():
@@ -97,7 +107,7 @@ def sentence_sentiment(sentence):
         url = base_url + '/sentence/' + str(sentence['id']) + "/sentiment"
         payload = {"sentiment": content['score']}
         r = requests.put(url, json=payload)
-        print(r.status_code)
+        print("Sentiment analyzed")
 
 
 def get_sentences_for_sentiment():

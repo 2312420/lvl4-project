@@ -21,7 +21,7 @@ def sentence_ident():
     sentence = request.get_json()
     potential_entities = si.analyse(sentence['text'])
     company = si.decider(sentence['article_id'], potential_entities)
-
+    print(company)
     if company:
         return json.dumps({"sentence_id": sentence['id'], "context": company[0]['stock_code']})
     else:
