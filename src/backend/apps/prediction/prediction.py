@@ -160,7 +160,9 @@ if __name__ == '__main__':
                         new_preds.append([date, pred])
 
                     if prediction_df['predictions'][-(days_into_future-1)] < prediction_df['predictions'][-1]:
+                        pass
                         print(update_verdict(stock_code, "HOT", new_preds) + " for " + stock_code)
                     else:
+                        pass
                         print(update_verdict(stock_code, "NOT", new_preds) + " for " + stock_code)
         break

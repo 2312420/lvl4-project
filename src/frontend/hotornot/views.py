@@ -76,11 +76,13 @@ def company_page(request, stock_code):
     for item in stock_df.index.to_list():
         time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
         close_labels.append(time)
-        pred_labels.append(time)
 
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
+
+    print(len(company.predictions))
     for item in company.predictions:
+        print(item[0])
         close_labels.append(item[0])
         pred_prices.append(item[1])
 
