@@ -1,8 +1,11 @@
+from flask import Flask, request
+import flask
+import json
 import nltk.data
 import requests
 
 base_url = "http://127.0.0.1:5000/"
-
+app = Flask(__name__)
 
 # Gets 10 articles from database
 def get_articles():
@@ -33,13 +36,30 @@ def upload_sentence(article_id, article_sentence, article_date, article_time):
     r = requests.post(url, json=payload)
 
 
+@app.route('/', methods=['GET'])
+def index():
+    return "Entity identification api"
+
+
+@app.route('/sent', methods=['GET'])
+def sentence_extraction():
+    article = request.get_json()
+    id = article['id']
+    sentences = extract_sentences(article['transcript'])
+    return json.dumps({'sentences': sentences})
+
+
 if __name__ == '__main__':
     nltk.download('punkt')
-    while True:
-        articles = get_articles()
-        for article in articles:
-            id = article['id']
-            update_article(id)
-            for sentence in extract_sentences(article['transcript']):
-                upload_sentence(id, sentence, article['date'], article['time'])
-            print("Article sentences extracted")
+    app.run(port=5002)
+
+#if __name__ == '__main__':
+#    nltk.download('punkt')
+#    while True:
+#        articles = get_articles()
+#        for article in articles:
+#            id = article['id']
+#            update_article(id)
+#            for sentence in extract_sentences(article['transcript']):
+#                upload_sentence(id, sentence, article['date'], article['time'])
+#            print("Article sentences extracted")

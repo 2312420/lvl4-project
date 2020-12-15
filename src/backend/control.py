@@ -5,6 +5,7 @@ import json
 # Component Apis
 article_context = "http://127.0.0.1:5001/ident/article"
 sentence_context = "http://127.0.0.1:5001/ident/sentence"
+sentence_extraction_url = "http://127.0.0.1:5002/sent"
 
 # Backend Api
 base_url = "http://127.0.0.1:5000"
@@ -47,16 +48,44 @@ def get_sentences():
     return r.json()
 
 
-def get_articles():
+def get_articles_context():
     url = base_url + '/article/findByStatus'
     payload = {"status": "CONTEXT"}
     r = requests.get(url, json=payload)
     return r.json()#r.json()22
 
 
+# <!-------------------------!> #
+# <!---- SENT EXTRACTION ----!> #
+# <!-------------------------!> #
+
+def article_sentence_extraction(article):
+    r = requests.get(sentence_extraction_url, json=article)
+    if r.status_code == 200:
+        content = r.json()
+
+        # Update article status
+        url = base_url + "/article/" + article['id'] + "/status"
+        payload = {"status": "DONE"}
+        r = requests.put(url, json=payload)
+
+        # Upload sentences
+        url = base_url + "/sentence"
+        for sentence in content['sentences']:
+            payload = {"text": sentence, "article_id": article['id'], "date": article['date'], "time": article['time']}
+            r = requests.post(url, json=payload)
+
+
+def get_articles_for_extract():
+    url = base_url + '/article/findByStatus'
+    payload = {"status": "SENTENCES"}
+    r = requests.get(url, json=payload)
+    return r.json()
+
+
 if __name__ == '__main__':
-    for article in get_articles():
-        update_article_context(article)
+    for article in get_articles_for_extract():
+        article_sentence_extraction(article)
 
 
 
