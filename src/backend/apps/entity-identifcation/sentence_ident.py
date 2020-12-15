@@ -67,11 +67,11 @@ def update_sentence(sentence_id, stock_code):
     r = requests.put(url, json=payload)
 
 
-if __name__ == '__main__':
-    while True:
-        for sentence in get_sentences():
-            potential_entities = analyse(sentence['text'])
-            company = decider(sentence['article_id'], potential_entities)
-            if company:
-                update_sentence(sentence['id'], company[0]['stock_code'])
-            print("sentence analyzed")
+#if __name__ == '__main__':
+#    while True:
+#        for sentence in get_sentences():
+#            potential_entities = analyse(sentence['text'])
+#            company = decider(sentence['article_id'], potential_entities)
+#            if company:
+#                update_sentence(sentence['id'], company[0]['stock_code'])
+#            print("sentence analyzed")
