@@ -6,6 +6,7 @@ import json
 article_context = "http://127.0.0.1:5001/ident/article"
 sentence_context = "http://127.0.0.1:5001/ident/sentence"
 sentence_extraction_url = "http://127.0.0.1:5002/sent"
+sentence_sentiment_url = "http://127.0.0.1:5003/sentiment"
 
 # Backend Api
 base_url = "http://127.0.0.1:5000"
@@ -83,9 +84,31 @@ def get_articles_for_extract():
     return r.json()
 
 
+# <!-------------------------!> #
+# <!-- SENTIMENT FUNCTIONS --!> #
+# <!-------------------------!> #
+
+
+def sentence_sentiment(sentence):
+    r = requests.get(sentence_sentiment_url, json=sentence)
+    if r.status_code == 200:
+        content = r.json()
+        url = base_url + '/sentence/' + str(sentence['id']) + "/sentiment"
+        payload = {"sentiment": content['score']}
+        r = requests.put(url, json=payload)
+        print(r.status_code)
+
+
+def get_sentences_for_sentiment():
+    url = base_url + '/sentence/findByStatus'
+    payload = {"status": "SENTIMENT"}
+    r = (requests.get(url, json=payload)).json()
+    return r
+
+
 if __name__ == '__main__':
-    for article in get_articles_for_extract():
-        article_sentence_extraction(article)
+    for sentence in get_sentences_for_sentiment():
+        sentence_sentiment(sentence)
 
 
 
