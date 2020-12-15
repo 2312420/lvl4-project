@@ -6,14 +6,6 @@ base_url = "http://127.0.0.1:5000"
 nlp = spacy.load('en_core_web_sm')
 
 
-# Get sentences from db via api
-def get_sentences():
-    url = base_url + '/sentence/findByStatus'
-    payload = {"status": "CONTEXT"}
-    r = requests.get(url, json=payload)
-    return r.json()
-
-
 # Get article from db via api
 def get_article(article_id):
     url = base_url + '/article/' + str(article_id)
@@ -60,12 +52,24 @@ def decider(parent_id, potential_context):
         return company
 
 
-# Updates article analyzed field
-def update_sentence(sentence_id, stock_code):
-    url = base_url + "/sentence/" + str(sentence_id) + "/context"
-    payload = {"context": stock_code}
-    r = requests.put(url, json=payload)
+# Get sentences from db via api
+#def get_sentences():
+#    url = base_url + '/sentence/findByStatus'
+#    payload = {"status": "CONTEXT"}
+#    r = requests.get(url, json=payload)
+#    return r.json()
 
+# Get article from db via api
+#def get_article(article_id):
+#    url = base_url + '/article/' + str(article_id)
+#    r = requests.get(url)
+#    return r.json()
+
+# Updates article analyzed field
+#def update_sentence(sentence_id, stock_code):
+#    url = base_url + "/sentence/" + str(sentence_id) + "/context"
+#    payload = {"context": stock_code}
+#    r = requests.put(url, json=payload)
 
 #if __name__ == '__main__':
 #    while True:

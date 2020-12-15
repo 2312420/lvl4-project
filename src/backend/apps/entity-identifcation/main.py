@@ -6,6 +6,7 @@ import requests
 
 # Ident files
 import sentence_ident as si
+import article_ident as ai
 
 app = Flask(__name__)
 
@@ -27,9 +28,11 @@ def sentence_ident():
         return flask.Response(status=204)
 
 
-@app.route('/ident/article')
+@app.route('/ident/article', methods=['GET'])
 def article_ident():
-    content = request.get_json()
+    article = request.get_json()
+    entites = ai.analyse(article['transcript'])
+    return json.dumps({"article_id": article['id'], "context": entites})
 
 
 if __name__ == '__main__':

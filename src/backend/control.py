@@ -24,6 +24,22 @@ def update_sentence_context(sentence):
         r = requests.put(url, json=payload)
 
 
+def update_article_context(article):
+    r = requests.get(url=article_context, json=article)
+    if r.status_code == 200:
+        content = r.json()
+
+        ## upload entities
+        url = base_url + "/article/" + content['article_id'] + "/context"
+        payload = {"context": content['context']}
+        r = requests.put(url, json=payload)
+
+        ## update status
+        url = base_url + "/article/" + content['article_id'] + "/status"
+        payload = {"status": "SENTENCES"}
+        r = requests.put(url, json=payload)
+
+
 def get_sentences():
     url = base_url + '/sentence/findByStatus'
     payload = {"status": "CONTEXT"}
@@ -31,8 +47,16 @@ def get_sentences():
     return r.json()
 
 
-if __name__ == '__main__':
+def get_articles():
+    url = base_url + '/article/findByStatus'
+    payload = {"status": "CONTEXT"}
+    r = requests.get(url, json=payload)
+    return r.json()#r.json()22
 
+
+if __name__ == '__main__':
+    for article in get_articles():
+        update_article_context(article)
 
 
 
