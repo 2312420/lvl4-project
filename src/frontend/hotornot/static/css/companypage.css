@@ -1,0 +1,22 @@
+.head{
+    background: whitesmoke;
+    font-family: Arial, sans-serif;
+}
+
+.price{
+    display: inline;
+}
+
+.loader {
+  border: 4px solid white; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

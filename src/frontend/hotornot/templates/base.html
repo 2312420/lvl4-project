@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--- Metadata --->
+    <meta charset="UTF-8">
+    <title>HotOrNot</title>
+
+    <!--- Scripts --->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!--- CSS --->
+    <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
+</head>
+
+
+<body>
+    <div style="padding: 2px">
+        <a href="{% url 'index' %}">
+            <img style="width: 50%; margin-left: auto; margin-right: auto; display: block" src="{% static 'imgs/LogoV2.png' %}">
+        </a>
+    </div>
+
+    {% block body_block %}
+    {% endblock %}
+
+    {% block footer %}
+    <script type="text/javascript" src="{% static "js/search.js" %}"></script>
+    {% endblock %}
+
+</body>
+
+</html>
