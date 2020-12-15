@@ -35,19 +35,17 @@ def linear_regression(df, target_feature, future_days):
     x_future = future_sentiment_regression(x_train, future_days)
     x_future = x_future[['sentiment', 'day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
 
-    x_future = pd.concat([x_train,x_future])
+    x_future = pd.concat([x_train, x_future])
 
     model = LinearRegression().fit(x_train, y_train)
     preds = model.predict(x_future)
     x_future['predictions'] = preds
 
-
-
     # Plot graph (for testing)
-    plt.plot(data['close'])
-    plt.plot(x_future['predictions'], color='green', alpha=0.4)
-    plt.xticks(fontsize=5)
-    plt.show()
+    #plt.plot(data['close'])
+    #plt.plot(x_future['predictions'], color='green', alpha=0.4)
+    #plt.xticks(fontsize=5)
+    #plt.show()
 
     return x_future
 
@@ -78,7 +76,7 @@ def future_sentiment_regression(df, future_days):
     future_df = pd.DataFrame({'time': [now], })#'sentiment': recent_sent})
 
     for i in range(1, future_days - 1):
-        future_df = future_df.append({'time': now + timedelta(i)}, ignore_index=True)
+        future_df = future_df.append({'time': now + timedelta(days=i)}, ignore_index=True)
 
     future_df = expand_time(future_df)
     future_df.index = future_df['time']

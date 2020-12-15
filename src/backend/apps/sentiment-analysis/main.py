@@ -26,7 +26,6 @@ def index():
 def get_sentence_sentiment():
     sentence = request.get_json()
     sentiment = get_sentiment_score(sentence['text'])
-    print(sentiment)
     return json.dumps({'score': sentiment})
 
 

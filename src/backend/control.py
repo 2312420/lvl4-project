@@ -7,6 +7,7 @@ article_context = "http://127.0.0.1:5001/ident/article"
 sentence_context = "http://127.0.0.1:5001/ident/sentence"
 sentence_extraction_url = "http://127.0.0.1:5002/sent"
 sentence_sentiment_url = "http://127.0.0.1:5003/sentiment"
+prediction_base_url = "http://127.0.0.1:5004"
 
 # Backend Api
 base_url = "http://127.0.0.1:5000"
@@ -106,9 +107,51 @@ def get_sentences_for_sentiment():
     return r
 
 
+# <!-------------------------!> #
+# <!------- PREDICTION ------!> #
+# <!-------------------------!> #
+
+
+# Standard prediction on company
+def company_prediction(company):
+    url = prediction_base_url + "/predictions"
+    r = requests.get(url, json=company)
+    if r.status_code == 200:
+        content = r.json()
+        url = base_url + '/company/predictions'
+        payload = {'stock_code': content['stock_code'], 'verdict': content['verdict'], 'predictions': content['new_preds']}
+        r = requests.post(url, json=payload)
+
+
+# Take sentences and turns them into data points
+def sentence_to_point(sentence):
+    url = prediction_base_url + "/points/sentences"
+    r = requests.post(url=url, json=sentence)
+    if r.status_code == 200:
+        print("Point updated")
+
+
+# Get all companies from db
+def get_companies():
+    url = base_url + "/company"
+    r = requests.get(url)
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return None
+
+
+# Get all sentences that need to be transformed into points
+def get_sentences():
+    url = base_url + "/sentence/findByStatus"
+    payload = {"status": "PRED"}
+    r = requests.get(url, json=payload)
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return None
+
+
 if __name__ == '__main__':
-    for sentence in get_sentences_for_sentiment():
-        sentence_sentiment(sentence)
-
-
+    
 

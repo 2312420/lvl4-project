@@ -15,16 +15,6 @@ import json
 baseurl = "http://127.0.0.1:5000"
 
 
-# Get all companies from db
-def get_companies():
-    url = baseurl + "/company"
-    r = requests.get(url)
-    if r.status_code == 200:
-        return r.json()
-    else:
-        return None
-
-
 # Get data points from db given a stock code and time frame
 def get_points(stock_code, interval):
     url = baseurl + "/points/" + stock_code + "/" + interval
@@ -39,17 +29,6 @@ def filter_points(points):
         if point['high']:
             output.append(point)
     return output
-
-
-# Updates verdict of company in database
-def update_verdict(stock_code, verdict, preds):
-    url = baseurl + '/company/predictions'
-    payload = {'stock_code': stock_code, 'verdict': verdict, 'predictions': json.dumps(preds)}
-    r = requests.post(url, json=payload)
-    if r.status_code == 200:
-        return "verdict updated"
-    else:
-        return "something went wrong"
 
 
 # Given ordered data set of points combine points with common time into single point
@@ -134,35 +113,62 @@ def add_stock_data(df, stock_code, start_month):
     return df
 
 
-if __name__ == '__main__':
-    companies = get_companies()
-    while True:
-        for company in companies:
-            stock_code = company['stock_code']
-            points = get_points(stock_code, "3 month")
-            if points == []:
-                print("No data")
-                update_verdict(stock_code, "NO-DATA", [])
+def make_prediction(company):
+    stock_code = company['stock_code']
+    points = get_points(stock_code, "3 month")
+    if points == []:
+        return stock_code, "NO-DATA", []
+    else:
+        if(points[0]['close'] == None):
+            return stock_code, "NO-DATA", []
+        else:
+            data = squish_sentiment(filter_points(points))
+            df = format_df(data, stock_code)
+
+            days_into_future = 10
+            prediction_df = models.linear_regression(df, "close", days_into_future)
+
+            new_preds = []
+            for index, item in prediction_df[-(days_into_future-1):].iterrows():
+                date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+                pred = item['predictions']
+                new_preds.append([date, pred])
+
+            if prediction_df['predictions'][-(days_into_future-1)] < prediction_df['predictions'][-1]:
+                return stock_code, "HOT", new_preds
             else:
-                if(points[0]['close'] == None):
-                    update_verdict(stock_code, "NO-DATA", [])
-                else:
-                    data = squish_sentiment(filter_points(points))
-                    df = format_df(data, stock_code)
+                return stock_code, "NOT", new_preds
 
-                    days_into_future = 10
-                    prediction_df = models.linear_regression(df, "close", days_into_future)
 
-                    new_preds = []
-                    for index, item in prediction_df[-(days_into_future-1):].iterrows():
-                        date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
-                        pred = item['predictions']
-                        new_preds.append([date, pred])
-
-                    if prediction_df['predictions'][-(days_into_future-1)] < prediction_df['predictions'][-1]:
-                        pass
-                        print(update_verdict(stock_code, "HOT", new_preds) + " for " + stock_code)
-                    else:
-                        pass
-                        print(update_verdict(stock_code, "NOT", new_preds) + " for " + stock_code)
-        break
+#if __name__ == '__main__':
+#    companies = get_companies()
+#    while True:
+#        for company in companies:
+#            stock_code = company['stock_code']
+#            points = get_points(stock_code, "3 month")
+#            if points == []:
+#                print("No data")
+#                update_verdict(stock_code, "NO-DATA", [])
+#            else:
+#                if(points[0]['close'] == None):
+#                    update_verdict(stock_code, "NO-DATA", [])
+#                else:
+#                    data = squish_sentiment(filter_points(points))
+#                    df = format_df(data, stock_code)
+#
+#                    days_into_future = 10
+#                    prediction_df = models.linear_regression(df, "close", days_into_future)
+#
+#                    new_preds = []
+#                    for index, item in prediction_df[-(days_into_future-1):].iterrows():
+#                        date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+#                        pred = item['predictions']
+#                        new_preds.append([date, pred])
+#
+#                    if prediction_df['predictions'][-(days_into_future-1)] < prediction_df['predictions'][-1]:
+#                        pass
+#                        print(update_verdict(stock_code, "HOT", new_preds) + " for " + stock_code)
+#                    else:
+#                        pass
+#                        print(update_verdict(stock_code, "NOT", new_preds) + " for " + stock_code)
+#        break

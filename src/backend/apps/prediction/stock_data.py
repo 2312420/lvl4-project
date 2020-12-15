@@ -14,7 +14,11 @@ def get_stock_data(stock_code, start_date, end_date, peroid):
 
 # Takes date and time stirng and turns it into date time object
 def to_datetime(date_string):
-    date_time = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+    try:
+        date_time = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+    except:
+        date_time = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
+
     return date_time
 
 
