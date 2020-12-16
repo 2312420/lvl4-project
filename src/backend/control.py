@@ -42,7 +42,6 @@ def get_unfinished_articles():
 
 def process_sentence(sentence):
     status = sentence['status']
-    print(status)
     if status == "CONTEXT":
         md.update_sentence_context(sentence)
     elif status == "SENTIMENT":

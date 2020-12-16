@@ -5,13 +5,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
-# Python files
-import stock_data
-import models
 import json
 
-#from apps.prediction import stock_data, models
+# Python files
+from modules import stock_data, models
 
 # Variables
 baseurl = "http://127.0.0.1:5000"

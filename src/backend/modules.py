@@ -135,7 +135,6 @@ def company_prediction(company):
 
 # Take sentences and turns them into data points
 def sentence_to_point(sentence):
-    print(sentence)
     url = prediction_base_url + "/points/sentences"
     url = "http://127.0.0.1:5004/points/sentences"
     r = requests.post(url="http://127.0.0.1:5004/points/sentences", json=sentence)
