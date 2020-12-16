@@ -80,11 +80,32 @@ def company_page(request, stock_code):
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
 
-    print(len(company.predictions))
-    for item in company.predictions:
-        print(item[0])
-        close_labels.append(item[0])
-        pred_prices.append(item[1])
+    predictions = company.predictions
+
+    import pandas
+    df = pandas.DataFrame(predictions)
+
+
+    for index, item in df.iterrows():
+        if item[0] in close_labels:
+            preds = df.iloc[index:]
+            break
+
+    pred_prices = []
+    for index, item in preds.iterrows():
+        # Remove unaligned results
+        if (item[0][12:] == "0:00:00"):
+            # Add additional times
+            if item[0] not in close_labels:
+                close_labels.append(item[0])
+            pred_prices.append(item[1])
+
+    #for item in company.predictions:
+    #    close_labels.append(item[0])
+    #    pred_prices.append(item[1])
+
+
+
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
