@@ -81,6 +81,11 @@ if __name__ == '__main__':
     seconds_passed = 0
     print("Waiting for notifications")
     while True:
+
+        for company in md.get_companies():
+            md.company_prediction(company)
+            print("company pred: " + company['short_hand'])
+
         updates = False
         if sentences != [] or articles != []:
             # Articles and sentences to be processed
