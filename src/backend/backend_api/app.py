@@ -308,6 +308,21 @@ def update_sentence_status(sentence_id):
     else:
         return flask.Response(status=405)
 
+
+@app.route('/company/<stock_code>/article', methods=['GET'])
+def get_company_article(stock_code):
+    try:
+        articles = Sentence.query.filter_by(context=stock_code).all()
+        if articles == []:
+            return flask.Response(status=404)
+        else:
+            output = []
+            for article in articles:
+                output.append(article.serialize())
+            return json.dumps(output)
+    except:
+        return flask.Response(status=400)
+
 # <------------------------->
 # <----- Company calls ----->
 # <------------------------->

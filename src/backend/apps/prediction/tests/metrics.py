@@ -9,6 +9,7 @@ from datetime import timedelta
 import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error
+import csv
 
 # Urls
 prediction_url = "http://127.0.0.1:5004"
@@ -47,28 +48,27 @@ def squared_loss(company):
         start_point = datetime.strptime(predictions[0][0], "%Y-%m-%d %H:%M:%S")
         end_point = datetime.strptime(predictions[-1][0], "%Y-%m-%d %H:%M:%S")
         stock_df = stock_data.history(start=start_point, end=end_point)
-
         predictions_df = pd.DataFrame(predictions)
-        past_30_days = end_point - timedelta(days=30)
 
+        # Get mean squared error for full all predictions
         times = []
         prices = []
         for point in predictions:
             times.append(point[0])
             prices.append(point[1])
 
-        n = 0
-        y = 0
+        true = []
+        pred = []
         for index, point in stock_df.iterrows():
             if index.__str__() in times:
-                n += 1
                 pos = times.index(index.__str__())
-                y += (point['Close'] - prices[pos])
+                true.append(point['Close'])
+                pred.append(prices[pos])
 
-        total_mean_squared_loss = ( np.square(y) ) / n
+        total_mean_squared_loss = mean_squared_error(true, pred)
 
-        #n = 0
-        #y = 0
+        # Get mean squared error for past thirty days
+        past_30_days = end_point - timedelta(days=30)
         true = []
         pred = []
         for index, point in stock_df[past_30_days:].iterrows():
@@ -77,19 +77,46 @@ def squared_loss(company):
                 true.append(point['Close'])
                 pred.append(prices[pos])
 
-        past_30_days_loss = mean_squared_error(true,pred)
+        past_30_days_loss = mean_squared_error(true, pred)
 
-        print(company['short_hand'])
-        print(past_30_days_loss)
+        return total_mean_squared_loss, past_30_days
+    else:
+        return None, None
 
-        return total_mean_squared_loss
+
+def get_sentence_amount(company):
+    stock_code = company['stock_code']
+    url = base_url + '/company/' + stock_code + '/sentences'
+    r = requests.get(url)
+    if r.status_code == 200:
+        content = r.json()
+        return len(content)
+
+def get_article_amount(company):
+    stock_code = company['stock_code']
+    url = base_url + '/company/' + stock_code + '/article'
+    r = requests.get(url)
+    if r.status_code == 200:
+        content = r.json()
+        return len(content)
 
 
 if __name__ == '__main__':
-    i = 0
-    for company in get_companies():
-        squared_loss(company)
-        #i += 1
-        #if i == 3:
-        #    break
+
+    now = datetime.now().strftime(("%d-%m-%Y, %H-%M"))
+
+    file_name = "results/squared_error/results " + now + ".csv"
+    with open(file_name, "x") as f:
+        fieldnames = ['stock_code', 'short_hand', 'sentences', 'articles', 'total_mean', '30_days_mean']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for company in get_companies():
+            total, past_30 = squared_loss(company)
+            if total:
+                sentences = get_sentence_amount(company)
+                articles = get_article_amount(company)
+                writer.writerow({'stock_code': company['stock_code'], 'short_hand': company['short_hand'],
+                                 'sentences': sentences, 'articles': articles,
+                                 'total_mean': total, '30_days_mean': past_30})
+
 
