@@ -103,8 +103,8 @@ def get_article_amount(company):
 
 if __name__ == '__main__':
 
+    record_current_predictions()
     now = datetime.now().strftime(("%d-%m-%Y, %H-%M"))
-
     file_name = "results/squared_error/results " + now + ".csv"
     with open(file_name, "x") as f:
         fieldnames = ['stock_code', 'short_hand', 'sentences', 'articles', 'total_mean', '30_days_mean']
