@@ -83,6 +83,7 @@ def company_page(request, stock_code):
     predictions = company.predictions
 
     import pandas
+    import re
     df = pandas.DataFrame(predictions)
 
 
@@ -91,26 +92,30 @@ def company_page(request, stock_code):
             preds = df.iloc[index:]
             break
 
+
     pred_prices = []
+    pred_labels = []
     for index, item in preds.iterrows():
+        pred_labels.append(item[0])
+        pred_prices.append(item[1])
+
         # Remove unaligned results
-        if (item[0][12:] == "0:00:00"):
-            # Add additional times
-            if item[0] not in close_labels:
-                close_labels.append(item[0])
-            pred_prices.append(item[1])
+        #print("--" + item[0] + "--")
+        #if re.search("00:00:00", item[0]):
+        #    # Add additional times
+        #    print(item[0])
+        #    pred_prices.append(item[1])
+        #    print(item[1])
+        #    if item[0] not in close_labels:
+        #        close_labels.append(item[0])
 
-    #for item in company.predictions:
-    #    close_labels.append(item[0])
-    #    pred_prices.append(item[1])
-
-
-
+    print(pred_prices)
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
                                                                      'prices':  close_prices},
-                                                    'pred_data':    {'prices':  pred_prices},
+                                                    'pred_data':    {'prices':  pred_prices,
+                                                                     'labels': pred_labels},
                                                     'current_data': {'pos': "NONE"}
                                                     })
 

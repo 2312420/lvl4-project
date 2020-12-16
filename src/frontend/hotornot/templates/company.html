@@ -46,14 +46,31 @@
     data = htmlDecode("{{ close_data.labels }}")
     dates = []
 
-    //console.log(labels.length)
-    //var dates = []
+    pred_labels = htmlDecode("{{ pred_data.labels }}")
+    pred_prices = htmlDecode("{{ pred_data.prices }}")
+
     for(i = 0; i < data.length; i++){
-        console.log(data[i])
-        console.log(new Date(data[i]))
         dates = dates.concat(new Date(data[i]))
     }
-    console.log(dates)
+
+    console.log(pred_labels)
+    console.log(pred_prices)
+
+    pred_points = []
+
+    for(i = 0; i < pred_labels.length; i++){
+        pred_points = pred_points.concat([{
+            'x': (new Date(pred_labels[i])),
+            'y': parseFloat(pred_prices[i])
+        }])
+    }
+    console.log(pred_points)
+    //for(i = 0; i < data.length; i++){
+    //    console.log(data[i])
+    //    console.log(new Date(data[i]))
+    //    pred_points = pred_points.concat(new Date(data[i]))
+    //}
+
 
     var ctx = document.getElementById('myChart');
     var lineChart = new Chart(ctx, {
@@ -66,7 +83,7 @@
                 borderColor: "#3e95cd",
                 fill: false
             },{
-                data: {{ pred_data.prices }},
+                data: pred_points,
                 label: "Our Predicted Prices",
                 borderColor: "#dd2a2a",
                 fill: false
