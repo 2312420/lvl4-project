@@ -80,16 +80,30 @@ def company_page(request, stock_code):
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
 
-    print(len(company.predictions))
-    for item in company.predictions:
-        print(item[0])
-        close_labels.append(item[0])
+    predictions = company.predictions
+
+    import pandas
+    df = pandas.DataFrame(predictions)
+
+
+    for index, item in df.iterrows():
+        if item[0] in close_labels:
+            preds = df.iloc[index:]
+            break
+
+
+    pred_prices = []
+    pred_labels = []
+    for index, item in preds.iterrows():
+        pred_labels.append(item[0])
         pred_prices.append(item[1])
+
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
                                                                      'prices':  close_prices},
-                                                    'pred_data':    {'prices':  pred_prices},
+                                                    'pred_data':    {'prices':  pred_prices,
+                                                                     'labels': pred_labels},
                                                     'current_data': {'pos': "NONE"}
                                                     })
 

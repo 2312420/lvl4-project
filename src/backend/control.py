@@ -42,7 +42,6 @@ def get_unfinished_articles():
 
 def process_sentence(sentence):
     status = sentence['status']
-    print(status)
     if status == "CONTEXT":
         md.update_sentence_context(sentence)
     elif status == "SENTIMENT":
@@ -82,6 +81,7 @@ if __name__ == '__main__':
     seconds_passed = 0
     print("Waiting for notifications")
     while True:
+
         updates = False
         if sentences != [] or articles != []:
             # Articles and sentences to be processed

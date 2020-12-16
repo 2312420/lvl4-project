@@ -128,14 +128,13 @@ def company_prediction(company):
     r = requests.get(url, json=company)
     if r.status_code == 200:
         content = r.json()
-        url = prediction_base_url + '/company/predictions'
+        url = base_url + '/company/predictions'
         payload = {'stock_code': content['stock_code'], 'verdict': content['verdict'], 'predictions': content['new_preds']}
         r = requests.post(url, json=payload)
 
 
 # Take sentences and turns them into data points
 def sentence_to_point(sentence):
-    print(sentence)
     url = prediction_base_url + "/points/sentences"
     url = "http://127.0.0.1:5004/points/sentences"
     r = requests.post(url="http://127.0.0.1:5004/points/sentences", json=sentence)

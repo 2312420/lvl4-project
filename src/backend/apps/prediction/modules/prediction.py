@@ -5,13 +5,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
-# Python files
-import stock_data
-import models
 import json
 
-#from apps.prediction import stock_data, models
+# Python files
+from modules import stock_data, models
 
 # Variables
 baseurl = "http://127.0.0.1:5000"
@@ -131,7 +128,13 @@ def make_prediction(company):
             prediction_df = models.linear_regression(df, "close", days_into_future)
 
             new_preds = []
-            for index, item in prediction_df[-(days_into_future-1):].iterrows():
+            # if want predictions from a certain time
+            #for index, item in prediction_df[-(days_into_future-1):].iterrows():
+            #    date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+            #    pred = item['predictions']
+            #    new_preds.append([date, pred])
+
+            for index, item in prediction_df.iterrows():
                 date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
                 pred = item['predictions']
                 new_preds.append([date, pred])
