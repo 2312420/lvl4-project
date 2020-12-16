@@ -2,6 +2,8 @@ import spacy
 import requests
 
 base_url = "http://127.0.0.1:5000"
+
+# python -m spacy download en_core_web_sm
 nlp = spacy.load('en_core_web_sm')
 
 

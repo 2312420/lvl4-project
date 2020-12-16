@@ -11,6 +11,8 @@ import stock_data
 import models
 import json
 
+#from apps.prediction import stock_data, models
+
 # Variables
 baseurl = "http://127.0.0.1:5000"
 

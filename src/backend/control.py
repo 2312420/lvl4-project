@@ -1,11 +1,11 @@
 import modules as md
-import json
 import requests
-
+import os
+from subprocess import *
+import sys
 import psycopg2
 import psycopg2.extensions
 import select
-from datetime import datetime
 
 # Backend Api
 base_url = "http://127.0.0.1:5000"
@@ -42,6 +42,7 @@ def get_unfinished_articles():
 
 def process_sentence(sentence):
     status = sentence['status']
+    print(status)
     if status == "CONTEXT":
         md.update_sentence_context(sentence)
     elif status == "SENTIMENT":
@@ -66,8 +67,11 @@ def process(articles, sentences):
     return [], []
 
 
+args = sys.argv
+cur_path = os.path.dirname(os.path.realpath(__file__))
+
 if __name__ == '__main__':
-    print(datetime.now())
+
     sentences = get_unfinished_sentences()
     articles = get_unfinished_articles()
 
@@ -96,6 +100,26 @@ if __name__ == '__main__':
             conn.commit()
             while conn.notifies:
                 notify = conn.notifies.pop()
-            sentences = get_unfinished_sentences()
-            articles = get_unfinished_articles()
+                sentences = get_unfinished_sentences()
+                articles = get_unfinished_articles()
 
+#if(args[1] == 'start' and args[2] == 'backend'):
+#        print("Starting backend api...")
+#        path = cur_path + '/backend_api/app.py'
+#        backed_api = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
+
+#        print("Starting entity identification...")
+#        path = cur_path + '/apps/entity_identification/main.py'
+#        entity_ident = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
+
+#        print("Starting sentence extraction...")
+#        path = cur_path + '/apps/sentence_extraction/sentence.py'
+#        sentence_extraction = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
+
+#        print("Starting Sentiment analysis...")
+#        path = cur_path + '/apps/sentiment_analysis/main.py'
+#        sentiment_analysis = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
+
+#        print("Starting prediction...")
+#        path = cur_path + '/apps/prediction/main.py'
+#        prediction = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
