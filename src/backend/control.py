@@ -5,6 +5,7 @@ import requests
 import psycopg2
 import psycopg2.extensions
 import select
+from datetime import datetime
 
 # Backend Api
 base_url = "http://127.0.0.1:5000"
@@ -58,15 +59,15 @@ def process_article(article):
 
 
 def process(articles, sentences):
-    print("1")
-    for sentence in sentences:
-        process_sentence(sentence)
     for article in articles:
         process_article(article)
+    for sentence in sentences:
+        process_sentence(sentence)
     return [], []
 
 
 if __name__ == '__main__':
+    print(datetime.now())
     sentences = get_unfinished_sentences()
     articles = get_unfinished_articles()
 

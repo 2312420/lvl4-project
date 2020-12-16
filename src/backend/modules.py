@@ -50,6 +50,7 @@ def update_article_context(article):
         url = base_url + "/article/" + content['article_id'] + "/status"
         payload = {"status": "SENTENCES"}
         r = requests.put(url, json=payload)
+        print("Article context updated")
 
 
 def get_sentences():
