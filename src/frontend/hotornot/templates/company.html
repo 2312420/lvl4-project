@@ -53,24 +53,14 @@
         dates = dates.concat(new Date(data[i]))
     }
 
-    console.log(pred_labels)
-    console.log(pred_prices)
 
     pred_points = []
-
     for(i = 0; i < pred_labels.length; i++){
         pred_points = pred_points.concat([{
             'x': (new Date(pred_labels[i])),
             'y': parseFloat(pred_prices[i])
         }])
     }
-    console.log(pred_points)
-    //for(i = 0; i < data.length; i++){
-    //    console.log(data[i])
-    //    console.log(new Date(data[i]))
-    //    pred_points = pred_points.concat(new Date(data[i]))
-    //}
-
 
     var ctx = document.getElementById('myChart');
     var lineChart = new Chart(ctx, {

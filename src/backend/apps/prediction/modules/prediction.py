@@ -128,6 +128,7 @@ def make_prediction(company):
             prediction_df = models.linear_regression(df, "close", days_into_future)
 
             new_preds = []
+            # if want predictions from a certain time
             #for index, item in prediction_df[-(days_into_future-1):].iterrows():
             #    date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
             #    pred = item['predictions']

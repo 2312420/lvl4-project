@@ -2,9 +2,12 @@
 
 # Imports
 import requests
+import json
+import yfinance as yf
+from datetime import datetime
 
 # Urls
-prediction_url = "http://127.0.0.1:5004/"
+prediction_url = "http://127.0.0.1:5004"
 base_url = "http://127.0.0.1:5000"
 
 
@@ -19,17 +22,34 @@ def get_companies():
 
 
 def run_predictions():
+    url = prediction_url + '/predictions'
     for company in get_companies():
-        r = requests.get()
+        r = requests.get(url, json=company)
+
+
+def record_current_predictions():
+    now = datetime.now().strftime(("%d-%m-%Y, %H-%M-%S"))
+    file_name = "results/historic_predictions/predictions " + now + ".txt"
+    with open(file_name, "x") as f:
+        for company in get_companies():
+            f.write(json.dumps(company))
 
 
 def squared_loss(company):
-    predictions = company['predictions']
-    for point in predictions:
-        print(point)
+
+    predictions = json.loads(company['predictions'])
+    if predictions != "[]":
+        pass
 
 if __name__ == '__main__':
-    for company in get_companies():
-        print(company['short_hand'])
-        squared_loss(company)
-        break
+    i = 0
+    record_current_predictions()
+
+    #for company in get_companies():
+    #    print(company['short_hand'])
+    #    squared_loss(company)
+
+
+        #i += 1
+        #if i == 5:
+        #    break
