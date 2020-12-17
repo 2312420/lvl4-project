@@ -1,6 +1,7 @@
 const user_input = $("#user-input")
 const search_icon = $('#search-icon')
 const company_div = $('#replaceable-content')
+const sort_select = $('#sort')
 const endpoint = '/hotornot/'
 const delay_by_in_ms = 300
 let scheduled_function = false
@@ -21,9 +22,24 @@ let ajax_call = function (endpoint, request_parameters) {
 }
 
 
+sort_select.on('update', function () {
+	console.log("!!")
+})
+
+sort_select.on('change',function () {
+	sendRequest()
+})
+
+
 user_input.on('keyup', function () {
+	sendRequest()
+})
+
+function sendRequest() {
+	console.log("!")
 	const request_parameters = {
-		q: $(this).val()
+		q: user_input.val(),
+		s: sort_select.val()
 	}
 
 	search_icon.addClass('blink')
@@ -33,4 +49,4 @@ user_input.on('keyup', function () {
 	}
 
 	scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
-})
+}

@@ -15,15 +15,24 @@ from yahoo_fin import stock_info as si
 def index(request):
     ctx = {}
     url_parameter = request.GET.get("q")
+    sort_parameter = request.GET.get("s")
+
 
     if url_parameter:
-        print("-")
         companies = Company.objects.filter(short_hand__icontains=url_parameter)
     else:
         companies = Company.objects.all()
 
+    if sort_parameter != "Sort by":
+        if sort_parameter == "HOT":
+            companies = companies.order_by('verdict')
+        else:
+            companies = companies.order_by('-verdict')
+
+
+
     if request.is_ajax():
-        print("!")
+
         html = render_to_string(
             template_name="homepage-results.html",
             context={'companies': companies}
