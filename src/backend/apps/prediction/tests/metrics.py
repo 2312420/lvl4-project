@@ -79,7 +79,7 @@ def squared_loss(company):
 
         past_30_days_loss = mean_squared_error(true, pred)
 
-        return total_mean_squared_loss, past_30_days
+        return total_mean_squared_loss, past_30_days_loss
     else:
         return None, None
 
@@ -87,14 +87,6 @@ def squared_loss(company):
 def get_sentence_amount(company):
     stock_code = company['stock_code']
     url = base_url + '/company/' + stock_code + '/sentences'
-    r = requests.get(url)
-    if r.status_code == 200:
-        content = r.json()
-        return len(content)
-
-def get_article_amount(company):
-    stock_code = company['stock_code']
-    url = base_url + '/company/' + stock_code + '/article'
     r = requests.get(url)
     if r.status_code == 200:
         content = r.json()
@@ -114,9 +106,6 @@ if __name__ == '__main__':
             total, past_30 = squared_loss(company)
             if total:
                 sentences = get_sentence_amount(company)
-                articles = get_article_amount(company)
                 writer.writerow({'stock_code': company['stock_code'], 'short_hand': company['short_hand'],
-                                 'sentences': sentences, 'articles': articles,
-                                 'total_mean': total, '30_days_mean': past_30})
-
-
+                                 'sentences': sentences, 'total_mean': total,
+                                 '30_days_mean': past_30})
