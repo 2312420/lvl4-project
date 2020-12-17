@@ -52,8 +52,8 @@ def company_page(request, stock_code):
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
     if request.method == "POST":
         dict = request.POST
-        start = "2020-12-10" #dict['startdate']
-        end = "2020-12-24" #dict['enddate']
+        start = dict['startdate']
+        end = dict['enddate']
 
         if start and end:
             url = "http://127.0.0.1:5004/predictions/custom"

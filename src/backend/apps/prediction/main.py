@@ -18,7 +18,6 @@ def index():
 def prediction_for_company():
     company = request.get_json()
     stock_code, verdict, new_preds = prediction.make_prediction(company)
-    print(new_preds)
     return json.dumps({'stock_code': stock_code, 'verdict': verdict, 'new_preds': new_preds})
 
 
@@ -38,7 +37,6 @@ def custom_predictions():
         company = content['stock_code']
         try:
             output = custom_pred.custom_prediction(start_date, end_date, company)
-            print(output)
             return json.dumps(output)
         except Exception as i:
             flask.Response(status=405)
