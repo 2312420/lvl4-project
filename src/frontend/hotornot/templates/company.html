@@ -2,14 +2,20 @@
 {% load static %}
 
 {% block body_block %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
+    <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
     <div class = "head">
 
-
-
         <span> <h1 style="font-size: 30pt; display: inline-block">{{ company.short_hand }} </h1>  ({{ company.stock_code }}) </span>
+
+        <div class=status style=" float: right; padding-top: 8px">
+            {% if company.verdict == "NOT" %}
+                <img  width="100px" src="{% static 'imgs/Not.png' %}">
+            {% else %}
+                <img  width="100px" src="{% static 'imgs/Hot.png' %}">
+            {% endif %}
+        </div>
 
         <div id="price_div" class="price">
             {% include 'company-price-ticker.html' %}
@@ -17,14 +23,26 @@
 
     </div>
 
-
-
-    <div>
+    <div style="font-family: Arial, sans-serif;">
+        <h2>Closing Price Predictions</h2>
         <canvas id="myChart" width="100px" height="200px"></canvas>
     </div>
 
+    <div style="font-family: Arial, sans-serif;">
+        <h2>Custom Predictions</h2>
 
+        <div>
+            <label>Start Date</label>
+            <input type="date" name="startdate" id="startdate">
+        </div>
 
+        <div>
+            <label>End Date</label>
+            <input type="date" name="startdate" id="startdate">
+        </div>
+
+        <button>Make Prediction</button>
+    </div>
 
 
     <!-- Scripts -->
