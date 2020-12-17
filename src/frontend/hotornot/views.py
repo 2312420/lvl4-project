@@ -7,6 +7,7 @@ from django.http import JsonResponse
 # Other Imports
 from datetime import datetime
 from datetime import timedelta
+import requests
 import yfinance as yf
 from yahoo_fin import stock_info as si
 
@@ -45,6 +46,46 @@ def index(request):
 def company_page(request, stock_code):
     # Company DB data
     company = Company.objects.get(stock_code=stock_code)
+    stock_data = yf.Ticker(stock_code)
+
+    #Code for Custom predictions
+    cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
+    if request.method == "POST":
+        dict = request.POST
+        start = dict['startdate']
+        end = dict['enddate']
+
+        if start and end:
+            url = "http://127.0.0.1:5004/predictions/custom"
+            payload = {
+                "start_date": start,
+                "end_date": end,
+                "stock_code": stock_code
+            }
+            r = requests.post(url, json=payload)
+            if r.status_code == 200:
+
+                # Formatting predicted data
+                content = r.json()
+                cus_labels = []
+                cus_prices = []
+                cus_pred_labels = []
+                cus_pred_price = []
+
+                for item in r.json():
+                    cus_pred_labels.append(item[0])
+                    cus_pred_price.append(item[1])
+
+                # Getting historical Info
+                stock_df = stock_data.history(start=datetime.strptime(start, "%Y-%m-%d"), end=datetime.strptime(end, "%Y-%m-%d"))
+                for item in stock_df.index.to_list():
+                    time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+                    cus_labels.append(time)
+                cus_prices = stock_df['Close'].to_list()
+
+        else:
+            print("NOT VALID")
+
 
     # Updates live stock price
     if request.is_ajax():
@@ -75,7 +116,6 @@ def company_page(request, stock_code):
         return JsonResponse(data=data_dict, safe=False)
 
     # Historical stock Information
-    stock_data = yf.Ticker(stock_code)
     stock_df = stock_data.history(start=(datetime.now() - timedelta(days=50)), end=datetime.now())
 
     close_labels = []
@@ -87,8 +127,9 @@ def company_page(request, stock_code):
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
 
-    predictions = company.predictions
 
+    # Getting premade company predictions
+    predictions = company.predictions
     import pandas
     df = pandas.DataFrame(predictions)
 
@@ -108,9 +149,17 @@ def company_page(request, stock_code):
                                                                      'prices':  close_prices},
                                                     'pred_data':    {'prices':  pred_prices,
                                                                      'labels': pred_labels},
-                                                    'current_data': {'pos': "NONE"}
+                                                    'current_data': {'pos': "NONE"},
+                                                    'custom_close': {'prices': cus_prices,
+                                                                     'labels': cus_labels,},
+                                                    'custom_pred': {'prices': cus_pred_price,
+                                                                    'labels': cus_pred_labels}
                                                     })
 
 
 def redirect(request):
     return redirect('/hotornot/')
+
+
+
+
