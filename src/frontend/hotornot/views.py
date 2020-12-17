@@ -40,11 +40,28 @@ def index(request):
 
     return render(request, 'home.html', context={'companies': companies})
 
+import requests
 
 # Company page view
 def company_page(request, stock_code):
     # Company DB data
     company = Company.objects.get(stock_code=stock_code)
+
+    if request.method == "POST":
+        dict = request.POST
+        start = dict['startdate']
+        end = dict['enddate']
+        if start and end:
+            url = "http://127.0.0.1:5004/predictions/custom"
+            payload = {
+                "start_date": start,
+                "end_date": end,
+            }
+            r = requests.post(url, json=payload)
+            print(r.json())
+        else:
+            print("NOT VALID")
+
 
     # Updates live stock price
     if request.is_ajax():
@@ -114,3 +131,7 @@ def company_page(request, stock_code):
 
 def redirect(request):
     return redirect('/hotornot/')
+
+
+
+

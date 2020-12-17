@@ -21,11 +21,6 @@ let ajax_call = function (endpoint, request_parameters) {
 		})
 }
 
-
-sort_select.on('update', function () {
-	console.log("!!")
-})
-
 sort_select.on('change',function () {
 	sendRequest()
 })
@@ -36,7 +31,6 @@ user_input.on('keyup', function () {
 })
 
 function sendRequest() {
-	console.log("!")
 	const request_parameters = {
 		q: user_input.val(),
 		s: sort_select.val()

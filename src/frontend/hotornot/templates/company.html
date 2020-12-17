@@ -29,19 +29,24 @@
     </div>
 
     <div style="font-family: Arial, sans-serif;">
+
         <h2>Custom Predictions</h2>
 
-        <div>
-            <label>Start Date</label>
-            <input type="date" name="startdate" id="startdate">
-        </div>
+        <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post">
+            {% csrf_token %}
+            <div>
+                <label>Start Date</label>
+                <input type="date" name="startdate" id="startdate">
+            </div>
 
-        <div>
-            <label>End Date</label>
-            <input type="date" name="startdate" id="startdate">
-        </div>
+            <div>
+                <label>End Date</label>
+                <input type="date" name="enddate" id="enddate">
+            </div>
 
-        <button>Make Prediction</button>
+            <button type="submit">Make Prediction</button>
+        </form>
+
     </div>
 
 
@@ -52,6 +57,23 @@
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
 
     <script>
+
+    function makePred() {
+
+        const date_start = document.getElementById("startdate")
+        const date_end = document.getElementById("enddate")
+        const url = "http://127.0.0.1:5004/predictions/custom"
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            start: date_start,
+            end: date_end
+        }));
+    }
+
+
     function htmlDecode(str) {
         const doc = new DOMParser().parseFromString(str, "text/html");
         let item_str = doc.documentElement.textContent;
