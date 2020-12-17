@@ -49,16 +49,20 @@ def company_page(request, stock_code):
 
     if request.method == "POST":
         dict = request.POST
-        start = dict['startdate']
-        end = dict['enddate']
+        start = "2020-12-10" #dict['startdate']
+        end = "2020-12-24" #dict['enddate']
+
+        print(start)
+        print(end)
         if start and end:
             url = "http://127.0.0.1:5004/predictions/custom"
             payload = {
                 "start_date": start,
                 "end_date": end,
+                "stock_code": stock_code
             }
             r = requests.post(url, json=payload)
-            print(r.json())
+            print(r.status_code)
         else:
             print("NOT VALID")
 

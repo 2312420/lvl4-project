@@ -36,10 +36,16 @@ def custom_predictions():
         start_date = content['start_date']
         end_date = content['end_date']
         company = content['stock_code']
-        output = custom_pred.custom_prediction(start_date, end_date, company)
-    except
-        return
+        try:
+            output = custom_pred.custom_prediction(start_date, end_date, company)
+            return json.dumps(output)
+        except Exception as i:
+            print(i)
+
+        return {"test": "test"}
+    except:
+        return {"test": "test"}
 
 if __name__ == '__main__':
-    app.run(port=5004)
+    app.run(port=5004, debug=True)
 
