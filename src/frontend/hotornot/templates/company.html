@@ -46,10 +46,9 @@
 
             <button type="submit">Make Prediction</button>
         </form>
-
+        <canvas id="customChart" width="100px" height="50px"></canvas>
     </div>
-
-
+    
     <!-- Scripts -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
@@ -57,22 +56,6 @@
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
 
     <script>
-
-    function makePred() {
-
-        const date_start = document.getElementById("startdate")
-        const date_end = document.getElementById("enddate")
-        const url = "http://127.0.0.1:5004/predictions/custom"
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            start: date_start,
-            end: date_end
-        }));
-    }
-
 
     function htmlDecode(str) {
         const doc = new DOMParser().parseFromString(str, "text/html");
@@ -83,6 +66,7 @@
         return item_str.split(",")
     }
 
+    // Standard Chart
     data = htmlDecode("{{ close_data.labels }}")
     dates = []
 
@@ -131,5 +115,59 @@
             maintainAspectRatio: false
         }
     });
+
+
+    // Standard Chart
+    data = htmlDecode("{{ custom_close.labels }}")
+    cus_dates = []
+
+    pred_labels = htmlDecode("{{ custom_pred.labels }}")
+    pred_prices = htmlDecode("{{ custom_pred.prices }}")
+
+    for(i = 0; i < data.length; i++){
+        cus_dates = cus_dates.concat(new Date(data[i]))
+    }
+
+
+    pred_points = []
+    for(i = 0; i < pred_labels.length; i++){
+        pred_points = pred_points.concat([{
+            'x': (new Date(pred_labels[i])),
+            'y': parseFloat(pred_prices[i])
+        }])
+    }
+
+    console.log(pred_points)
+
+    var ctx2 = document.getElementById('customChart');
+    var lineChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: cus_dates,
+            datasets: [{
+                data: {{ custom_close.prices }},
+                label: "Closing Price History",
+                borderColor: "#3e95cd",
+                fill: false
+            },{
+                data: pred_points,
+                label: "Our Predicted Prices",
+                borderColor: "#dd2a2a",
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                }]
+            },
+            maintainAspectRatio: false
+        }
+    });
+
     </script>
 {%  endblock %}

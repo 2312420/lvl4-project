@@ -38,13 +38,14 @@ def custom_predictions():
         company = content['stock_code']
         try:
             output = custom_pred.custom_prediction(start_date, end_date, company)
+            print(output)
             return json.dumps(output)
         except Exception as i:
-            print(i)
+            flask.Response(status=405)
 
-        return {"test": "test"}
+        return flask.Response(status=400)
     except:
-        return {"test": "test"}
+        return flask.Response(status=405)
 
 if __name__ == '__main__':
     app.run(port=5004, debug=True)
