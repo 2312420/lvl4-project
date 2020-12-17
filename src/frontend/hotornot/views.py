@@ -15,15 +15,21 @@ from yahoo_fin import stock_info as si
 def index(request):
     ctx = {}
     url_parameter = request.GET.get("q")
+    sort_parameter = request.GET.get("s")
 
     if url_parameter:
-        print("-")
         companies = Company.objects.filter(short_hand__icontains=url_parameter)
     else:
         companies = Company.objects.all()
 
+    if sort_parameter != "Sort by":
+        if sort_parameter == "HOT":
+            companies = companies.order_by('verdict')
+        else:
+            companies = companies.order_by('-verdict')
+
     if request.is_ajax():
-        print("!")
+
         html = render_to_string(
             template_name="homepage-results.html",
             context={'companies': companies}
@@ -40,6 +46,7 @@ def company_page(request, stock_code):
     # Company DB data
     company = Company.objects.get(stock_code=stock_code)
 
+    # Updates live stock price
     if request.is_ajax():
         # Company Current Price data
         current_price = round(si.get_live_price(stock_code), 2)
@@ -85,19 +92,16 @@ def company_page(request, stock_code):
     import pandas
     df = pandas.DataFrame(predictions)
 
-
-    for index, item in df.iterrows():
+    for i, item in df.iterrows():
         if item[0] in close_labels:
-            preds = df.iloc[index:]
+            preds = df.iloc[i:]
             break
-
 
     pred_prices = []
     pred_labels = []
     for index, item in preds.iterrows():
         pred_labels.append(item[0])
         pred_prices.append(item[1])
-
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
