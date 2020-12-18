@@ -193,3 +193,27 @@
 * *0.5* Meeting with advisor
 * *0.5* Post meeting reflection and project documentation
  
+## 7 Dec
+
+* *3 hours* Working on sentence to data point conversion
+
+## 8 Dec
+
+* *7 hours* Working on prediction component
+
+## 9 Dec
+
+* *3 hours* Working on prediction component
+* *3.5 hours* Working on frontend
+
+## 10 Dec
+
+* *3.5 hours* Working on prediction component
+* *0.5 hour* Working on connecting frontend to predictions
+
+## 11 Dec
+
+* *0.5 hour* Supervisor meeting
+* *0.5 hour* post meeting reflection
+* *3 hours* Working on frontend styling
+* *2 hours* Working on frontend functionality 
