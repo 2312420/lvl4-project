@@ -1,0 +1,30 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/homepage.css' %}">
+
+{% for company in companies %}
+    {% if company.verdict != "NO-DATA" %}
+
+        <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
+            <div class = card-wrapper>
+
+                <div class = card-header>
+                    <div class = card-header-title>
+                    {{ company.short_hand }}
+                    </div>
+
+                    <div class="card-header-status">
+                        {% if company.verdict == "HOT" %}
+                            <img width="10%" src="{% static 'imgs/arrow_up.png' %}" alt="HOT">
+                        {%  else %}
+                            <img width="10%" src="{% static 'imgs/arrow_down.png' %}" alt="NOT">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class = info-box> info box</div>
+
+            </div>
+        </a>
+
+    {% endif %}
+{% endfor %}
