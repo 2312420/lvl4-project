@@ -217,3 +217,28 @@
 * *0.5 hour* post meeting reflection
 * *3 hours* Working on frontend styling
 * *2 hours* Working on frontend functionality 
+
+## 14 Dec
+
+* *2 hours* Adding search bar and company page
+* *3 hours* Adding graph view for comapny page
+
+## 15 Dec
+
+* *1 hour* Fixing some issues with frontend
+* *7 hours* Rebuilding backend
+
+## 16 Dec
+
+* *1 hour* Creating prediction metrics
+* *5 hours* Continuing frontend improvments
+
+## 17 Dec
+
+* *3 hours* Making frontend look better
+* *7 hours* Adding in custom predictions
+
+## 18 Dec
+
+* *0.5 hour* Meeting with supervisor
+* *1 hour* Writing and submitting status report
