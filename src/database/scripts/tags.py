@@ -11,7 +11,7 @@ def get_companies():
 
 
 # Get list of possible tags
-def get_tags(stock_code):
+def get_possible_tags(stock_code):
     stock = yf.Ticker(stock_code)
     info = stock.info
     possible_tags = []
@@ -30,27 +30,29 @@ def get_tags(stock_code):
 
 
 # Check if tag exists, if not then adds tag and returns id
-def get_tag_id(tag_title):
+def get_tag(tag_title):
     url = base_url + "/tag/" + tag_title
     r = requests.get(url)
     if r.status_code == 200:
-        print(r.json())
+        return r.json()
     else:
         url = base_url + "/tag"
         payload = {"title": tag_title}
         r = requests.post(url, json=payload)
         print(r.json())
+        return r.json()
 
 
 # Update company with new tag
 def give_tag(tag_id, stock_code):
-    
+    url = base_url + "/tag/" + str(tag_id) + "/" + stock_code
+    r = requests.post(url)
+    print(r)
 
 
 if __name__ == '__main__':
-    #tags = get_tags("FB")
 
     stock_code = "FB"
-    tag_id = get_tag_id("test2")
-
-    give_tag(tag_id, stock_code)
+    for tag_title in get_possible_tags(stock_code):
+        tag = get_tag(tag_title)
+        give_tag(tag['tag_id'], stock_code)
