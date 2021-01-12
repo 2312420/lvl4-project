@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from models import Company, Source, Article, Sentence
+from models import Company, Source, Article, Sentence, Tag, CompanyTag
 from flask_sqlalchemy import SQLAlchemy
 import flask
 from extensions import db
@@ -525,6 +525,41 @@ def points_from_time_frame(company_id, interval):
     except:
         return flask.Response(status=400)
 
+
+# <---------------------------->
+# <----- timeseries Calls ----->
+# <---------------------------->
+
+
+@app.route('/tag', methods=['POST'])
+def add_tag():
+    if request.is_json:
+        try:
+            content = request.get_json()
+            to_add = Tag(content['title'])
+            try:
+                db.session.add(to_add)
+                db.session.commit()
+                return json.dumps(to_add.serialize()) #flask.Response(status=201)
+            except:
+                return flask.Response(status=400)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
+
+
+@app.route('/tag/<tag_title>', methods=['GET'])
+def get_tag_id(tag_title):
+    try:
+        tag = Tag.query.filter_by(tag_title=tag_title).all()
+
+        if tag == []:
+            return flask.Response(status=404)
+        else:
+            return json.dumps(tag[0].serialize())
+    except:
+        return flask.Response(status=405)
 
 if __name__ == '__main__':
     app.run()
