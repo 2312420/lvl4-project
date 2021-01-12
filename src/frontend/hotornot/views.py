@@ -24,20 +24,25 @@ def index(request):
 
         inital_companies = Company.objects.filter(short_hand__icontains=url_parameter).all()
 
+        print(inital_companies)
+
         for company in inital_companies:
             companies.append(company)
-        
+
         # Uses url parameter to find companies
         tags = Tag.objects.filter(tag_title__icontains=url_parameter)
         for tag in tags:
             company_tags = CompanyTag.objects.filter(tag_id=tag.tag_id)
             for company_tag in company_tags:
                 company = Company.objects.filter(stock_code=company_tag.company_code).get()
-                if company not in companies:
+                if company not in companies and company.verdict != "NO-DATA":
+                    print(company.verdict)
                     companies.append(company)
 
+        print(companies)
+
         # Finds similar companies based on company tags
-        if len(companies) <= 3:
+        if len(companies) <= 4:
             org_comp = companies.copy()
             for company in org_comp:
                 company_tags = CompanyTag.objects.filter(company_code=company.stock_code)
