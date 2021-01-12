@@ -28,11 +28,11 @@
         <canvas id="myChart" width="100px" height="200px"></canvas>
     </div>
 
-    <div style="font-family: Arial, sans-serif;">
+    <div style="font-family: Arial, sans-serif; padding-bottom: 100px">
 
         <h2>Custom Predictions</h2>
 
-        <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post">
+        <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post" style="float: left;">
             {% csrf_token %}
             <div>
                 <label>Start Date</label>
@@ -46,9 +46,23 @@
 
             <button type="submit">Make Prediction</button>
         </form>
-        <canvas id="customChart" width="100px" height="50px"></canvas>
-    </div>
 
+        <div style="float: right; position: relative; height:20vh; width:80vw; padding-bottom: 20px">
+            <canvas style="float: left" id="customChart"></canvas>
+        </div>
+    </div>
+    <div style="padding: 50px"></div>
+
+    <!--
+    <div style="font-family: Arial, sans-serif;">
+        <h2> Company Information</h2>
+
+        {% for stat in stock_stats %}
+
+
+        {% endfor %}
+    </div>
+    -->
     <!-- Scripts -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
