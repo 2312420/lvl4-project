@@ -561,5 +561,19 @@ def get_tag_id(tag_title):
     except:
         return flask.Response(status=405)
 
+@app.route('/tag/<tag_id>/<stock_code>', methods=['POST'])
+def add_company_tag(tag_id, stock_code):
+    to_add = CompanyTag(tag_id, stock_code)
+    try:
+        to_add = CompanyTag(tag_id, stock_code)
+        try:
+            db.session.add(to_add)
+            db.session.commit()
+            return flask.Response(status=201)
+        except:
+            return flask.Response(status=400)
+    except:
+        return flask.Response(status=400)
+
 if __name__ == '__main__':
     app.run()
