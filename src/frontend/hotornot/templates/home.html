@@ -10,11 +10,22 @@
         <i id="search-icon" class="fas fa-search"></i>
         <input id="user-input" class="search" type="text" placeholder="search" >
 
+
     </div>
 
-    <div id = replaceable-content>
+    <div class = search-wrapper>
+        <select class="sort" id="sort">
+            <option selected> Sort by</option>
+            <option value="HOT">Hot</option>
+            <option value="NOT">Not</option>
+        </select>
+    </div>
+
+
+    <div id = replaceable-content class="card-wrapper-2">
         {% include 'homepage-results.html' %}
     </div>
+
 
 
 {%  endblock %}

@@ -2,14 +2,20 @@
 {% load static %}
 
 {% block body_block %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
+    <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
     <div class = "head">
 
-
-
         <span> <h1 style="font-size: 30pt; display: inline-block">{{ company.short_hand }} </h1>  ({{ company.stock_code }}) </span>
+
+        <div class=status style=" float: right; padding-top: 8px">
+            {% if company.verdict == "NOT" %}
+                <img  width="100px" src="{% static 'imgs/Not.png' %}">
+            {% else %}
+                <img  width="100px" src="{% static 'imgs/Hot.png' %}">
+            {% endif %}
+        </div>
 
         <div id="price_div" class="price">
             {% include 'company-price-ticker.html' %}
@@ -17,16 +23,46 @@
 
     </div>
 
-
-
-    <div>
+    <div style="font-family: Arial, sans-serif;">
+        <h2>Closing Price Predictions</h2>
         <canvas id="myChart" width="100px" height="200px"></canvas>
     </div>
 
+    <div style="font-family: Arial, sans-serif; padding-bottom: 100px">
+
+        <h2>Custom Predictions</h2>
+
+        <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post" style="float: left;">
+            {% csrf_token %}
+            <div>
+                <label>Start Date</label>
+                <input type="date" name="startdate" id="startdate">
+            </div>
+
+            <div>
+                <label>End Date</label>
+                <input type="date" name="enddate" id="enddate">
+            </div>
+
+            <button type="submit">Make Prediction</button>
+        </form>
+
+        <div style="float: right; position: relative; height:20vh; width:80vw; padding-bottom: 20px">
+            <canvas style="float: left" id="customChart"></canvas>
+        </div>
+    </div>
+    <div style="padding: 50px"></div>
+
+    <!--
+    <div style="font-family: Arial, sans-serif;">
+        <h2> Company Information</h2>
+
+        {% for stat in stock_stats %}
 
 
-
-
+        {% endfor %}
+    </div>
+    -->
     <!-- Scripts -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
@@ -34,6 +70,7 @@
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
 
     <script>
+
     function htmlDecode(str) {
         const doc = new DOMParser().parseFromString(str, "text/html");
         let item_str = doc.documentElement.textContent;
@@ -43,17 +80,25 @@
         return item_str.split(",")
     }
 
+    // Standard Chart
     data = htmlDecode("{{ close_data.labels }}")
     dates = []
 
-    //console.log(labels.length)
-    //var dates = []
+    pred_labels = htmlDecode("{{ pred_data.labels }}")
+    pred_prices = htmlDecode("{{ pred_data.prices }}")
+
     for(i = 0; i < data.length; i++){
-        console.log(data[i])
-        console.log(new Date(data[i]))
         dates = dates.concat(new Date(data[i]))
     }
-    console.log(dates)
+
+
+    pred_points = []
+    for(i = 0; i < pred_labels.length; i++){
+        pred_points = pred_points.concat([{
+            'x': (new Date(pred_labels[i])),
+            'y': parseFloat(pred_prices[i])
+        }])
+    }
 
     var ctx = document.getElementById('myChart');
     var lineChart = new Chart(ctx, {
@@ -66,7 +111,7 @@
                 borderColor: "#3e95cd",
                 fill: false
             },{
-                data: {{ pred_data.prices }},
+                data: pred_points,
                 label: "Our Predicted Prices",
                 borderColor: "#dd2a2a",
                 fill: false
@@ -84,5 +129,59 @@
             maintainAspectRatio: false
         }
     });
+
+
+    // Standard Chart
+    data = htmlDecode("{{ custom_close.labels }}")
+    cus_dates = []
+
+    pred_labels = htmlDecode("{{ custom_pred.labels }}")
+    pred_prices = htmlDecode("{{ custom_pred.prices }}")
+
+    for(i = 0; i < data.length; i++){
+        cus_dates = cus_dates.concat(new Date(data[i]))
+    }
+
+
+    pred_points = []
+    for(i = 0; i < pred_labels.length; i++){
+        pred_points = pred_points.concat([{
+            'x': (new Date(pred_labels[i])),
+            'y': parseFloat(pred_prices[i])
+        }])
+    }
+
+    console.log(pred_points)
+
+    var ctx2 = document.getElementById('customChart');
+    var lineChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: cus_dates,
+            datasets: [{
+                data: {{ custom_close.prices }},
+                label: "Closing Price History",
+                borderColor: "#3e95cd",
+                fill: false
+            },{
+                data: pred_points,
+                label: "Our Predicted Prices",
+                borderColor: "#dd2a2a",
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                }]
+            },
+            maintainAspectRatio: false
+        }
+    });
+
     </script>
 {%  endblock %}

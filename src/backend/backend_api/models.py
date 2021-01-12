@@ -56,7 +56,7 @@ class Article(db.Model):
     id = db.Column(db.String(), primary_key=True)
     title = db.Column(db.String())
     transcript = db.Column(db.String())
-    status = db.Column(db.String())
+    status = db.Column(db.String()) # CONTEXT, SENTENCES
     source_id = db.Column(db.String())
     context = db.Column(db.ARRAY(db.String()))
 
@@ -109,7 +109,7 @@ class Sentence(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.String())
     sentiment = db.Column(db.Float())
-    status = db.Column(db.String()) #CONTEXT, SENTIMENT, DONE
+    status = db.Column(db.String()) #CONTEXT, SENTIMENT, PRED, DONE
     date = db.Column(db.String())
     time = db.Column(db.String())
 

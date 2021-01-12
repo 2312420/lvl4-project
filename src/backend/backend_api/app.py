@@ -308,6 +308,7 @@ def update_sentence_status(sentence_id):
     else:
         return flask.Response(status=405)
 
+
 # <------------------------->
 # <----- Company calls ----->
 # <------------------------->
@@ -393,7 +394,12 @@ def update_company_predictions():
         content = request.get_json()
         company = Company.query.get(content['stock_code'])
         company.verdict = content['verdict']
-        company.predictions = content['predictions']
+
+
+        if content['verdict'] == "NO-DATA":
+            company.predictions = json.dumps("[]")
+        else:
+            company.predictions = json.dumps(content['predictions'])
         db.session.commit()
         return flask.Response(status=200)
     else:
@@ -421,13 +427,20 @@ def get_data_points(company_id):
 def add_data_point():
     if request.is_json:
         try:
+            content = request.get_json()
+            if content['close'] == None:
+                sentence = Sentence.query.get(content['sentence_id'])
+                sentence.status = "BLOCKED"
+                db.session.commit()
+                return flask.Response(status=204)
+
             conn = psycopg2.connect(host='localhost',
                                     port='5433',
                                     user='postgres',
                                     password='2206',
                                     database='company_data')
             cursor = conn.cursor()
-            content = request.get_json()
+
 
             datetime_obj = datetime.strptime(content['time'], "%m/%d/%Y %H:%M:%S")
             cursor.execute("INSERT INTO points(time, company_id, sentiment, sentence_id, open, high, low, close, volume) "

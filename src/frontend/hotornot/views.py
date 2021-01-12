@@ -7,23 +7,31 @@ from django.http import JsonResponse
 # Other Imports
 from datetime import datetime
 from datetime import timedelta
+import requests
 import yfinance as yf
 from yahoo_fin import stock_info as si
+import pandas as pd
 
 
 # Home page view
 def index(request):
     ctx = {}
     url_parameter = request.GET.get("q")
+    sort_parameter = request.GET.get("s")
 
     if url_parameter:
-        print("-")
         companies = Company.objects.filter(short_hand__icontains=url_parameter)
     else:
         companies = Company.objects.all()
 
+    if sort_parameter != "Sort by":
+        if sort_parameter == "HOT":
+            companies = companies.order_by('verdict')
+        elif sort_parameter == "NOT":
+            companies = companies.order_by('-verdict')
+
     if request.is_ajax():
-        print("!")
+
         html = render_to_string(
             template_name="homepage-results.html",
             context={'companies': companies}
@@ -39,7 +47,49 @@ def index(request):
 def company_page(request, stock_code):
     # Company DB data
     company = Company.objects.get(stock_code=stock_code)
+    stock_data = yf.Ticker(stock_code)
 
+
+    #Code for Custom predictions
+    cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
+    if request.method == "POST":
+        dict = request.POST
+        start = dict['startdate']
+        end = dict['enddate']
+
+        if start and end:
+            url = "http://127.0.0.1:5004/predictions/custom"
+            payload = {
+                "start_date": start,
+                "end_date": end,
+                "stock_code": stock_code
+            }
+            r = requests.post(url, json=payload)
+            if r.status_code == 200:
+
+                # Formatting predicted data
+                content = r.json()
+                cus_labels = []
+                cus_prices = []
+                cus_pred_labels = []
+                cus_pred_price = []
+
+                for item in r.json():
+                    cus_pred_labels.append(item[0])
+                    cus_pred_price.append(item[1])
+
+                # Getting historical Info
+                stock_df = stock_data.history(start=datetime.strptime(start, "%Y-%m-%d"), end=datetime.strptime(end, "%Y-%m-%d"))
+                for item in stock_df.index.to_list():
+                    time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+                    cus_labels.append(time)
+                cus_prices = stock_df['Close'].to_list()
+
+        else:
+            print("NOT VALID")
+
+
+    # Updates live stock price
     if request.is_ajax():
         # Company Current Price data
         current_price = round(si.get_live_price(stock_code), 2)
@@ -68,7 +118,6 @@ def company_page(request, stock_code):
         return JsonResponse(data=data_dict, safe=False)
 
     # Historical stock Information
-    stock_data = yf.Ticker(stock_code)
     stock_df = stock_data.history(start=(datetime.now() - timedelta(days=50)), end=datetime.now())
 
     close_labels = []
@@ -80,19 +129,39 @@ def company_page(request, stock_code):
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
 
-    print(len(company.predictions))
-    for item in company.predictions:
-        print(item[0])
-        close_labels.append(item[0])
+
+    # Getting premade company predictions
+    predictions = company.predictions
+    import pandas
+    df = pandas.DataFrame(predictions)
+
+    for i, item in df.iterrows():
+        if item[0] in close_labels:
+            preds = df.iloc[i:]
+            break
+
+    pred_prices = []
+    pred_labels = []
+    for index, item in preds.iterrows():
+        pred_labels.append(item[0])
         pred_prices.append(item[1])
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
                                                                      'prices':  close_prices},
-                                                    'pred_data':    {'prices':  pred_prices},
-                                                    'current_data': {'pos': "NONE"}
+                                                    'pred_data':    {'prices':  pred_prices,
+                                                                     'labels': pred_labels},
+                                                    'current_data': {'pos': "NONE"},
+                                                    'custom_close': {'prices': cus_prices,
+                                                                     'labels': cus_labels,},
+                                                    'custom_pred': {'prices': cus_pred_price,
+                                                                    'labels': cus_pred_labels}
                                                     })
 
 
 def redirect(request):
     return redirect('/hotornot/')
+
+
+
+

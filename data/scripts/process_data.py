@@ -16,7 +16,7 @@ source_ids = {
 }
 
 add_url = baseurl + "/article_with_date"
-with open('../../../../data/articles.txt') as f:
+with open('../raw/articles(15-12-2020).txt') as f:
     for line in f:
         line = json.loads(line)
         items = line[list(line.keys())[0]]
@@ -26,6 +26,6 @@ with open('../../../../data/articles.txt') as f:
         datetime = items[2]
         payload = {"title": title, "transcript": transcript, "source_id": source, "date-time": datetime}
         r = requests.post(add_url, json=payload)
-
+        print("article added")
 
 
