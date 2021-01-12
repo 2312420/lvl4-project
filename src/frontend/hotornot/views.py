@@ -10,6 +10,7 @@ from datetime import timedelta
 import requests
 import yfinance as yf
 from yahoo_fin import stock_info as si
+import pandas as pd
 
 
 # Home page view
@@ -26,7 +27,7 @@ def index(request):
     if sort_parameter != "Sort by":
         if sort_parameter == "HOT":
             companies = companies.order_by('verdict')
-        else:
+        elif sort_parameter == "NOT":
             companies = companies.order_by('-verdict')
 
     if request.is_ajax():
@@ -47,6 +48,7 @@ def company_page(request, stock_code):
     # Company DB data
     company = Company.objects.get(stock_code=stock_code)
     stock_data = yf.Ticker(stock_code)
+
 
     #Code for Custom predictions
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
