@@ -36,4 +36,4 @@ class CompanyTag(models.Model):
         db_table = "company_tags"
 
     def __str__(self):
-        return self.id
+        return self.company_code
