@@ -1,6 +1,6 @@
 # Django Imports
 from django.shortcuts import render
-from hotornot.models import Company
+from hotornot.models import Company, Tag
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
@@ -20,7 +20,8 @@ def index(request):
     sort_parameter = request.GET.get("s")
 
     if url_parameter:
-        companies = Company.objects.filter(short_hand__icontains=url_parameter)
+        companies = Company.objects.filter(short_hand__icontains=url_parameter).filter(verdict__isnull=False)
+    
     else:
         companies = Company.objects.all()
 
