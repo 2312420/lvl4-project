@@ -41,7 +41,6 @@ def get_tag(tag_title):
         url = base_url + "/tag"
         payload = {"title": tag_title}
         r = requests.post(url, json=payload)
-        print(r.json())
         return r.json()
 
 
@@ -49,13 +48,15 @@ def get_tag(tag_title):
 def give_tag(tag_id, stock_code):
     url = base_url + "/tag/" + str(tag_id) + "/" + stock_code
     r = requests.post(url)
-    print(r)
 
 
 if __name__ == '__main__':
     for company in get_companies():
-        stock_code = company['stock_code']
-        for tag_title in get_possible_tags(stock_code):
-            tag = get_tag(tag_title)
-            give_tag(tag['tag_id'], stock_code)
-
+        try:
+            stock_code = company['stock_code']
+            for tag_title in get_possible_tags(stock_code):
+                tag = get_tag(tag_title)
+                give_tag(tag['tag_id'], stock_code)
+            print(stock_code + " Done")
+        except:
+            print("error with " + stock_code)
