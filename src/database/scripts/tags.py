@@ -4,6 +4,12 @@ import spacy
 nlp = spacy.load('en_core_web_sm')
 
 
+# Get list of all companies
+def get_companies():
+    pass
+
+
+# Get list of possible tags
 def get_tags(stock_code):
     stock = yf.Ticker(stock_code)
     info = stock.info
@@ -22,6 +28,16 @@ def get_tags(stock_code):
     return possible_tags
 
 
+# Check if tag already exist in database
+def check_tag():
+    return False
+
+
+# Update company with new tag
+def give_tag():
+    pass
+
+
 if __name__ == '__main__':
-    tags = get_tags("AAPL")
+    tags = get_tags("FB")
     print(tags)
