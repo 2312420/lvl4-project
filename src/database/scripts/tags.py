@@ -7,7 +7,9 @@ base_url = "http://127.0.0.1:5000"
 
 # Get list of all companies
 def get_companies():
-    pass
+    url = base_url + "/company"
+    r = requests.get(url)
+    return r.json()
 
 
 # Get list of possible tags
@@ -51,8 +53,9 @@ def give_tag(tag_id, stock_code):
 
 
 if __name__ == '__main__':
+    for company in get_companies():
+        stock_code = company['stock_code']
+        for tag_title in get_possible_tags(stock_code):
+            tag = get_tag(tag_title)
+            give_tag(tag['tag_id'], stock_code)
 
-    stock_code = "FB"
-    for tag_title in get_possible_tags(stock_code):
-        tag = get_tag(tag_title)
-        give_tag(tag['tag_id'], stock_code)
