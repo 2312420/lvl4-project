@@ -36,7 +36,10 @@
 }
 
 
-
+.busSummary{
+  font-family: Arial, sans-serif;
+  padding: 5px;
+}
 
 
 @keyframes spin {
@@ -84,5 +87,7 @@
   background-color: #4CAF50;
   color: white;
 }
+
+
 
 

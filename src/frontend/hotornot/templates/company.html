@@ -71,8 +71,18 @@
     </div>
 
     <div hidden id="stockInfo" class="stockInfo">
-        test
+        <div style="padding-bottom: 5px">
+            <img width="200px" src="{{ stock_info.logo_url }}" style="float: left">
+            <p class = "busSummary"> {{ stock_info.longBusinessSummary }}</p>
+        </div>
 
+        <div style="font-family: Arial, sans-serif;">
+        {% for key, value in stock_info.items %}
+            {% if key != "logo_url" and key != "longBusinessSummary" %}
+                <p> {{ key }}:{{ value }}</p>
+            {% endif %}
+        {% endfor %}
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -92,7 +102,7 @@
     var info_content = document.getElementById("stockInfo");
 
     function navButton(button_name) {
-        
+
         custom.classList.remove("active");
         info.classList.remove("active");
         our.classList.remove("active");
