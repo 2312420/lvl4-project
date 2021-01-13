@@ -10,7 +10,7 @@ from datetime import timedelta
 import requests
 import yfinance as yf
 from yahoo_fin import stock_info as si
-import pandas as pd
+import pandas
 
 
 # Home page view
@@ -19,17 +19,17 @@ def index(request):
     url_parameter = request.GET.get("q")
     sort_parameter = request.GET.get("s")
 
+    # If statement for search bar
     if url_parameter:
+        # If search bar is in use
         companies = []
 
+        # Inital set of companies based on input
         inital_companies = Company.objects.filter(short_hand__icontains=url_parameter).all()
-
-        print(inital_companies)
-
         for company in inital_companies:
             companies.append(company)
 
-        # Uses url parameter to find companies
+        # Find companies based on input and various tags
         tags = Tag.objects.filter(tag_title__icontains=url_parameter)
         for tag in tags:
             company_tags = CompanyTag.objects.filter(tag_id=tag.tag_id)
@@ -39,9 +39,7 @@ def index(request):
                     print(company.verdict)
                     companies.append(company)
 
-        print(companies)
-
-        # Finds similar companies based on company tags
+        # If amount of companies found is minor, find realted companies based on similar tags
         if len(companies) <= 4:
             org_comp = companies.copy()
             for company in org_comp:
@@ -51,20 +49,19 @@ def index(request):
                         for company_code in Company.objects.filter(stock_code=company_id.company_code):
                             if company_code not in companies:
                                 companies.append(company_code)
-
-
-
     else:
+        # Search bart not in use
         companies = Company.objects.all()
 
+    # If statement for sorting options
     if sort_parameter != "Sort by":
         if sort_parameter == "HOT":
             companies = companies.order_by('verdict')
         elif sort_parameter == "NOT":
             companies = companies.order_by('-verdict')
 
+    # Handles ajax request to render search results
     if request.is_ajax():
-
         html = render_to_string(
             template_name="homepage-results.html",
             context={'companies': companies}
@@ -82,8 +79,7 @@ def company_page(request, stock_code):
     company = Company.objects.get(stock_code=stock_code)
     stock_data = yf.Ticker(stock_code)
 
-
-    #Code for Custom predictions
+    # Code used for custom prediction options
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
     if request.method == "POST":
         dict = request.POST
@@ -117,12 +113,11 @@ def company_page(request, stock_code):
                     time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
                     cus_labels.append(time)
                 cus_prices = stock_df['Close'].to_list()
-
         else:
             print("NOT VALID")
 
 
-    # Updates live stock price
+    # Ajax request to update live stock price
     if request.is_ajax():
         # Company Current Price data
         current_price = round(si.get_live_price(stock_code), 2)
@@ -165,9 +160,8 @@ def company_page(request, stock_code):
 
     # Getting premade company predictions
     predictions = company.predictions
-    import pandas
-    df = pandas.DataFrame(predictions)
 
+    df = pandas.DataFrame(predictions)
     for i, item in df.iterrows():
         if item[0] in close_labels:
             preds = df.iloc[i:]
