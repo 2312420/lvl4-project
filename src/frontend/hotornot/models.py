@@ -14,6 +14,21 @@ class Company(models.Model):
         return self.stock_code
 
 
+class Sentence(models.Model):
+    id = models.IntegerField(primary_key=True)
+    text = models.TextField()
+    sentiment = models.FloatField()
+    status = models.TextField()
+    context = models.TextField()
+    date = models.DateField()
+    time = models.TimeField()
+
+    class Meta:
+        db_table = "sentence"
+
+    def __str__(self):
+        return self.id
+
 class Tag(models.Model):
     tag_id = models.IntegerField(primary_key=True)
     tag_title = models.TextField()
