@@ -23,46 +23,58 @@
 
     </div>
 
-    <div style="font-family: Arial, sans-serif;">
-        <h2>Closing Price Predictions</h2>
-        <canvas id="myChart" width="100px" height="200px"></canvas>
+    <div class = "topnav">
+        <a class="active" id="our" onclick="navButton('our')" >Our Closing Prediction</a>
+        <a id="custom" onclick="navButton('custom')" >Custom Prediction</a>
+        <a id="info" onclick="navButton('company')" >Company Information</a>
     </div>
 
-    <div style="font-family: Arial, sans-serif; padding-bottom: 100px">
 
-        <h2>Custom Predictions</h2>
+    <div id="ourPred" class = "ourPred">
+        <div class= "sentences">
+            <a> sentence Area </a>
+        </div>
 
-        <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post" style="float: left;">
-            {% csrf_token %}
-            <div>
-                <label>Start Date</label>
-                <input type="date" name="startdate" id="startdate">
+        <div class="mainbody">
+            <div style="font-family: Arial, sans-serif;">
+                <h2>Closing Price Predictions</h2>
+                <canvas id="myChart" height="200px"></canvas>
             </div>
-
-            <div>
-                <label>End Date</label>
-                <input type="date" name="enddate" id="enddate">
-            </div>
-
-            <button type="submit">Make Prediction</button>
-        </form>
-
-        <div style="float: right; position: relative; height:20vh; width:80vw; padding-bottom: 20px">
-            <canvas style="float: left" id="customChart"></canvas>
         </div>
     </div>
-    <div style="padding: 50px"></div>
 
-    <!--
-    <div style="font-family: Arial, sans-serif;">
-        <h2> Company Information</h2>
+    <div hidden id = "customPred" class = "customPred">
+        <div style="font-family: Arial, sans-serif; padding-bottom: 100px">
 
-        {% for stat in stock_stats %}
+            <h2>Custom Predictions</h2>
 
+            <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post" style="float: left;">
+                {% csrf_token %}
+                <div>
+                    <label>Start Date</label>
+                    <input type="date" name="startdate" id="startdate">
+                </div>
 
-        {% endfor %}
+                <div>
+                    <label>End Date</label>
+                    <input type="date" name="enddate" id="enddate">
+                </div>
+
+                <button type="submit">Make Prediction</button>
+            </form>
+
+            <div style="float: right; position: relative; height:20vh; width:80vw; padding-bottom: 20px">
+                <canvas style="float: left" id="customChart"></canvas>
+            </div>
+        </div>
+        <div style="padding: 50px"></div>
     </div>
-    -->
+
+    <div hidden id="stockInfo" class="stockInfo">
+        test
+
+    </div>
+
     <!-- Scripts -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
@@ -70,6 +82,38 @@
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
 
     <script>
+
+    var our = document.getElementById("our");
+    var custom = document.getElementById("custom");
+    var info = document.getElementById("info");
+
+    var our_content = document.getElementById("ourPred");
+    var custom_content = document.getElementById("customPred");
+    var info_content = document.getElementById("stockInfo");
+
+    function navButton(button_name) {
+        
+        custom.classList.remove("active");
+        info.classList.remove("active");
+        our.classList.remove("active");
+
+        custom_content.hidden = true;
+        info_content.hidden = true;
+        our_content.hidden = true;
+
+        if(button_name == "our"){
+            our.classList.add("active")
+            our_content.hidden = false;
+        } else if(button_name == "custom"){
+            custom.classList.add("active")
+            custom_content.hidden = false;
+        } else {
+            info.classList.add("active")
+            info_content.hidden = false;
+        }
+
+
+    }
 
     function htmlDecode(str) {
         const doc = new DOMParser().parseFromString(str, "text/html");
