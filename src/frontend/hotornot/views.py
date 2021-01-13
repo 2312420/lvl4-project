@@ -36,7 +36,6 @@ def index(request):
             for company_tag in company_tags:
                 company = Company.objects.filter(stock_code=company_tag.company_code).get()
                 if company not in companies and company.verdict != "NO-DATA":
-                    print(company.verdict)
                     companies.append(company)
 
         # If amount of companies found is minor, find realted companies based on similar tags
