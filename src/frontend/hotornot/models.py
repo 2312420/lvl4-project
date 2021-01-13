@@ -29,6 +29,36 @@ class Sentence(models.Model):
     def __str__(self):
         return self.id
 
+
+class Article(models.Model):
+    id = models.TextField(primary_key=True)
+    title = models.TextField()
+    transcript = models.TextField()
+    date = models.DateField()
+    status = models.TextField()
+    source_id = models.IntegerField()
+    time = models.TimeField()
+    context = models.TextField()
+
+    class Meta:
+        db_table = "article"
+
+    def __str__(self):
+        return self.id
+
+
+class Source(models.Model):
+    id = models.IntegerField(primary_key=True)
+    short_hand = models.TextField()
+    rss = models.TextField()
+
+    class Meta:
+        db_table = "source"
+
+    def __str__(self):
+        return self.short_hand
+
+
 class Tag(models.Model):
     tag_id = models.IntegerField(primary_key=True)
     tag_title = models.TextField()
