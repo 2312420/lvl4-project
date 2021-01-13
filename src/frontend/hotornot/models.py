@@ -15,3 +15,25 @@ class Company(models.Model):
     def __str__(self):
         return self.stock_code
 
+
+class Tag(models.Model):
+    tag_id = models.IntegerField(primary_key=True)
+    tag_title = models.TextField()
+
+    class Meta:
+        db_table = "tags"
+
+    def __str__(self):
+        return self.tag_title
+
+
+class CompanyTag(models.Model):
+    company_code = models.TextField()
+    tag_id = models.IntegerField()
+    id = models.IntegerField(primary_key=True)
+
+    class Meta:
+        db_table = "company_tags"
+
+    def __str__(self):
+        return self.company_code

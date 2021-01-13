@@ -1,6 +1,6 @@
 # Django Imports
 from django.shortcuts import render
-from hotornot.models import Company
+from hotornot.models import Company, Tag, CompanyTag
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
@@ -20,7 +20,40 @@ def index(request):
     sort_parameter = request.GET.get("s")
 
     if url_parameter:
-        companies = Company.objects.filter(short_hand__icontains=url_parameter)
+        companies = []
+
+        inital_companies = Company.objects.filter(short_hand__icontains=url_parameter).all()
+
+        print(inital_companies)
+
+        for company in inital_companies:
+            companies.append(company)
+
+        # Uses url parameter to find companies
+        tags = Tag.objects.filter(tag_title__icontains=url_parameter)
+        for tag in tags:
+            company_tags = CompanyTag.objects.filter(tag_id=tag.tag_id)
+            for company_tag in company_tags:
+                company = Company.objects.filter(stock_code=company_tag.company_code).get()
+                if company not in companies and company.verdict != "NO-DATA":
+                    print(company.verdict)
+                    companies.append(company)
+
+        print(companies)
+
+        # Finds similar companies based on company tags
+        if len(companies) <= 4:
+            org_comp = companies.copy()
+            for company in org_comp:
+                company_tags = CompanyTag.objects.filter(company_code=company.stock_code)
+                for tag in company_tags:
+                    for company_id in CompanyTag.objects.filter(tag_id=tag.tag_id):
+                        for company_code in Company.objects.filter(stock_code=company_id.company_code):
+                            if company_code not in companies:
+                                companies.append(company_code)
+
+
+
     else:
         companies = Company.objects.all()
 
