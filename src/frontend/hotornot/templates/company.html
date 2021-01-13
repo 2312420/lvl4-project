@@ -10,11 +10,14 @@
         <span> <h1 style="font-size: 30pt; display: inline-block">{{ company.short_hand }} </h1>  ({{ company.stock_code }}) </span>
 
         <div class=status style=" float: right; padding-top: 8px">
+            <!--
             {% if company.verdict == "NOT" %}
                 <img  width="100px" src="{% static 'imgs/Not.png' %}">
             {% else %}
                 <img  width="100px" src="{% static 'imgs/Hot.png' %}">
             {% endif %}
+            -->
+            <img width="105x" src="{{ stock_info.logo_url }}" style="float: left">
         </div>
 
         <div id="price_div" class="price">
@@ -41,12 +44,29 @@
         </div>
 
         <div style="font-family: Arial, sans-serif;">
-            <h2> Sentences </h2>
+
+            <div style="padding: 1px">
+                {% if company.verdict == "NOT" %}
+                    <img style="float: left" width="50px" src="{% static 'imgs/Not.png' %}">
+                    <h2> Sentences Suggest Not Stock </h2>
+                {% else %}
+                    <img  style="float: left" width="50px" src="{% static 'imgs/Hot.png' %}">
+                    <h2> Sentences Suggest Hot Stock </h2>
+                {% endif %}
+            </div>
 
             {%  for sentence in sentences%}
                 <div style="padding-bottom: 5px">
-                    {{ sentence.text }}
-                    - {{ sentence.date }} | {{ sentence.source }}
+                    <p>" {{ sentence.text }} "</p>
+                    <p> - {{ sentence.date }} | {{ sentence.source }}
+                        {% if sentence.sentiment == "Positive" %}
+                            <img width="17px" src="{% static 'imgs/Hot.png' %}">
+                        {% elif sentence.sentiment == "Negative" %}
+                            <img width="17px" src="{% static 'imgs/Not.png' %}">
+                        {% else %}
+                            <img width="17px" src="{% static 'imgs/None.png' %}">
+                        {% endif %}
+                    </p>
                 </div>
             {% endfor %}
         </div>

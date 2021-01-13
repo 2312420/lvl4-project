@@ -172,14 +172,25 @@ def company_page(request, stock_code):
         pred_labels.append(item[0])
         pred_prices.append(item[1])
 
+    # Getting Company sentence data
     all_sentences = Sentence.objects.filter(context=stock_code).order_by('date')[:10]
     sentences = []
     for sentence in all_sentences:
         article_id = sentence.article_id
         article = Article.objects.get(id=article_id)
         source = Source.objects.get(id=article.source_id)
-        sentences.append({'time': sentence.time, 'date': sentence.date, 'text': sentence.text, 'source': source.short_hand})
 
+        if sentence.sentiment > 0:
+            sentiment = "Positive"
+        elif sentence.sentiment == 0:
+            sentiment = "Neutral"
+        else:
+            sentiment = "Negative"
+
+        sentences.append({'time': sentence.time, 'date': sentence.date, 'text': sentence.text,
+                          'source': source.short_hand, 'sentiment': sentiment})
+
+    # Company stock info
     stock_info = stock_data.info
 
     return render(request, 'company.html', context={'company': company,
