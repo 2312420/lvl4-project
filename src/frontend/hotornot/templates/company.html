@@ -31,16 +31,25 @@
 
 
     <div id="ourPred" class = "ourPred">
-        <div class= "sentences">
-            <a> sentence Area </a>
-        </div>
 
-        <div class="mainbody">
+        <div>
             <div style="font-family: Arial, sans-serif;">
                 <h2>Closing Price Predictions</h2>
                 <canvas id="myChart" height="200px"></canvas>
             </div>
         </div>
+
+        <div style="font-family: Arial, sans-serif;">
+            <h2> Sentences </h2>
+
+            {%  for sentence in sentences%}
+                <div style="padding-bottom: 5px">
+                    {{ sentence.text }}
+                    - {{ sentence.time }} | {{ sentence.date }}
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
 
     <div hidden id = "customPred" class = "customPred">

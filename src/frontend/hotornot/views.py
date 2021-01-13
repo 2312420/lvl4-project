@@ -1,6 +1,6 @@
 # Django Imports
 from django.shortcuts import render
-from hotornot.models import Company, Tag, CompanyTag
+from hotornot.models import Company, Tag, CompanyTag, Sentence
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
@@ -173,8 +173,12 @@ def company_page(request, stock_code):
         pred_labels.append(item[0])
         pred_prices.append(item[1])
 
+    sentences = Sentence.objects.filter(context=stock_code).order_by('date')[:10]
+
+   
+
+
     stock_info = stock_data.info
-    print(stock_info)
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
@@ -187,6 +191,7 @@ def company_page(request, stock_code):
                                                     'custom_pred': {'prices': cus_pred_price,
                                                                     'labels': cus_pred_labels},
                                                     'stock_info': stock_info,
+                                                    'sentences': sentences
                                                     })
 
 
