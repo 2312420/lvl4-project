@@ -1,6 +1,6 @@
 # Django Imports
 from django.shortcuts import render
-from hotornot.models import Company, Tag, CompanyTag, Sentence
+from hotornot.models import Company, Tag, CompanyTag, Sentence, Article, Source
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
@@ -173,10 +173,13 @@ def company_page(request, stock_code):
         pred_labels.append(item[0])
         pred_prices.append(item[1])
 
-    sentences = Sentence.objects.filter(context=stock_code).order_by('date')[:10]
-
-   
-
+    all_sentences = Sentence.objects.filter(context=stock_code).order_by('date')[:10]
+    sentences = []
+    for sentence in all_sentences:
+        article_id = sentence.article_id
+        article = Article.objects.get(id=article_id)
+        source = Source.objects.get(id=article.source_id)
+        sentences.append({'time': sentence.time, 'date': sentence.date, 'text': sentence.text, 'source': source.short_hand})
 
     stock_info = stock_data.info
 

@@ -19,6 +19,7 @@ class Sentence(models.Model):
     text = models.TextField()
     sentiment = models.FloatField()
     status = models.TextField()
+    article_id = models.TextField()
     context = models.TextField()
     date = models.DateField()
     time = models.TimeField()
