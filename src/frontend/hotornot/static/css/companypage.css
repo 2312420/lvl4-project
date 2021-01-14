@@ -42,10 +42,16 @@
 }
 
 .busSummary{
-  font-family: Arial, sans-serif;
-  padding: 5px;
+  padding: 10px;
+  vertical-align: middle;
+  margin-left: 210px;
 }
 
+.stockInfo{
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  max-height: 780px;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -88,8 +94,15 @@
   color: black;
 }
 
-.topnav a.active {
-  background-color: #4CAF50;
+/* --- */
+
+.topnav a.hotActive {
+  background-color: #B22222;
+  color: white;
+}
+
+.topnav a.notActive {
+  background-color: #4169E1;
   color: white;
 }
 

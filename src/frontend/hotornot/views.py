@@ -11,7 +11,7 @@ import requests
 import yfinance as yf
 from yahoo_fin import stock_info as si
 import pandas
-
+import re
 
 # Home page view
 def index(request):
@@ -190,8 +190,16 @@ def company_page(request, stock_code):
         sentences.append({'time': sentence.time, 'date': sentence.date, 'text': sentence.text,
                           'source': source.short_hand, 'sentiment': sentiment})
 
-    # Company stock info
+    # Get company information
     stock_info = stock_data.info
+    basic_info = {}
+    finance_info = {}
+    info_fields = "logo_url|longBusinessSummary|zip|sector|fullTimeEmployees|city|phone|state|country|companyOfficers|website|maxAge|address1|industry"
+    for item in stock_info:
+        if re.search(info_fields, item):
+            basic_info.update({item: stock_info[item]})
+        else:
+            finance_info.update({item: stock_info[item]})
 
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
@@ -203,7 +211,8 @@ def company_page(request, stock_code):
                                                                      'labels': cus_labels,},
                                                     'custom_pred': {'prices': cus_pred_price,
                                                                     'labels': cus_pred_labels},
-                                                    'stock_info': stock_info,
+                                                    'basic_info': basic_info,
+                                                    'finance_info': finance_info,
                                                     'sentences': sentences
                                                     })
 

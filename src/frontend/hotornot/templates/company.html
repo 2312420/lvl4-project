@@ -3,11 +3,12 @@
 
 {% block body_block %}
 
+    <div hidden id="status">{{ company.verdict }}</div>
     <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
     <div class = "head">
         <div style=" float: right; padding-top: 8px">
-            <img height="108px" src="{{ stock_info.logo_url }}" style="float: left">
+            <img height="108px" src="{{ basic_info.logo_url }}" style="float: left" alt="Logo Not Found">
         </div>
 
         <span> <h1 style="font-size: 30pt; display: inline-block">{{ company.short_hand }} </h1>  ({{ company.stock_code }}) </span>
@@ -18,7 +19,7 @@
     </div>
 
     <div class = "topnav">
-        <a class="active" id="our" onclick="navButton('our')" >Our Closing Prediction</a>
+        <a id="our" onclick="navButton('our')" >Our Closing Prediction</a>
         <a id="custom" onclick="navButton('custom')" >Custom Prediction</a>
         <a id="info" onclick="navButton('company')" >Company Information</a>
         <a style="float: right" href="{% url 'index' %}"> Home </a>
@@ -34,6 +35,8 @@
             </div>
         </div>
 
+        <hr style="border-top: 2px solid  #333; position: relative">
+
         <div style="font-family: Arial, sans-serif;">
 
             <div style="padding: 1px">
@@ -48,9 +51,10 @@
 
             <div class="sentence-box">
             {%  for sentence in sentences%}
-                    <div style="padding-bottom: 5px">
-                        <p>" {{ sentence.text }} "</p>
-                        <p> - {{ sentence.date }} | {{ sentence.source }}
+                    <div style="padding-bottom: 20px">
+                        <q style="font-size: large">{{ sentence.text }}</q>
+                        <br>
+                        <small>&nbsp;&nbsp;&nbsp;&nbsp;-{{ sentence.source }}, {{ sentence.date }}
                             {% if sentence.sentiment == "Positive" %}
                                 <img width="17px" src="{% static 'imgs/Hot.png' %}">
                             {% elif sentence.sentiment == "Negative" %}
@@ -58,7 +62,8 @@
                             {% else %}
                                 <img width="17px" src="{% static 'imgs/None.png' %}">
                             {% endif %}
-                        </p>
+                        </small>
+                        <br>
                     </div>
                 {% endfor %}
             </div>
@@ -95,18 +100,35 @@
     </div>
 
     <div hidden id="stockInfo" class="stockInfo">
-        <div style="padding-bottom: 5px">
-            <img width="200px" src="{{ stock_info.logo_url }}" style="float: left">
-            <p class = "busSummary"> {{ stock_info.longBusinessSummary }}</p>
+    
+        <div style="padding-bottom: 5px; position: relative; min-height: 160px">
+            <img src="{{ basic_info.logo_url }}" style="position: absolute; height: 160px">
+            <p class = "busSummary"> {{ basic_info.longBusinessSummary }}</p>
         </div>
 
+        <hr style="border-top: 2px solid  #333; position: relative">
+
+        <div>
+            <h2> Basic Information </h2>
+            <p> Sector: {{ basic_info.sector }}</p>
+            <p> Industry: {{ basic_info.industry }}</p>
+            <p> Country: {{ basic_info.country }}</p>
+            <p> City: {{ basic_info.city }}</p>
+            <p> Address: {{ basic_info.address1 }}</p>
+            <p> Phone: {{ basic_info.phone }}</p>
+            <p> Website: {{ basic_info.website }}</p>
+            <p> Employees: {{ basic_info.fullTimeEmployees }}</p>
+        </div>
+        
+        <hr style="border-top: 2px solid  #333; position: relative">
+    
         <div style="font-family: Arial, sans-serif;">
-        {% for key, value in stock_info.items %}
-            {% if key != "logo_url" and key != "longBusinessSummary" %}
+            <h2> Financial Information </h2>
+        {% for key, value in finance_info.items %}
                 <p> {{ key }}:{{ value }}</p>
-            {% endif %}
         {% endfor %}
         </div>
+
     </div>
 
     <!-- Scripts -->
@@ -125,24 +147,32 @@
     var custom_content = document.getElementById("customPred");
     var info_content = document.getElementById("stockInfo");
 
+    var cls = ""
+    if(document.getElementById("status").textContent == "HOT"){
+        cls = "hotActive"
+    } else {
+        cls = "notActive"
+    }
+    our.classList.add(cls)
+
     function navButton(button_name) {
 
-        custom.classList.remove("active");
-        info.classList.remove("active");
-        our.classList.remove("active");
+        custom.classList.remove(cls);
+        info.classList.remove(cls);
+        our.classList.remove(cls);
 
         custom_content.hidden = true;
         info_content.hidden = true;
         our_content.hidden = true;
 
         if(button_name == "our"){
-            our.classList.add("active")
+            our.classList.add(cls)
             our_content.hidden = false;
         } else if(button_name == "custom"){
-            custom.classList.add("active")
+            custom.classList.add(cls)
             custom_content.hidden = false;
         } else {
-            info.classList.add("active")
+            info.classList.add(cls)
             info_content.hidden = false;
         }
 
