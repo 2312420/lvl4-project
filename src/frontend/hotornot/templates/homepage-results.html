@@ -4,7 +4,7 @@
 {% for company in companies %}
     {% if company.verdict != "NO-DATA" %}
         <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
-        <div class="card" href>
+        <div class="card" style="width: 490px">
             {% if company.verdict == "NOT" %}
                 <div class="card-header" style="background-color: #4169E1">
                     <span style="color: white; padding-left: 5px; text-overflow: clip;">{{ company.short_hand }}</span>

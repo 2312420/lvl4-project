@@ -142,6 +142,7 @@ def company_page(request, stock_code):
                                       'pos': pos}}
         )
         data_dict = {"html_from_view": html}
+
         return JsonResponse(data=data_dict, safe=False)
 
     # Historical stock Information
@@ -156,8 +157,7 @@ def company_page(request, stock_code):
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
 
-
-    # Getting premade company predictions
+    # Getting company predictions
     predictions = company.predictions
 
     df = pandas.DataFrame(predictions)

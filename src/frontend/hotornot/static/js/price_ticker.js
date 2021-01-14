@@ -15,6 +15,7 @@ let company_ajax_call = function (endpoint) {
 		})
 }
 
+
 setInterval(function () {
     let endpoint = document.location.pathname
     company_ajax_call(endpoint)
