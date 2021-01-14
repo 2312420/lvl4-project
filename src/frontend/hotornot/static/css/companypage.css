@@ -35,6 +35,11 @@
   float: left;
 }
 
+.sentence-box {
+  border: none;
+  height: 320px;
+  overflow: auto;
+}
 
 .busSummary{
   font-family: Arial, sans-serif;
