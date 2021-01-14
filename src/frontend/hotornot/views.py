@@ -1,6 +1,6 @@
 # Django Imports
 from django.shortcuts import render
-from hotornot.models import Company, Tag, CompanyTag
+from hotornot.models import Company, Tag, CompanyTag, Sentence, Article, Source
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
@@ -10,8 +10,8 @@ from datetime import timedelta
 import requests
 import yfinance as yf
 from yahoo_fin import stock_info as si
-import pandas as pd
-
+import pandas
+import re
 
 # Home page view
 def index(request):
@@ -19,29 +19,26 @@ def index(request):
     url_parameter = request.GET.get("q")
     sort_parameter = request.GET.get("s")
 
+    # If statement for search bar
     if url_parameter:
+        # If search bar is in use
         companies = []
 
+        # Inital set of companies based on input
         inital_companies = Company.objects.filter(short_hand__icontains=url_parameter).all()
-
-        print(inital_companies)
-
         for company in inital_companies:
             companies.append(company)
 
-        # Uses url parameter to find companies
+        # Find companies based on input and various tags
         tags = Tag.objects.filter(tag_title__icontains=url_parameter)
         for tag in tags:
             company_tags = CompanyTag.objects.filter(tag_id=tag.tag_id)
             for company_tag in company_tags:
                 company = Company.objects.filter(stock_code=company_tag.company_code).get()
                 if company not in companies and company.verdict != "NO-DATA":
-                    print(company.verdict)
                     companies.append(company)
 
-        print(companies)
-
-        # Finds similar companies based on company tags
+        # If amount of companies found is minor, find realted companies based on similar tags
         if len(companies) <= 4:
             org_comp = companies.copy()
             for company in org_comp:
@@ -51,20 +48,19 @@ def index(request):
                         for company_code in Company.objects.filter(stock_code=company_id.company_code):
                             if company_code not in companies:
                                 companies.append(company_code)
-
-
-
     else:
+        # Search bart not in use
         companies = Company.objects.all()
 
+    # If statement for sorting options
     if sort_parameter != "Sort by":
         if sort_parameter == "HOT":
             companies = companies.order_by('verdict')
         elif sort_parameter == "NOT":
             companies = companies.order_by('-verdict')
 
+    # Handles ajax request to render search results
     if request.is_ajax():
-
         html = render_to_string(
             template_name="homepage-results.html",
             context={'companies': companies}
@@ -82,8 +78,7 @@ def company_page(request, stock_code):
     company = Company.objects.get(stock_code=stock_code)
     stock_data = yf.Ticker(stock_code)
 
-
-    #Code for Custom predictions
+    # Code used for custom prediction options
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
     if request.method == "POST":
         dict = request.POST
@@ -117,12 +112,11 @@ def company_page(request, stock_code):
                     time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
                     cus_labels.append(time)
                 cus_prices = stock_df['Close'].to_list()
-
         else:
             print("NOT VALID")
 
 
-    # Updates live stock price
+    # Ajax request to update live stock price
     if request.is_ajax():
         # Company Current Price data
         current_price = round(si.get_live_price(stock_code), 2)
@@ -148,6 +142,7 @@ def company_page(request, stock_code):
                                       'pos': pos}}
         )
         data_dict = {"html_from_view": html}
+
         return JsonResponse(data=data_dict, safe=False)
 
     # Historical stock Information
@@ -162,12 +157,10 @@ def company_page(request, stock_code):
     close_prices = stock_df['Close'].to_list()
     pred_prices = stock_df['Close'].to_list()
 
-
-    # Getting premade company predictions
+    # Getting company predictions
     predictions = company.predictions
-    import pandas
-    df = pandas.DataFrame(predictions)
 
+    df = pandas.DataFrame(predictions)
     for i, item in df.iterrows():
         if item[0] in close_labels:
             preds = df.iloc[i:]
@@ -179,6 +172,35 @@ def company_page(request, stock_code):
         pred_labels.append(item[0])
         pred_prices.append(item[1])
 
+    # Getting Company sentence data
+    all_sentences = Sentence.objects.filter(context=stock_code).order_by('date')
+    sentences = []
+    for sentence in all_sentences:
+        article_id = sentence.article_id
+        article = Article.objects.get(id=article_id)
+        source = Source.objects.get(id=article.source_id)
+
+        if sentence.sentiment > 0:
+            sentiment = "Positive"
+        elif sentence.sentiment == 0:
+            sentiment = "Neutral"
+        else:
+            sentiment = "Negative"
+
+        sentences.append({'time': sentence.time, 'date': sentence.date, 'text': sentence.text,
+                          'source': source.short_hand, 'sentiment': sentiment})
+
+    # Get company information
+    stock_info = stock_data.info
+    basic_info = {}
+    finance_info = {}
+    info_fields = "logo_url|longBusinessSummary|zip|sector|fullTimeEmployees|city|phone|state|country|companyOfficers|website|maxAge|address1|industry"
+    for item in stock_info:
+        if re.search(info_fields, item):
+            basic_info.update({item: stock_info[item]})
+        else:
+            finance_info.update({item: stock_info[item]})
+
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
                                                                      'prices':  close_prices},
@@ -188,7 +210,10 @@ def company_page(request, stock_code):
                                                     'custom_close': {'prices': cus_prices,
                                                                      'labels': cus_labels,},
                                                     'custom_pred': {'prices': cus_pred_price,
-                                                                    'labels': cus_pred_labels}
+                                                                    'labels': cus_pred_labels},
+                                                    'basic_info': basic_info,
+                                                    'finance_info': finance_info,
+                                                    'sentences': sentences
                                                     })
 
 
