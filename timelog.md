@@ -242,3 +242,27 @@
 
 * *0.5 hour* Meeting with supervisor
 * *1 hour* Writing and submitting status report
+
+## 11 Jan
+
+* *1 hour* Making disseration plan and reading example dissertations
+
+## 12 Jan
+
+* *4 hours* Implementing search system to frontned
+
+## 13 Jan
+
+* *4 hours* Working on company page for frontend
+
+# 14 Jan
+
+* *3.5 hours* Working on company page for frontend
+* *0.5 hours* Preparing meeting notes
+
+# 15 Jan
+
+* *0.5 hour* Meeting with advisor
+
+# 18 
+
