@@ -20,9 +20,13 @@ def past_sentiment_regression(df):
 
 
 # Used to predict future sentiment
-def future_sentiment_regression(df, future_days):
+def future_sentiment_regression(df, future_days, end_date=-1):
     # Create future dataframe
-    now = datetime.now().replace(microsecond=0, minute=0, hour=0, second=0)
+    if end_date != -1:
+    # End date beings set manually
+        now = datetime.strptime(end_date, "%Y-%m-%d")
+    else:
+        now = datetime.now().replace(microsecond=0, minute=0, hour=0, second=0)
 
     data = df.copy()
     x_train = data[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]

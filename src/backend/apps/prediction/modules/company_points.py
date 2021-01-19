@@ -102,4 +102,3 @@ def get_data(stock_code, start_date, end_date):
         combined = create_df(sentiment_data, historical_data)
         return combined
 
-

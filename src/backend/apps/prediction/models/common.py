@@ -2,8 +2,6 @@
 
 # Take time feature and expand it into multiple features
 def expand_time(df):
-    print(df)
-
     df["day_year"] = df["time"].dt.year
     df["day_month"] = df["time"].dt.month
     df["day_week"] = df["time"].dt.isocalendar().week
