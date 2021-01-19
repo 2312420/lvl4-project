@@ -15,6 +15,7 @@ def get_points(stock_code, start_date):
     interval = date.today() - start
     url = baseurl + "/points/" + stock_code + "/" + str(interval.days) + " day"
     r = requests.get(url)
+
     return r.json()
 
 
@@ -94,6 +95,9 @@ def create_df(sentiment, historical):
 def get_data(stock_code, start_date, end_date):
     sentiment_data = get_points(stock_code, start_date)
     historical_data = stock_points(stock_code, start_date, end_date)
+
+    print(sentiment_data)
+    print(historical_data)
 
     if sentiment_data == [] or historical_data.empty == True:
         return historical_data
