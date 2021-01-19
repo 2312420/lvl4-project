@@ -1,4 +1,4 @@
-# Used for getting stock data from Yahoo Finances
+# Used for getting stock data
 import yfinance as yf
 from datetime import datetime
 from datetime import timedelta
@@ -23,7 +23,7 @@ def to_datetime(date_string):
 
 
 # Get the data of stock at current date, accounts for weekends
-def data_at_date(stock_code, date_time):
+def date_at_date(stock_code, date_time):
     base_date = to_datetime(date_time)
     stock_data = yf.Ticker(stock_code)
     stock_df = stock_data.history( interval="1d", start=base_date, end=base_date)
@@ -37,3 +37,5 @@ def data_at_date(stock_code, date_time):
             return stock_df.iloc[-1]
     else:
         return stock_df.iloc[-1]
+
+

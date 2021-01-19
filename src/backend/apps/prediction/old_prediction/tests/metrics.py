@@ -41,7 +41,6 @@ def record_current_predictions():
 
 
 def squared_loss(company):
-
     predictions = json.loads(company['predictions'])
     if predictions != "[]":
         stock_data = yf.Ticker(company['stock_code'])
@@ -94,7 +93,6 @@ def get_sentence_amount(company):
 
 
 if __name__ == '__main__':
-
     record_current_predictions()
     now = datetime.now().strftime(("%d-%m-%Y, %H-%M"))
     file_name = "results/squared_error/results " + now + ".csv"
