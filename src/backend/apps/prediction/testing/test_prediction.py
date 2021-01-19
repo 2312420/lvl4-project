@@ -15,11 +15,16 @@ def make_predictions(stock_code, days):
     prediction_df = prediction_model.linear_regression(data, "close", days, "2020-12-15")
     return prediction_df
 
+
 def run_metrics(stock_code, days):
     df = make_predictions(stock_code, days,)
     pd.set_option('display.max_rows', None)
-    print(df)
 
+    future_predictions = df["2020-12-16 00:00:00":]
+
+    metrics.metric1(future_predictions, stock_code)
+    metrics.metric2(future_predictions, stock_code)
+    metrics.metric3(future_predictions,stock_code)
     pass
 
 

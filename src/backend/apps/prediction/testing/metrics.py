@@ -1,53 +1,45 @@
 import yfinance as yf
+from sklearn.metrics import mean_squared_error, median_absolute_error
+from sklearn.metrics import explained_variance_score
 
-def squared_loss(df, stock_code):
+
+def get_pred_true(df, stock_code):
     stock_data = yf.Ticker(stock_code)
-
     times = []
     prices = []
-    for point in df:
-        times.append()
+
+    times = df.index
+    predictions = df['predictions']
+    history = stock_data.history(start=times[0], end=times[-1])
+
+    pred = []
+    true = []
+    for index, point in history.iterrows():
+        if index in times:
+            pred.append(predictions[index])
+            true.append(point['Close'])
+
+    return pred, true
 
 
+def metric1(df, stock_code):
+    # Mean squared error
+    pred, true = get_pred_true(df, stock_code)
+    result = mean_squared_error(y_true=true, y_pred=pred)
+    print(result)
 
-    def squared_loss(company):
-        predictions = json.loads(company['predictions'])
-        if predictions != "[]":
-            stock_data = yf.Ticker(company['stock_code'])
-            start_point = datetime.strptime(predictions[0][0], "%Y-%m-%d %H:%M:%S")
-            end_point = datetime.strptime(predictions[-1][0], "%Y-%m-%d %H:%M:%S")
-            stock_df = stock_data.history(start=start_point, end=end_point)
-            predictions_df = pd.DataFrame(predictions)
 
-            # Get mean squared error for full all predictions
-            times = []
-            prices = []
-            for point in predictions:
-                times.append(point[0])
-                prices.append(point[1])
+def metric2(df, stock_code):
+    # Median absolute error
+    pred, true = get_pred_true(df, stock_code)
+    result = median_absolute_error(y_true=true, y_pred=pred)
+    print(result)
 
-            true = []
-            pred = []
-            for index, point in stock_df.iterrows():
-                if index.__str__() in times:
-                    pos = times.index(index.__str__())
-                    true.append(point['Close'])
-                    pred.append(prices[pos])
 
-            total_mean_squared_loss = mean_squared_error(true, pred)
+def metric3(df, stock_code):
+    # Explained variance score
+    pred, true = get_pred_true(df, stock_code)
+    result = explained_variance_score(y_true=true, y_pred=pred)
+    print(result)
 
-            # Get mean squared error for past thirty days
-            past_30_days = end_point - timedelta(days=30)
-            true = []
-            pred = []
-            for index, point in stock_df[past_30_days:].iterrows():
-                if index.__str__() in times:
-                    pos = times.index(index.__str__())
-                    true.append(point['Close'])
-                    pred.append(prices[pos])
 
-            past_30_days_loss = mean_squared_error(true, pred)
-
-            return total_mean_squared_loss, past_30_days_loss
-        else:
-            return None, None
