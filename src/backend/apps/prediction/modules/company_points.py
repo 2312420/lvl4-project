@@ -88,14 +88,17 @@ def create_df(sentiment, historical):
     # Set time as index
     df.index = df['time']
 
-    df.drop('time', axis=1, inplace=True)
     return df.sort_index(ascending=True, axis=0)
 
 
 def get_data(stock_code, start_date, end_date):
     sentiment_data = get_points(stock_code, start_date)
     historical_data = stock_points(stock_code, start_date, end_date)
-    combined = create_df(sentiment_data, historical_data)
-    print(combined)
+
+    if sentiment_data == [] or historical_data.empty == True:
+        return historical_data
+    else:
+        combined = create_df(sentiment_data, historical_data)
+        return combined
 
 
