@@ -1,8 +1,10 @@
 # Used for getting data for given company given a certain time frame
 from modules import stock_data
+from models import sentiment_model
 from datetime import date, datetime
 import requests
 import numpy as np
+import pandas as pd
 
 baseurl = "http://127.0.0.1:5000"
 
@@ -49,17 +51,51 @@ def squish_sentiment(points):
     return output
 
 
-def combine_data(sentiment, historical):
-    new_sentiment = squish_sentiment(sentiment)
-    print(new_sentiment)
+def combine_data(df, stock_data):
+    model = sentiment_model.past_sentiment_regression(df)
+    dates = []
+    for index, item in df.iterrows():
+        dates.append(item["time"].date())
 
-    return None
+    for index, item in stock_data.iterrows():
+        if index.date() not in dates:
+                pred = model.predict([item[["Open","High","Low","Close","Volume"]]])
+                df = df.append({
+                    "sentiment": pred[0],
+                    "time": index,
+                    "open": item["Open"],
+                    "high": item["High"],
+                    "low": item["Low"],
+                    "close": item["Close"],
+                    "volume": item["Volume"]
+                }, ignore_index=True)
+    return df
+
+
+def create_df(sentiment, historical):
+    new_sentiment = squish_sentiment(sentiment)
+
+    df = pd.DataFrame(new_sentiment)
+    df.drop('company_id', axis=1, inplace=True)
+    df.drop('sentence_id', axis=1, inplace=True)
+    df.drop('id', axis=1, inplace=True)
+
+    # Set time to datetieme
+    df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
+
+    df = combine_data(df, historical)
+
+    # Set time as index
+    df.index = df['time']
+
+    df.drop('time', axis=1, inplace=True)
+    return df.sort_index(ascending=True, axis=0)
 
 
 def get_data(stock_code, start_date, end_date):
     sentiment_data = get_points(stock_code, start_date)
     historical_data = stock_points(stock_code, start_date, end_date)
-
-    combined = combine_data(sentiment_data, historical_data)
+    combined = create_df(sentiment_data, historical_data)
+    print(combined)
 
 
