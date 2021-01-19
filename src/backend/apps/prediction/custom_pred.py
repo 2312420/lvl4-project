@@ -9,11 +9,8 @@ from modules import prediction
 
 def custom_predictions(start_date, end_date, stock_code):
     prediction_df = prediction.custom_predictions(stock_code, start_date, end_date, 'close')
-
     new_preds = []
     for index, item in prediction_df.iterrows():
-        print(index)
-
         item_date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
         pred = item['predictions']
         new_preds.append([item_date, pred])
