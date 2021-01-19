@@ -1,0 +1,738 @@
+Date: Tue, 19 Jan 2021 09:45:40 +0000 (UTC)
+Message-ID: <841582820.19.1611049540448@0c6e264d2088>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_18_1551900162.1611049540447"
+
+------=_Part_18_1551900162.1611049540447
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>Week Three</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        font-size: 10pt;
+        line-height: 1.2;
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: #fff !important;
+        color: #000 !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: #000;
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        page-break-after: avoid;
+    }
+
+    pre {
+        font-family: Monaco, "Courier New", monospace;
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>Week Three</h1>
+    <div class=3D"Section1">
+        <h2 id=3D"WeekThree-Objective">Objective</h2>
+<p>The objective for the first week was to research project, come up with s=
+ome potential requirements </p>
+<h2 id=3D"WeekThree-Successmetrics">Success metrics</h2>
+<p>Success metric to judge the project on throughout development. </p>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 306.0px;">
+<col style=3D"width: 374.0px;">
+</colgroup>
+<tbody>
+<tr>
+<th class=3D"confluenceTh"><p>Goal</p></th>
+<th class=3D"confluenceTh"><p>Metric</p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>Accurate Attractiveness scores </p></td>
+<td class=3D"confluenceTd"><p>Sentiment/prediction analysis correlates to f=
+uture stock price </p><p><em>i.e If a company is said to be attractive then=
+ the stock price is going up in value</em> </p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>Good Website Design</p></td>
+<td class=3D"confluenceTd"><p>Have potential users access and give fexedbac=
+k on the site </p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>Better than competitors</p></td>
+<td class=3D"confluenceTd"><p>The achieved features compared to the feature=
+s of competitor websites </p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=3D"WeekThree-Assumptions">Assumptions</h2>
+<p>The Information being gathered is accurate - not accounting for misinfor=
+mation </p>
+<h2 id=3D"WeekThree-Competitors">Competitors</h2>
+<p><a href=3D"https://stockanalysis.com/stocks/a/" class=3D"external-link" =
+rel=3D"nofollow">https://stockanalysis.com/stocks/a/</a></p>
+<ul>
+<li><p>Gives a rating if you should buy, sell or hold</p></li>
+<li><p>Provides key info about stock - current price graph</p></li>
+<li><p>Information on company, CEO, country, etc</p></li>
+</ul>
+<p><a href=3D"https://www.stockopedia.com/" class=3D"external-link" rel=3D"=
+nofollow">https://www.stockopedia.com/</a></p>
+<ul>
+<li><p>Required login to access most information</p></li>
+<li><p>Check current holdings and analyse the weakest stock compared to som=
+e global ranking </p></li>
+<li><p>Rankings determined by Quality, Value, Momentum of current stock</p>=
+</li>
+<li><p>Seems to be for more technical users</p></li>
+</ul>
+<p><a href=3D"https://www.investing.com/indices/us-30-futures" class=3D"ext=
+ernal-link" rel=3D"nofollow">https://www.investing.com/indices/us-30-future=
+s</a></p>
+<ul>
+<li><p>Shows company stock value, prices, information</p></li>
+<li><p>Has a list of relevant news articles connected to the company</p></l=
+i>
+<li><p>Has =E2=80=9CStrong sell=E2=80=9D and =E2=80=9CStrong buy=E2=80=9D i=
+ndicators a company</p></li>
+<li><p>Ask the user to give their opinion if stock is =E2=80=9Cbullish=E2=
+=80=9D or =E2=80=9Cbearish=E2=80=9D </p></li>
+</ul>
+<p><a href=3D"https://uk.tradingview.com/" class=3D"external-link" rel=3D"n=
+ofollow">https://uk.tradingview.com/</a> (probably best one)</p>
+<ul>
+<li><p>Technical analysis providing strong sell/buy for different time fram=
+es<br><a href=3D"https://uk.tradingview.com/symbols/LSIN-0R2V/technicals/" =
+class=3D"external-link" rel=3D"nofollow">https://uk.tradingview.com/symbols=
+/LSIN-0R2V/technicals/</a></p></li>
+<li><p>A lot of intuitive options and information </p></li>
+</ul>
+<h2 id=3D"WeekThree-Requirements">Requirements</h2>
+<div class=3D"table-wrap">
+<table data-layout=3D"full-width" class=3D"confluenceTable">
+<colgroup>
+<col>
+<col style=3D"width: 165.0px;">
+<col style=3D"width: 371.0px;">
+<col style=3D"width: 48.0px;">
+<col style=3D"width: 48.0px;">
+</colgroup>
+<tbody>
+<tr>
+<th class=3D"numberingColumn confluenceTh"></th>
+<th class=3D"confluenceTh"><p>Requirement</p></th>
+<th class=3D"confluenceTh"><p>User Story</p></th>
+<th class=3D"confluenceTh"><p>Importance</p></th>
+<th class=3D"confluenceTh"><p>Notes</p></th>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">1</td>
+<td class=3D"confluenceTd"><p>Home page for the website</p></td>
+<td class=3D"confluenceTd"><p>USER must access the site so they can see pot=
+ential companies to invest in </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-error">MUST</span></p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">2</td>
+<td class=3D"confluenceTd"><p>&nbsp;A Company-specific page displaying rele=
+vant information</p></td>
+<td class=3D"confluenceTd"><p>&nbsp;USER should be able to click on a compa=
+ny so they can get relevant information </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-current">SHOULD</span> </p></td>
+<td class=3D"confluenceTd"><p>&nbsp;</p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">3</td>
+<td class=3D"confluenceTd"><p>Sentiment analysis / prediction</p></td>
+<td class=3D"confluenceTd"><p>USER must be able to view company attractiven=
+ess so they can decide to make an investment</p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-error">MUST</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">4</td>
+<td class=3D"confluenceTd"><p>Search bar with filtering/tag options </p></t=
+d>
+<td class=3D"confluenceTd"><p>USER could filter companies so they can find =
+potential ones to invest in </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-success">COULD</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">5</td>
+<td class=3D"confluenceTd"><p>Additional company info displayed such as CEO=
+, Revenue, etc</p></td>
+<td class=3D"confluenceTd"><p>USER could see additional company information=
+ so they </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-current">SHOULD</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">6</td>
+<td class=3D"confluenceTd"><p>Five or more companies being analysed</p></td=
+>
+<td class=3D"confluenceTd"><p>USER should have options in different company=
+ scores so they can compare different ones </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-error">MUST</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">7</td>
+<td class=3D"confluenceTd"><p>Good website design with user experience in m=
+ind</p></td>
+<td class=3D"confluenceTd"><p>USER should be able to navigate the site easi=
+ly so they can find the desired information</p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-current">SHOULD</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">8</td>
+<td class=3D"confluenceTd"><p>Data being collected through news crawler fin=
+ding relevant articles / forum posts</p></td>
+<td class=3D"confluenceTd"><p>USER should have relevant information shown s=
+o they can make informed decisions</p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-current">SHOULD</span></p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">9</td>
+<td class=3D"confluenceTd"><p>Ten+ Companies being analysed or displayed</p=
+></td>
+<td class=3D"confluenceTd"><p>USER should have access to a variety of compa=
+ny scores </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-current">SHOULD</span></p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">10</td>
+<td class=3D"confluenceTd"><p>Different analysis/prediction options availab=
+le</p></td>
+<td class=3D"confluenceTd"><p>USER could have different options in analysis=
+ such as long term, short term, etc so they can make their own insights </p=
+></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-success">COULD</span></p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">11</td>
+<td class=3D"confluenceTd"><p>User accounts and favourite companies options=
+</p></td>
+<td class=3D"confluenceTd"><p>USER could have an account so they can better=
+ find their favourite companies and relevant information </p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-success">COULD</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+<tr>
+<td class=3D"numberingColumn confluenceTd">12</td>
+<td class=3D"confluenceTd"><p>Graph of current and previous stock prices</p=
+></td>
+<td class=3D"confluenceTd"><p>USER could have access to a graph of current =
+and previous stock prices so they can better visualise a stocks potential v=
+alue</p></td>
+<td class=3D"confluenceTd"><p><span class=3D"status-macro aui-lozenge aui-l=
+ozenge-success">COULD</span> </p></td>
+<td class=3D"confluenceTd"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=3D"WeekThree-OutofScope">Out of Scope</h2>
+<ul>
+<li><p>Security of the website</p></li>
+</ul>
+<h2 id=3D"WeekThree-PotentialArchitecture">Potential Architecture</h2>
+<span class=3D"confluence-embedded-file-wrapper image-center-wrapper conflu=
+ence-embedded-manual-size"><img class=3D"confluence-embedded-image image-ce=
+nter" width=3D"340" src=3D"50beda4f67c166b5b093749a20a370d7" data-image-src=
+=3D"https://lvl4project.atlassian.net/wiki/download/attachments/524290/Unti=
+tled%20Diagram%20(2).png?version=3D1&amp;modificationDate=3D1602164967029&a=
+mp;cacheVersion=3D1&amp;api=3Dv2" data-height=3D"461" data-width=3D"361" da=
+ta-unresolved-comment-count=3D"0" data-linked-resource-id=3D"229381" data-l=
+inked-resource-version=3D"1" data-linked-resource-type=3D"attachment" data-=
+linked-resource-default-alias=3D"Untitled Diagram (2).png" data-base-url=3D=
+"https://lvl4project.atlassian.net/wiki" data-linked-resource-content-type=
+=3D"image/png" data-linked-resource-container-id=3D"524290" data-linked-res=
+ource-container-version=3D"5" data-media-id=3D"ea8e416e-fc97-4fa8-9638-fcfb=
+bc1ff0c0" data-media-type=3D"file" height=3D"433"></span>
+<h2 id=3D"WeekThree-Components">Components</h2>
+<p>News / Forum Crawler - responsible for finding articles and posts, decid=
+ing if they=E2=80=99re relevant then sending the transcript to the sentimen=
+t analysis component. </p>
+<p>Sentiment Analysis - Going through the transcript to gather what compani=
+es are mentioned and what sort of opinion is expressed towards them</p>
+<p>Prediction Model - Some sort of deep learning/machine learning model to =
+predict future sentiments/value of a company </p>
+<p>Frontend - Website to display information gathered </p>
+<h2 id=3D"WeekThree-Questions">Questions</h2>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 1611.0px;">
+</colgroup>
+<tbody>
+<tr>
+<th class=3D"confluenceTh"><p>Question</p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>Should the focus be on the sentiment analysis=
+ to give some general opinion - like a flat out attractiveness score <br>OR=
+ <br>is it to be used along with historical data to predict the future shar=
+e prices</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>Are the requirements adequate, more or less?<=
+/p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>What other requirement and initial project se=
+tup related things can be done?</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><p>Next week more focused research into the diff=
+erent components and how to go about making them? </p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p></p>
+    </div>
+</body>
+</html>
+------=_Part_18_1551900162.1611049540447
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: file:///C:/50beda4f67c166b5b093749a20a370d7
+
+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
+Gg3l5eXKDYmwTx6PRzEEq6ur4+zZs4qoADZv3szRo0eVv1977TXWr19PdnY2Go2GmpoabDYbGo2G
+xsZG6urqlIIRaTudTmpraxX38oHwTSoeUG5uLh999BHr1q3jrbfeUsJqnTlzRnl4FouF+vp6bDYb
+ixcvprS0lBMnTgDnw145nU4sFosS9OTcuXOUl5cr59fW1mKxWGhsbGTRokXU1NS0+/22hCiD0tJS
+XnzxRdavX8/f/vY3Dhw4gNPppKqqCo1Gw5kzZ5Rn6vF4KCws5E9/+hOlpaWcPXsWgLKyMjweD0uX
+LiU/P5+ioiK0Wi0NDQ2YzWbl3MrKShobG316H6026NfpdHTr1o2NGzcycuRIJaTT8uXLCQ0NZcCA
+AcTFxVFRUYHBYCA8PJyamhqOHTuGxWLh/vvvp0ePHrhcLhoaGkhKSgKgsbGRO+64g7vuugs4H6L2
+L3/5CzExMfzqV79i8eLFZGZmEhQUxM0338z333+PVqslNzeXqqoqTCYT586dY+bMmYwYMcInLcXl
+tnziuB9++AGHw8FLL73EP//5TyorK9m8eTOFhYXcc889lJSUsG7dOsLCwrjpppvYvXs3gwcPxuVy
+KWGuampqiI6OJjIykp/97GesX7+ewsJCZs2aRW5uLnv37kWr1TJ79myys7OZMmUKMTExft2b0JrN
+RXa7naFDhzJnzhy+/fZbcnNzWb9+PeHh4YwZM4YNGzZgNBqZNWsWa9eu5fDhw0RHR1NZWQmcF8Mn
+n3zC+PHjyc7OJioqipiYGAwGAx999BFWq5U5c+awatUqiouLiY2N5fnnn8dgMPjk/lvdZTp37hwT
+J07EYDCQnZ1NXFwcH3/8MVFRUZSXl3P27FlKSkpwOp00NDRQVlZGfHw8Op2OwYMHExsbC0BVVRVa
+rZaYmBjgfGjaZcuW8cwzz3D06FF27tzJs88+y/jx49myZQvJycnMmjVLaUY9Hg8NDQ2kpqbyyCOP
+kJaWxuzZs5W3rS8EIboqwrvhhdBqtXg8Hh588EHS09OZM2cOOp2O4uJitm/fTmpqKl988QV1dXXM
+nDmTe+65B7vdzuzZs0lPT6eiogKLxcIjjzxCv379lJfG9u3bKSwspFevXmzatImGhgbmzJmjxH74
+2c9+Rt++fZU8+Avhsv9yytRkMrFr1y6eeeYZdu3axZQpUwgODubxxx/ns88+IykpiTNnzrB161a0
+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
+IOr+tm3b+D+Epjby1MN5pQAAAABJRU5ErkJggg==
+------=_Part_18_1551900162.1611049540447--
