@@ -70,10 +70,10 @@ def run_metrics(stock_code, days):
 
 
 # Run metrics on predictions for number of days and store in CSV file
-def test_all(days):
+def test_all(days, note):
     companies = get_companies()
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    file_name = "results/all/" + str(days) + "/" + now + ".csv"
+    file_name = "results/all/" + str(days) + "/" + now + "(" + note + ").csv"
     with open(file_name, "x") as f:
         fieldnames = ["stock_code", "short_hand", "sentences", "Mean Squared Error", "Median Absolute Error"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -114,5 +114,8 @@ def test_company(stock_code, days):
 
 
 if __name__ == '__main__':
-    test_all(30)
+    #test_all(15, "SVR")
+    #test_all(30, "SVR")
 
+    #test_all(30, "LinearRegression")
+    test_company("FB", 15)

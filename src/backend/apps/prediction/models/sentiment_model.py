@@ -1,5 +1,7 @@
 # Sentiment prediction model to fill in missing sentiemnt data
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
 from sklearn.pipeline import make_pipeline
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -32,7 +34,8 @@ def future_sentiment_regression(df, future_days, end_date=-1):
     x_train = data[['day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
     y_train = data['sentiment']
 
-    model = LinearRegression()
+
+    model = SVR()
     model.fit(x_train[-future_days:], y_train[-future_days:])
 
     recent_sent = df['sentiment'][-1]
