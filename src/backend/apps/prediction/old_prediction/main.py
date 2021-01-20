@@ -3,7 +3,7 @@ import flask
 import json
 
 # Python libs
-from modules import prediction, sentence_to_point
+from modules import prediction, sentence_to_points
 import custom_pred
 
 app = Flask(__name__)
@@ -17,14 +17,14 @@ def index():
 @app.route('/predictions', methods=['GET'])
 def prediction_for_company():
     company = request.get_json()
-    stock_code, verdict, new_preds = prediction.new_predictions(company)
+    stock_code, verdict, new_preds = prediction.make_prediction(company)
     return json.dumps({'stock_code': stock_code, 'verdict': verdict, 'new_preds': new_preds})
 
 
 @app.route('/points/sentences', methods=['POST'])
 def sentence_points():
     sentence = request.get_json()
-    sentence_to_point.sentence_to_point(sentence)
+    sentence_to_points.sentence_to_point(sentence)
     return flask.Response(status=200)
 
 
@@ -36,13 +36,15 @@ def custom_predictions():
         end_date = content['end_date']
         company = content['stock_code']
         try:
-            output = custom_pred.custom_predictions(start_date, end_date, company)
+            output = custom_pred.custom_prediction(start_date, end_date, company)
             return json.dumps(output)
         except Exception as i:
-            return flask.Response(status=400)
+            flask.Response(status=405)
+
+        return flask.Response(status=400)
     except:
         return flask.Response(status=405)
 
-
 if __name__ == '__main__':
     app.run(port=5004, debug=True)
+

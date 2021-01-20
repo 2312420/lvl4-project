@@ -71,6 +71,11 @@ cur_path = os.path.dirname(os.path.realpath(__file__))
 
 if __name__ == '__main__':
 
+    for company in md.get_companies():
+        md.company_prediction(company)
+        print(company['stock_code'])
+
+
     sentences = get_unfinished_sentences()
     articles = get_unfinished_articles()
 
@@ -80,9 +85,16 @@ if __name__ == '__main__':
 
     seconds_passed = 0
     print("Waiting for notifications")
+    updates = False
     while True:
+        if updates:
+            # There has been an update to the system, company prediction are re-done
+            # !Needs optimization to only run predictions on companies that have had additional info added
+            for company in md.get_companies():
+                md.company_prediction(company)
+                print(company['stock_code'])
+            updates = False
 
-        updates = False
         if sentences != [] or articles != []:
             # Articles and sentences to be processed
             sentences, articles = process(articles, sentences)
