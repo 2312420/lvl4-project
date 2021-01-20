@@ -84,7 +84,11 @@ def create_df(sentiment, historical):
     # Set time to datetieme
     df['time'] = pd.to_datetime(df.time, format="%Y-%m-%d %H:%M:%S")
 
-    df = combine_data(df, historical)
+    try:
+        df = combine_data(df, historical)
+    except ValueError:
+        print("Value error encountered")
+        return pd.DataFrame
 
     # Set time as index
     df.index = df['time']
@@ -97,7 +101,7 @@ def get_data(stock_code, start_date, end_date):
     historical_data = stock_points(stock_code, start_date, end_date)
 
     if sentiment_data == [] or historical_data.empty == True:
-        return historical_data
+        return pd.DataFrame()
     else:
         combined = create_df(sentiment_data, historical_data)
         return combined

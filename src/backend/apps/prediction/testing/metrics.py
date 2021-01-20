@@ -26,20 +26,15 @@ def metric1(df, stock_code):
     # Mean squared error
     pred, true = get_pred_true(df, stock_code)
     result = mean_squared_error(y_true=true, y_pred=pred)
-    print(result)
+    return result
 
 
 def metric2(df, stock_code):
     # Median absolute error
     pred, true = get_pred_true(df, stock_code)
     result = median_absolute_error(y_true=true, y_pred=pred)
-    print(result)
+    return result
 
 
-def metric3(df, stock_code):
-    # Explained variance score
-    pred, true = get_pred_true(df, stock_code)
-    result = explained_variance_score(y_true=true, y_pred=pred)
-    print(result)
 
 
