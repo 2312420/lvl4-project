@@ -17,7 +17,7 @@ def index():
 @app.route('/predictions', methods=['GET'])
 def prediction_for_company():
     company = request.get_json()
-    stock_code, verdict, new_preds = prediction.make_prediction(company)
+    stock_code, verdict, new_preds = prediction.new_predictions(company)
     return json.dumps({'stock_code': stock_code, 'verdict': verdict, 'new_preds': new_preds})
 
 

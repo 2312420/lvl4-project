@@ -76,37 +76,44 @@ if __name__ == '__main__':
         print(company['stock_code'])
 
 
-    #sentences = get_unfinished_sentences()
-    #articles = get_unfinished_articles()
+    sentences = get_unfinished_sentences()
+    articles = get_unfinished_articles()
 
-    #curs = conn.cursor()
-    #curs.execute("LISTEN sentence;")
-    #curs.execute("LISTEN article;")
+    curs = conn.cursor()
+    curs.execute("LISTEN sentence;")
+    curs.execute("LISTEN article;")
 
-    #seconds_passed = 0
-    #print("Waiting for notifications")
-    #while True:
+    seconds_passed = 0
+    print("Waiting for notifications")
+    updates = False
+    while True:
+        if updates:
+            # There has been an update to the system, company prediction are re-done
+            # !Needs optimization to only run predictions on companies that have had additional info added
+            for company in md.get_companies():
+                md.company_prediction(company)
+                print(company['stock_code'])
+            updates = False
 
-    #    updates = False
-    #    if sentences != [] or articles != []:
-    #        # Articles and sentences to be processed
-    #        sentences, articles = process(articles, sentences)
-    #        updates = True
+        if sentences != [] or articles != []:
+            # Articles and sentences to be processed
+            sentences, articles = process(articles, sentences)
+            updates = True
 
-    #    conn.commit()
+        conn.commit()
         # Seeing if notification has been triggered
-    #    if select.select([conn], [], [], 5) == ([], [], []):
-    #        seconds_passed += 5
-    #        print(str(seconds_passed) + " seconds without notification...")
-    #    else:
-    #        updates = True
-    #        seconds_passed = 0
-    #        conn.poll()
-    #        conn.commit()
-    #        while conn.notifies:
-    #            notify = conn.notifies.pop()
-    #            sentences = get_unfinished_sentences()
-    #            articles = get_unfinished_articles()
+        if select.select([conn], [], [], 5) == ([], [], []):
+            seconds_passed += 5
+            print(str(seconds_passed) + " seconds without notification...")
+        else:
+            updates = True
+            seconds_passed = 0
+            conn.poll()
+            conn.commit()
+            while conn.notifies:
+                notify = conn.notifies.pop()
+                sentences = get_unfinished_sentences()
+                articles = get_unfinished_articles()
 
 #if(args[1] == 'start' and args[2] == 'backend'):
 #        print("Starting backend api...")
