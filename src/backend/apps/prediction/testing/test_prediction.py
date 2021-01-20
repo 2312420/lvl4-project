@@ -28,6 +28,14 @@ def get_companies():
     else:
         return None
 
+# Used for getting specific company
+def get_company(stock_code):
+    url = base_url + "/company/" + stock_code
+    r = requests.get(url)
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return None
 
 # Get amount of sentences related to a company
 def get_sentence_amount(stock_code):
@@ -48,6 +56,7 @@ def make_predictions(stock_code, days):
         return prediction_df
 
 
+# Run all metrics on given company using current prediction system
 def run_metrics(stock_code, days):
     df = make_predictions(stock_code, days,)
     if df.empty:
@@ -60,6 +69,7 @@ def run_metrics(stock_code, days):
         return scoreOne, scoreTwo
 
 
+# Run metrics on predictions for number of days and store in CSV file
 def test_all(days):
     companies = get_companies()
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
@@ -85,7 +95,24 @@ def test_all(days):
             else:
                 print(short_hand + " No Data")
 
-test_all(15)
+
+# test metric for specific company and print to console
+def test_company(stock_code, days):
+    company = get_company(stock_code)
+    if stock_code:
+        num_sent = get_sentence_amount(stock_code)
+        if num_sent:
+            scoreOne, scoreTwo = run_metrics(stock_code, days)
+            print("---" + stock_code + "---")
+            print("Number of sentences:   " + str(num_sent))
+            print("Mean Squared Error:    " + str(scoreOne))
+            print("Median Absolute Error: " + str(scoreTwo))
+        else:
+            print("No data on company " + stock_code)
+    else:
+        print("Comapny with stock code" + stock_code + "does not exist in system")
 
 
+if __name__ == '__main__':
+    test_company("FB", 15)
 

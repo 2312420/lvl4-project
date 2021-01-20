@@ -30,20 +30,18 @@ def sentence_points():
 
 @app.route('/predictions/custom', methods=['POST'])
 def custom_predictions():
-    #try:
-    content = request.get_json()
-    start_date = content['start_date']
-    end_date = content['end_date']
-    company = content['stock_code']
-     #   try:
-    output = custom_pred.custom_predictions(start_date, end_date, company)
-    return json.dumps(output)
-     #   except Exception as i:
-     #       flask.Response(status=405)
-
-    #    return flask.Response(status=400)
-    #except:
-    #    return flask.Response(status=405)
+    try:
+        content = request.get_json()
+        start_date = content['start_date']
+        end_date = content['end_date']
+        company = content['stock_code']
+        try:
+            output = custom_pred.custom_predictions(start_date, end_date, company)
+            return json.dumps(output)
+        except Exception as i:
+            return flask.Response(status=400)
+    except:
+        return flask.Response(status=405)
 
 
 if __name__ == '__main__':
