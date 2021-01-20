@@ -114,5 +114,5 @@ def test_company(stock_code, days):
 
 
 if __name__ == '__main__':
-    test_company("FB", 15)
+    test_all(30)
 

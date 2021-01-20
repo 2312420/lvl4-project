@@ -13,13 +13,13 @@ from models import common, sentiment_model
 def linear_regression(df, target_feature, future_days, end_date=-1):
     data = common.expand_time(df.copy())
 
-    x_train = data[['sentiment', 'day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    x_train = data[['sentiment', 'day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
     y_train = data[target_feature]
 
 
     x_future = sentiment_model.future_sentiment_regression(x_train, future_days, end_date)
 
-    x_future = x_future[['sentiment', 'day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    x_future = x_future[['sentiment', 'day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
 
     x_future = pd.concat([x_train, x_future])
 

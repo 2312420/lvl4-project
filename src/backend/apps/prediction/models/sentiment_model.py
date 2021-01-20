@@ -29,7 +29,7 @@ def future_sentiment_regression(df, future_days, end_date=-1):
         now = datetime.now().replace(microsecond=0, minute=0, hour=0, second=0)
 
     data = df.copy()
-    x_train = data[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    x_train = data[['day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
     y_train = data['sentiment']
 
     model = LinearRegression()
@@ -44,7 +44,7 @@ def future_sentiment_regression(df, future_days, end_date=-1):
     future_df = common.expand_time(future_df)
     future_df.index = future_df['time']
     future_df = future_df.drop(['time'], axis=1)
-    future_df = future_df[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    future_df = future_df[['day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
 
     preds = model.predict(future_df)
     future_df['sentiment'] = preds
