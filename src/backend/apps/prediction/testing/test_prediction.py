@@ -28,6 +28,7 @@ def get_companies():
     else:
         return None
 
+
 # Used for getting specific company
 def get_company(stock_code):
     url = base_url + "/company/" + stock_code
@@ -36,6 +37,7 @@ def get_company(stock_code):
         return r.json()
     else:
         return None
+
 
 # Get amount of sentences related to a company
 def get_sentence_amount(stock_code):
@@ -70,7 +72,7 @@ def run_metrics(stock_code, days):
 
 
 # Run metrics on predictions for number of days and store in CSV file
-def test_all(days, note):
+def test_all(days, note, sentence_limiter=0):
     companies = get_companies()
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
     file_name = "results/all/" + str(days) + "/" + now + "(" + note + ").csv"
@@ -85,13 +87,17 @@ def test_all(days, note):
 
             # Sentences have been found for company
             if num_sent:
-                scoreOne, scoreTwo = run_metrics(stock_code, days)
-                if scoreOne:
-                    writer.writerow({'stock_code': stock_code, 'short_hand': short_hand, 'sentences': num_sent,
+                # Used if only want companies with a certain amount of sentences
+                if num_sent >= sentence_limiter:
+                    scoreOne, scoreTwo = run_metrics(stock_code, days)
+                    if scoreOne:
+                        writer.writerow({'stock_code': stock_code, 'short_hand': short_hand, 'sentences': num_sent,
                                  "Mean Squared Error": scoreOne, "Median Absolute Error": scoreTwo})
-                    print(short_hand + " Analysed")
+                        print(short_hand + " Analysed")
+                    else:
+                        print(short_hand + " Company not listed")
                 else:
-                    print(short_hand + "Company not listed")
+                    print(short_hand + " Not enough sentences")
             else:
                 print(short_hand + " No Data")
 
@@ -114,8 +120,7 @@ def test_company(stock_code, days):
 
 
 if __name__ == '__main__':
-    #test_all(15, "SVR")
-    #test_all(30, "SVR")
+    test_all(15, "SVR100", 1000)
+    test_all(30, "SVR100", 1000)
 
-    #test_all(30, "LinearRegression")
-    test_company("FB", 15)
+    #test_company("FB", 15)
