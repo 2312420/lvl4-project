@@ -1,5 +1,6 @@
 import requests
 import csv
+from datetime import datetime
 
 url = "http://127.0.0.1:5003/sentiment"
 
@@ -10,7 +11,7 @@ def run_sentiment(text):
     return r.json()['score']
 
 
-def run_test():
+def run_test(note):
     correct = 0
     incorret = 0
 
@@ -20,6 +21,8 @@ def run_test():
 
     with open('data_sets/all-data.csv') as f:
         csv_reader = csv.reader(f, delimiter=',')
+        now = datetime.now().strftime("%d-%m-%Y, %H-%M")
+
         for row in csv_reader:
             text = row[0]
             real_sentiment = row[1]
@@ -56,16 +59,17 @@ def run_test():
                     else:
                         false_positive += 1
                     incorret += 1
-        
-        print("total sentences:" + str(correct + incorret))
-        print("correct        :" + str(correct))
-        print("incorrect      :" + str(incorret))
-        print("false neutral  :" + str(false_neutral))
-        print("false negative :" + str(false_negative))
-        print("false positive :" + str(false_positive))
+
+        with open('results/' + now + "(" + note + ").csv", "x") as o:
+            csv_writer = csv.writer(o, delimiter=',',)
+            csv_writer.writerow(['title', 'result'])
+            csv_writer.writerow(['total sentences', correct + incorret])
+            csv_writer.writerow(['correct', correct])
+            csv_writer.writerow(['incorrect', incorret])
+            csv_writer.writerow(['false neutral', false_neutral])
+            csv_writer.writerow(['false negative', false_negative])
+            csv_writer.writerow(['false positive', false_positive])
 
 
 
-
-
-run_test()
+run_test("vaderSentiment")
