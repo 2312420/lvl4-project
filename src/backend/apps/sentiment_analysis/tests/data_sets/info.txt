@@ -1,0 +1,2 @@
+"all-data" from https://www.kaggle.com/ankurzing/sentiment-analysis-for-financial-news/discussion
+- Dataset collected from financial news
