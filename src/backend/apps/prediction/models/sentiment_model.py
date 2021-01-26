@@ -1,5 +1,7 @@
 # Sentiment prediction model to fill in missing sentiemnt data
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
 from sklearn.pipeline import make_pipeline
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -29,10 +31,11 @@ def future_sentiment_regression(df, future_days, end_date=-1):
         now = datetime.now().replace(microsecond=0, minute=0, hour=0, second=0)
 
     data = df.copy()
-    x_train = data[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    x_train = data[['day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
     y_train = data['sentiment']
 
-    model = LinearRegression()
+
+    model = SVR()
     model.fit(x_train[-future_days:], y_train[-future_days:])
 
     recent_sent = df['sentiment'][-1]
@@ -44,7 +47,7 @@ def future_sentiment_regression(df, future_days, end_date=-1):
     future_df = common.expand_time(future_df)
     future_df.index = future_df['time']
     future_df = future_df.drop(['time'], axis=1)
-    future_df = future_df[['day', 'day_year', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
+    future_df = future_df[['day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
 
     preds = model.predict(future_df)
     future_df['sentiment'] = preds

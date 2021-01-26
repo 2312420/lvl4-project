@@ -86,14 +86,16 @@ if __name__ == '__main__':
     seconds_passed = 0
     print("Waiting for notifications")
     updates = False
+
+
     while True:
-        if updates:
+        #if updates:
             # There has been an update to the system, company prediction are re-done
             # !Needs optimization to only run predictions on companies that have had additional info added
-            for company in md.get_companies():
-                md.company_prediction(company)
-                print(company['stock_code'])
-            updates = False
+        #    for company in md.get_companies():
+        #        md.company_prediction(company)
+        #        print(company['stock_code'])
+        #    updates = False
 
         if sentences != [] or articles != []:
             # Articles and sentences to be processed
