@@ -29,8 +29,10 @@ def linear_regression(df, target_feature, future_days, end_date=-1):
     # MODEL
 
     #model = LinearRegression().fit(x_train, y_train)
+
     clf = make_pipeline(StandardScaler(), SVR(gamma='auto'))
     model = clf.fit(x_train, y_train)
+
 
     # Prediction
     preds = model.predict(x_future)

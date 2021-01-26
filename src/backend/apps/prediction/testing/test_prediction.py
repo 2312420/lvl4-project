@@ -109,7 +109,7 @@ def test_company(stock_code, days):
         num_sent = get_sentence_amount(stock_code)
         if num_sent:
             scoreOne, scoreTwo = run_metrics(stock_code, days)
-            print("---" + stock_code + "---")
+            print("---" + stock_code + "---" + "days:" + str(days) + "---")
             print("Number of sentences:   " + str(num_sent))
             print("Mean Squared Error:    " + str(scoreOne))
             print("Median Absolute Error: " + str(scoreTwo))
@@ -120,7 +120,13 @@ def test_company(stock_code, days):
 
 
 if __name__ == '__main__':
-    test_all(15, "SVR100", 1000)
-    test_all(30, "SVR100", 1000)
+    #test_all(15, "SVR100", 100)
+    #test_all(30, "SVR100", 100)
 
-    #test_company("FB", 15)
+    #test_all(15, "SVR1000", 1000)
+    #test_all(30, "SVR1000", 1000)
+
+    #test_all(15, "SVR_NoScale")
+    #test_all(30, "SVR_NoScale")
+
+    test_company("FB", 15)
