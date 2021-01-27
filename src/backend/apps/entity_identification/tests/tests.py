@@ -39,26 +39,31 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
             for i in range(len(text_lis)):
                 if objs[i] == "B-org":
                     valid_orgs.append(text_lis[i])
+                elif objs[i] == "I-org":
+                    valid_orgs[-1] = valid_orgs[-1] + " " + text_lis[i]
 
-            print("valid:" + str(valid_orgs))
             our_orgs = analyse(text)
-            print(our_orgs)
 
-            for item in valid_orgs:
-                if item in our_orgs:
-                    print("True Positive")
-                    our_orgs.remove(item)
-                else:
-                    print("False Negative")
-
-            if len(our_orgs) > 0:
-                print(len(our_orgs))
+            correct = 0
+            for our in our_orgs:
+                found = False
+                for valid in valid_orgs:
+                    ratio = fuzz.ratio(our, valid)
+                    if ratio >= 60:
+                        correct += 1
 
 
-
+            truePositive += correct
+            falsePositive += len(our_orgs) - correct
+            falseNegative += len(valid_orgs) - correct
         line_count += 1
+        print(line_count)
+        if line_count == 10000:
+            break
 
-
+    print(truePositive)
+    print(falsePositive)
+    print(falseNegative)
 
 
 
