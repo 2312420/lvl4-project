@@ -2,6 +2,7 @@ from sentence_ident import analyse
 import csv
 from fuzzywuzzy import fuzz
 from sentence_ident import analyse
+from datetime import datetime
 
 #https://www.kaggle.com/rohitr4307/ner-dataset
 
@@ -58,12 +59,21 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
             falseNegative += len(valid_orgs) - correct
         line_count += 1
         print(line_count)
-        if line_count == 10000:
+        if line_count == 20000:
             break
 
-    print(truePositive)
-    print(falsePositive)
-    print(falseNegative)
+    now = datetime.now().strftime("%d-%m-%Y, %H-%M")
+    note = "SpacyNLP"
+    with open('results/' + now + "(" + note + ").csv", "x") as o:
+        csv_writer = csv.writer(o, delimiter=',', )
+        csv_writer.writerow(['title', 'result'])
+        csv_writer.writerow(['truePositive', truePositive])
+        csv_writer.writerow(['falsePositive', falsePositive])
+        csv_writer.writerow(['falseNegative', falseNegative])
+        csv_writer.writerow(['Percision', (truePositive / (truePositive + falsePositive))])
+        csv_writer.writerow(['True Positive Rate', (truePositive / (truePositive + falseNegative))])
+
+
 
 
 
