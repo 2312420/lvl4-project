@@ -33,8 +33,9 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
     for row in csv_reader:
         if line_count != 0:
             text = row[1].replace("['", '').replace("']", '').replace("', '", ' ')
-            text_lis = convert(row[1])
+            text_lis = text.split(" ")#convert(row[1])
             objs = convert(row[3])
+
 
             valid_orgs = []
             for i in range(len(text_lis)):
@@ -45,6 +46,11 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
 
             our_orgs = analyse(text)
 
+            #if valid_orgs != [] and our_orgs != []:
+            #    print(valid_orgs)
+            #    print(our_orgs)
+            #    print("-------")
+
             correct = 0
             for our in our_orgs:
                 found = False
@@ -52,7 +58,6 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
                     ratio = fuzz.ratio(our, valid)
                     if ratio >= 60:
                         correct += 1
-
 
             truePositive += correct
             falsePositive += len(our_orgs) - correct
@@ -62,8 +67,9 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
         if line_count == 20000:
             break
 
+
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    note = "SpacyNLP"
+    note = "SpacyNLP(minorFix)"
     with open('results/' + now + "(" + note + ").csv", "x") as o:
         csv_writer = csv.writer(o, delimiter=',', )
         csv_writer.writerow(['title', 'result'])
