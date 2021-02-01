@@ -66,8 +66,8 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
         print(line_count)
         if line_count == 20000:
             break
-
-
+    
+    """
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
     note = "SpacyNLP(minorFix)"
     with open('results/' + now + "(" + note + ").csv", "x") as o:
@@ -78,7 +78,7 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
         csv_writer.writerow(['falseNegative', falseNegative])
         csv_writer.writerow(['Percision', (truePositive / (truePositive + falsePositive))])
         csv_writer.writerow(['True Positive Rate', (truePositive / (truePositive + falseNegative))])
-
+    """
 
 
 

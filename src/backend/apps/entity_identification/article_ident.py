@@ -1,15 +1,13 @@
-import spacy
-import requests
+import common as c
 
 base_url = "http://127.0.0.1:5000"
 
 # python -m spacy download en_core_web_sm
-nlp = spacy.load('en_core_web_sm')
 
 
 # Analyse article transcript
 def analyse(transcript):
-    doc = nlp(transcript)
+    doc = c.get_entities(transcript)
     orgs = []
     for ent in doc.ents:
         if ent.label_ == 'ORG':
