@@ -65,7 +65,7 @@ def run_metrics(stock_code, days):
         return None, None
     else:
         pd.set_option('display.max_rows', None)
-        future_predictions = df["2020-12-16 00:00:00":]
+        future_predictions = df["2020-12-15 00:00:00":]
         scoreOne = metrics.metric1(future_predictions, stock_code)
         scoreTwo = metrics.metric2(future_predictions, stock_code)
         return scoreOne, scoreTwo
@@ -73,9 +73,10 @@ def run_metrics(stock_code, days):
 
 # Run metrics on predictions for number of days and store in CSV file
 def test_all(days, note, sentence_limiter=0):
+    days += 2
     companies = get_companies()
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    file_name = "results/all/" + str(days) + "/" + now + "(" + note + ").csv"
+    file_name = "results/all/" + str(days - 2) + "/" + now + "(" + note + ").csv"
     with open(file_name, "x") as f:
         fieldnames = ["stock_code", "short_hand", "sentences", "Mean Squared Error", "Median Absolute Error"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -105,11 +106,12 @@ def test_all(days, note, sentence_limiter=0):
 # test metric for specific company and print to console
 def test_company(stock_code, days):
     company = get_company(stock_code)
+    days += 2
     if stock_code:
         num_sent = get_sentence_amount(stock_code)
         if num_sent:
             scoreOne, scoreTwo = run_metrics(stock_code, days)
-            print("---" + stock_code + "---" + "days:" + str(days) + "---")
+            print("---" + stock_code + "---" + "days:" + str(days-2) + "---")
             print("Number of sentences:   " + str(num_sent))
             print("Mean Squared Error:    " + str(scoreOne))
             print("Median Absolute Error: " + str(scoreTwo))
@@ -129,4 +131,10 @@ if __name__ == '__main__':
     #test_all(15, "SVR_NoScale")
     #test_all(30, "SVR_NoScale")
 
-    test_company("FB", 15)
+    #3 = 1 day into future
+
+    test_all(1, "1Day")
+    test_all(2, "2Days")
+    test_all(5, "5Days")
+    test_all(10, "10Days")
+    test_all(30,"30Days")
