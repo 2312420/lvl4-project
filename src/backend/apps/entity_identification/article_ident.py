@@ -10,7 +10,7 @@ def analyse(transcript):
     doc = c.get_entities(transcript)
     orgs = []
     for ent in doc.ents:
-        if ent.label_ == 'ORG':
+        if ent.type == 'ORG':
             orgs.append(ent.text)
     return orgs
 

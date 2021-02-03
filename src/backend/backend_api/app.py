@@ -259,6 +259,24 @@ def delete_sentence(sentence_id):
         return flask.Response(status=400)
 
 
+@app.route('/sentence/<sentence_id>/context/only', methods=['PUT'])
+def update_sentence_context_only(sentence_id):
+    if request.is_json:
+        try:
+            content = request.get_json()
+            sentence = Sentence.query.get(sentence_id)
+            if sentence == None:
+                return flask.Response(status=404)
+            else:
+                sentence.context = content['context']
+                db.session.commit()
+                return flask.Response(status=200)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
+
+
 @app.route('/sentence/<sentence_id>/context', methods=['PUT'])
 def update_sentence_context(sentence_id):
     if request.is_json:

@@ -68,6 +68,15 @@ def update_points():
             update_price(point)
             print("Point updated")
 
+
+def redo_points():
+    url = "http://127.0.0.1:5000/sentence/findByStatus"
+    payload = {"status": "DONE"}
+    r = requests.get(url, json=payload)
+
+    for sentence in r.json():
+        sentence_to_point(sentence)
+
 #def sentence_to_point(sentence):
 
 #if __name__ == '__main__':

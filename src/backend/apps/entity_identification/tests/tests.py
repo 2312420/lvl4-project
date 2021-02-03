@@ -1,4 +1,4 @@
-from sentence_ident import analyse
+
 import csv
 from fuzzywuzzy import fuzz
 from common import get_entities
@@ -150,6 +150,11 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
                 else:
                     our_misc.append(ent.text)
 
+            print(valid_locs, our_locs)
+            print(valid_orgs, our_orgs)
+            print(valid_pers, our_pers)
+            print(valid_misc, our_misc)
+
             Orgs = compare_and_update(Orgs, valid_orgs, our_orgs)
             Locs = compare_and_update(Locs, valid_locs, our_locs)
             Pers = compare_and_update(Pers, valid_pers, our_pers)
@@ -158,7 +163,7 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
 
         line_count += 1
         print(line_count)
-        if line_count == 20000:
+        if line_count == 20:
             break
 
     Overall = {
@@ -173,16 +178,16 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
     Overall["FP"] += (Orgs["FP"] + Locs["FP"] + Pers["FP"] + Misc["FP"])
     Overall["FN"] += (Orgs["FN"] + Locs["FN"] + Pers["FN"] + Misc["FN"])
 
-    now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    note = "StanzaContext"
-    with open('results/' + now + "(" + note + ").csv", "x") as o:
-        csv_writer = csv.writer(o, delimiter=',', )
-        csv_writer.writerow(['Entity_Type', 'True Positive', 'True Negative', "False Positive", "False Negative", "Accuracy", "Precision", "Recall", "F1"])
-        csv_writer.writerow(calculate("Organisation", Orgs))
-        csv_writer.writerow(calculate("Person", Pers))
-        csv_writer.writerow(calculate("Location", Locs))
-        csv_writer.writerow(calculate("Misc", Misc))
-        csv_writer.writerow(calculate("Overall", Overall))
+    #now = datetime.now().strftime("%d-%m-%Y, %H-%M")
+    #note = "StanzaContext"
+    #with open('results/' + now + "(" + note + ").csv", "x") as o:
+    #    csv_writer = csv.writer(o, delimiter=',', )
+    #    csv_writer.writerow(['Entity_Type', 'True Positive', 'True Negative', "False Positive", "False Negative", "Accuracy", "Precision", "Recall", "F1"])
+    #    csv_writer.writerow(calculate("Organisation", Orgs))
+    #    csv_writer.writerow(calculate("Person", Pers))
+    #    csv_writer.writerow(calculate("Location", Locs))
+    #    csv_writer.writerow(calculate("Misc", Misc))
+    #    csv_writer.writerow(calculate("Overall", Overall))
 
 
 
