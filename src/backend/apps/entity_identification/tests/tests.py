@@ -138,13 +138,13 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
             our_misc = []
 
             for ent in doc.ents:
-                if ent.label_ == "ORG":
+                if ent.type == "ORG":
                     # Organization
                     our_orgs.append(ent.text)
-                elif ent.label_ == "GPE" or ent.label_ == "LOC" or ent.label_ == "NORP":
+                elif ent.type == "GPE" or ent.type == "LOC" or ent.type == "NORP":
                     # Location
                     our_locs.append(ent.text)
-                elif ent.label_ == "PERSON":
+                elif ent.type == "PERSON":
                     # Person
                     our_pers.append(ent.text)
                 else:
@@ -161,8 +161,20 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
         if line_count == 20000:
             break
 
+    Overall = {
+        "TN": 0,
+        "TP": 0,
+        "FN": 0,
+        "FP": 0,
+    }
+
+    Overall["TP"] += (Orgs["TP"] + Locs["TP"] + Pers["TP"] + Misc["TP"])
+    Overall["TN"] += (Orgs["TN"] + Locs["TN"] + Pers["TN"] + Misc["TN"])
+    Overall["FP"] += (Orgs["FP"] + Locs["FP"] + Pers["FP"] + Misc["FP"])
+    Overall["FN"] += (Orgs["FN"] + Locs["FN"] + Pers["FN"] + Misc["FN"])
+
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    note = "SpacyNLP(updatedMetrics)"
+    note = "StanzaContext"
     with open('results/' + now + "(" + note + ").csv", "x") as o:
         csv_writer = csv.writer(o, delimiter=',', )
         csv_writer.writerow(['Entity_Type', 'True Positive', 'True Negative', "False Positive", "False Negative", "Accuracy", "Precision", "Recall", "F1"])
@@ -170,6 +182,7 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
         csv_writer.writerow(calculate("Person", Pers))
         csv_writer.writerow(calculate("Location", Locs))
         csv_writer.writerow(calculate("Misc", Misc))
+        csv_writer.writerow(calculate("Overall", Overall))
 
 
 
