@@ -61,6 +61,9 @@ def run_test(note):
             real_sentiment = row[1]
             pred_sentiment = run_sentiment(text)
 
+            print(pred_sentiment)
+            print(real_sentiment)
+
             if int(real_sentiment) == -1:
             # Sentiment is negative
                 acu_neg += 1
@@ -129,4 +132,4 @@ def run_test(note):
 
     print(now, datetime.now())
 
-run_test("vader, new metrics")
+run_test("flair, new metrics")

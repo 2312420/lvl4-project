@@ -1,0 +1,14 @@
+title,result
+total sentences,4242
+correct,1363
+incorrect,2879
+C,O,N,F,U,S,I,O,N, ,M,A,T,R,I,X
+-,-,Positive,Negative,Neutral
+-,-,4846,0,0
+Positive,1363,1363,0,0
+Negative,604,604,0,0
+Neutral,2879,2879,0,0
+"08-02-2021, 15-34",2021-02-08 15:36:43.687805
+METRIC MATRIX
+-,Percision,Recall,f1 score
+Positive,0.28126289723483283,1.0,0.43904010307617974
