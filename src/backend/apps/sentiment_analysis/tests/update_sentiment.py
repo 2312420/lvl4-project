@@ -9,14 +9,12 @@ sentiment_url = "http://127.0.0.1:5003"
 
 def get_sentences():
     url = base_url + '/sentence/findByStatus'
-    payload = {"status": "DONE"}
+    payload = {"status": "REDO"}
     r = requests.get(url, json=payload)
     return r.json()
 
 
 sentences = get_sentences()
-todo = len(sentences)
-
 
 conn = psycopg2.connect(host='localhost',
                                 port='5433',
