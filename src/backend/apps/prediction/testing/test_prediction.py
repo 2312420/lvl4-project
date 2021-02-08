@@ -81,6 +81,7 @@ def test_all(days, note, sentence_limiter=0):
         fieldnames = ["stock_code", "short_hand", "sentences", "Mean Squared Error", "Median Absolute Error"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
+        todo = len(companies)
         for company in companies:
             stock_code = company["stock_code"]
             short_hand = company["short_hand"]
@@ -101,7 +102,8 @@ def test_all(days, note, sentence_limiter=0):
                     print(short_hand + " Not enough sentences")
             else:
                 print(short_hand + " No Data")
-
+            todo -= 1
+            print(todo)
 
 # test metric for specific company and print to console
 def test_company(stock_code, days):
@@ -133,8 +135,9 @@ if __name__ == '__main__':
 
     #3 = 1 day into future
 
-    test_all(1, "1Day")
-    test_all(2, "2Days")
-    test_all(5, "5Days")
-    test_all(10, "10Days")
-    test_all(30,"30Days")
+    #test_all(1, "1Day")
+    #test_all(2, "2DaysStanza")
+    #test_all(5, "5DaysStanza")
+    #test_all(10, "10DaysStanza")
+    #test_all(15, "15DaysStanza")
+    test_all(30,"30DaysStanza")

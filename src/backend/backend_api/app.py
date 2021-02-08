@@ -123,6 +123,8 @@ def update_article():
             article = Article.query.get(content['id'])
             article.title = content['title']
             article.transcript = content['transcript']
+            article.context = content['context']
+            article.status = content['status']
             db.session.commit()
             return flask.Response(status=200)
         except:

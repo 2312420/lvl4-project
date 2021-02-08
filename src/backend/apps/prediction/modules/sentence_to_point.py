@@ -1,6 +1,7 @@
 # Used for turning sentences in HotOrNot databse into data points in time series database
 import requests
 from modules import stock_data
+
 baseurl = "http://127.0.0.1:5000"
 
 
@@ -26,7 +27,7 @@ def get_points():
 def sentence_to_point(sentence_json):
     url = baseurl + "/points"
     date_time = sentence_json['date'] + " " + sentence_json['time']
-    data = stock_data.date_at_date(sentence_json['context'], sentence_json['date'] + " " + sentence_json['time'])
+    data = stock_data.data_at_date(sentence_json['context'], sentence_json['date'] + " " + sentence_json['time'])
     if data.empty:
         print("Blocked")
         payload = {"sentence_id": sentence_json['id'], "close": None}
@@ -74,9 +75,16 @@ def redo_points():
     payload = {"status": "DONE"}
     r = requests.get(url, json=payload)
 
-    for sentence in r.json():
-        sentence_to_point(sentence)
+    points = r.json()
+    todo = len(points)
 
+    for sentence in points:
+        sentence_to_point(sentence)
+        todo -= 1
+        print(todo)
+
+
+redo_points()
 #def sentence_to_point(sentence):
 
 #if __name__ == '__main__':
