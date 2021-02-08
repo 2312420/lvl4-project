@@ -19,14 +19,17 @@ def index():
 
 @app.route('/ident/sentence', methods=['GET'])
 def sentence_ident():
-    sentence = request.get_json()
-    potential_entities = si.analyse(sentence['text'])
-    company = si.decider(sentence['article_id'], potential_entities)
-    print(company)
-    if company:
-        return json.dumps({"sentence_id": sentence['id'], "context": company[0]['stock_code']})
-    else:
-        return flask.Response(status=204)
+    try:
+        sentence = request.get_json()
+        potential_entities = si.analyse(sentence['text'])
+        company = si.decider(sentence['article_id'], potential_entities)
+
+        if company:
+            return json.dumps({"sentence_id": sentence['id'], "context": company[0]['stock_code']})
+        else:
+            return flask.Response(status=204)
+    except:
+        return flask.Response(status=400)
 
 
 @app.route('/ident/article', methods=['GET'])

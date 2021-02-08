@@ -1,9 +1,10 @@
-import spacy
 import requests
+import common as c
 from collections import Counter
 
+
 base_url = "http://127.0.0.1:5000"
-nlp = spacy.load('en_core_web_sm')
+#nlp = spacy.load('en_core_web_sm')
 
 
 # Get article from db via api
@@ -22,10 +23,10 @@ def search_for_company(short_hand):
 
 # Analyse sentences and get initial list of potential companies
 def analyse(transcript):
-    doc = nlp(transcript)
+    doc = c.get_entities(transcript)
     orgs = []
     for ent in doc.ents:
-        if ent.label_ == 'ORG':
+        if ent.type == 'ORG':
             orgs.append(ent.text)
     return orgs
 
