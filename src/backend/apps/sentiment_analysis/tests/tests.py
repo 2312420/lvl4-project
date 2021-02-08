@@ -11,6 +11,13 @@ def run_sentiment(text):
     return r.json()['score']
 
 
+
+def calcualte_metrics(title, pos_pos, pos_neg, pos_neu, acu):
+    percision = pos_pos / (pos_pos + pos_neg + pos_neu)
+    recall = pos_pos / acu
+    f1 = 2 * ((percision * recall) / (percision + recall))
+    return [title, percision, recall, f1]
+
 def run_test(note):
 
     now = datetime.now()
@@ -112,7 +119,14 @@ def run_test(note):
             csv_writer.writerow(["Positive", acu_pos, pos_pos, neg_pos, neu_pos ])
             csv_writer.writerow(["Negative", acu_neg, pos_neg, neg_neg, neu_neg])
             csv_writer.writerow(["Neutral", acu_neu, pos_neu, neg_neu, neu_neu])
+            csv_writer.writerow([now, datetime.now()])
+            csv_writer.writerow(["METRIC MATRIX"])
+            csv_writer.writerow(["-","Percision", "Recall", "f1 score"])
+            csv_writer.writerow(calcualte_metrics("Positive", pos_pos, pos_neg, pos_neu, acu_pos))
+            csv_writer.writerow(calcualte_metrics("Negative", neg_neg, neg_pos, neg_neu, acu_neg))
+            csv_writer.writerow(calcualte_metrics("Neutral", neu_neu, neu_pos, neu_neg, acu_neu))
+
 
     print(now, datetime.now())
 
-run_test("textBlob, new metrics")
+run_test("vader, new metrics")

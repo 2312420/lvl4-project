@@ -16,10 +16,10 @@ app = Flask(__name__)
 
 # Analyses sentiment score of sentence
 # will be replaced with more complex system if time permits
-#def get_sentiment_score(sentence):
-#    sent = SentimentIntensityAnalyzer()
-#    sent_dict = sent.polarity_scores(sentence)
-#    return sent_dict['compound']
+def get_sentiment_score(sentence):
+    sent = SentimentIntensityAnalyzer()
+    sent_dict = sent.polarity_scores(sentence)
+    return sent_dict['compound']
 
 
 
@@ -42,9 +42,9 @@ app = Flask(__name__)
 #    print(token_list[1].vector)
 
 
-def get_sentiment_score(sentence):
-    blob = TextBlob(sentence)
-    return blob.sentiment.polarity
+#def get_sentiment_score(sentence):
+#    blob = TextBlob(sentence)
+#    return blob.sentiment.polarity
 
 
 @app.route('/', methods=['GET'])
