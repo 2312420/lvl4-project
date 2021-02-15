@@ -34,6 +34,7 @@ class Company(db.Model):
     short_hand = db.Column(db.String)
     verdict = db.Column(db.String)
     predictions = db.Column(db.JSON)
+    change = db.Column(db.Float)
 
     def __init__(self, stock_code, short_hand):
         self.stock_code = stock_code
@@ -46,7 +47,9 @@ class Company(db.Model):
         return {
             'stock_code': self.stock_code,
             'short_hand': self.short_hand,
-            'predictions': self.predictions
+            'predictions': self.predictions,
+            'verdict': self.verdict,
+            'change': self.change,
         }
 
 

@@ -84,7 +84,7 @@ def redo_points():
         print(todo)
 
 
-redo_points()
+#redo_points()
 #def sentence_to_point(sentence):
 
 #if __name__ == '__main__':
