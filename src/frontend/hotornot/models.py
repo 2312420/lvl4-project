@@ -6,6 +6,7 @@ class Company(models.Model):
     short_hand = models.TextField()
     verdict = models.TextField()
     predictions = models.JSONField()
+    change = models.FloatField()
 
     class Meta:
         db_table = "company"
@@ -13,6 +14,8 @@ class Company(models.Model):
     def __str__(self):
         return self.stock_code
 
+    def not_change(self):
+        return self.change * -1
 
 class Sentence(models.Model):
     id = models.IntegerField(primary_key=True)

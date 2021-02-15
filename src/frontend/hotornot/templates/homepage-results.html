@@ -12,6 +12,7 @@
 
                 <div class="card-contents">
                  <img  width="50px" src="{% static 'imgs/Not.png' %}">
+                 <progress class="progress-not" data-label="NOT" max="10" value={{ company.not_change }}> </progress>
                 </div>
 
             {% else %}
@@ -20,7 +21,9 @@
                 </div>
 
                 <div class="card-contents">
-                 <img  width="50px" src="{% static 'imgs/Hot.png' %}">
+                    <img  width="50px" src="{% static 'imgs/Hot.png' %}">
+                    <progress class="progress-hot" data-label="HOT" max="10" value={{ company.change }}></progress>
+
                 </div>
             {%  endif %}
         </div>

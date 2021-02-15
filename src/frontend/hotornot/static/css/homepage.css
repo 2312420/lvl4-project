@@ -91,14 +91,58 @@ a{color: inherit}
     padding-left: 5px;
 }
 
+.progress-not{
+    -webkit-appearance: none;
+    height: 25px;
+    width: 75%;
+    border: 1px solid darkgrey;
+    position: relative;
+}
 
+.progress-hot{
+    -webkit-appearance: none;
+    height: 25px;
+    width: 75%;
+    border: 1px solid darkgrey;
+    position: relative;
+}
 
+.progress-hot:before {
+    content: attr(data-label);
+    font-size: 20px;
+    vertical-align: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    position:absolute;
+    padding-left: 5px;
+    color: white;
+    left:0;
+    right:0;
+}
 
+.progress-not:before {
+    content: attr(data-label);
+    font-size: 20px;
+    vertical-align: 0;
+    font-family: 'Roboto', sans-serif;
+    position:absolute;
+    font-weight: bold;
+    padding-left: 5px;
+    color: white;
+    left:0;
+    right:0;
+}
 
+.progress-not::-webkit-progress-value{
+    background-color: #4169E1;
+}
 
+.progress-hot::-webkit-progress-value{
+    background-color: #B22222;
+}
 
-
-
-
+::-webkit-progress-bar {
+    background-color: white;
+}
 
 
