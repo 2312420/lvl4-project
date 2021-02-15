@@ -135,9 +135,9 @@ if __name__ == '__main__':
 
     #3 = 1 day into future
 
-    #test_all(1, "1Day")
-    #test_all(2, "2DaysStanza")
-    #test_all(5, "5DaysStanza")
-    #test_all(10, "10DaysStanza")
-    #test_all(15, "15DaysStanza")
-    test_all(30,"30DaysStanza")
+    test_all(1, "1DayTextBlob")
+    test_all(2, "2DaysTextBlob")
+    test_all(5, "5DaysTextBlob")
+    test_all(10, "10DaysTextBlob")
+    test_all(15, "15DaysTextBlob")
+    test_all(30,"30DaysTextBlob")
