@@ -6,12 +6,12 @@
 
 .search {
     border: 1px solid grey;
-    border-radius: 5px;
-    height: 50px;
+    height: 60px;
     width: 100%;
     padding: 2px 23px 2px 30px;
     outline: 0;
-    background-color: #f5f5f5;
+    background-color: #EBEBEB;
+    font-size: 35px;
 }
 
 .search:hover, .search:focus {
@@ -29,10 +29,8 @@
     min-width: 100px;
 }
 
-
 .sort {
     border: 1px solid grey;
-    border-radius: 5px;
     height: 25px;
     width: 25%;
     padding: 2px 23px 2px 30px;
@@ -45,15 +43,12 @@
     background-color: white;
 }
 
-
-
 .card-wrapper:hover, .card-wrapper:focus{
     border: 1px solid #009688;
     background-color: white;
 }
 
 a{color: inherit}
-
 
 .card-wrapper-2{
     margin-left: 10%;
@@ -66,16 +61,15 @@ a{color: inherit}
 }
 
 .card:hover, .card:focus{
-    border: 1px solid #009688;
-    background-color: white;
+    background-color: whitesmoke;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 .card{
-    height: 100px;
-    background-color: whitesmoke;
+    height: 140px;
+    background-color: #EBEBEB;
     font-family: 'Roboto', sans-serif;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    border: 1px solid darkgrey;
+    /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
     width: 10px;
 }
 
@@ -95,29 +89,7 @@ a{color: inherit}
     -webkit-appearance: none;
     height: 25px;
     width: 75%;
-    border: 1px solid darkgrey;
     position: relative;
-}
-
-.progress-hot{
-    -webkit-appearance: none;
-    height: 25px;
-    width: 75%;
-    border: 1px solid darkgrey;
-    position: relative;
-}
-
-.progress-hot:before {
-    content: attr(data-label);
-    font-size: 20px;
-    vertical-align: 0;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    position:absolute;
-    padding-left: 5px;
-    color: white;
-    left:0;
-    right:0;
 }
 
 .progress-not:before {
@@ -137,9 +109,54 @@ a{color: inherit}
     background-color: #4169E1;
 }
 
+.progress-hot{
+    -webkit-appearance: none;
+    height: 25px;
+    width: 75%;
+    position: relative;
+}
+
+.progress-hot:before {
+    content: attr(data-label);
+    font-size: 20px;
+    vertical-align: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    position:absolute;
+    padding-left: 5px;
+    color: white;
+    left:0;
+    right:0;
+}
+
 .progress-hot::-webkit-progress-value{
     background-color: #B22222;
 }
+
+.progress-none{
+    -webkit-appearance: none;
+    height: 25px;
+    width: 75%;
+    position: relative;
+}
+
+.progress-none:before {
+    content: attr(data-label);
+    font-size: 20px;
+    vertical-align: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    position:absolute;
+    padding-left: 5px;
+    color: white;
+    left:0;
+    right:0;
+}
+
+.progress-none::-webkit-progress-value{
+    background-color: darkgrey;
+}
+
 
 ::-webkit-progress-bar {
     background-color: white;
