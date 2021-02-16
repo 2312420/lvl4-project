@@ -18,16 +18,20 @@
 
 <body>
 
-    <div class="top-nav">
-        <a>HOT or NOT</a>
+    <div class="topnav">
+        <a href="{% url 'index' %}" >HOT or NOT</a>
+        <a style="float: right"> About </a>
+        <a style="float: right"> How it works </a>
     </div>
 
+    <div style="margin-left: 20px; margin-right: 20px">
     {% block body_block %}
     {% endblock %}
 
     {% block footer %}
     <script type="text/javascript" src="{% static "js/search.js" %}"></script>
     {% endblock %}
+    </div>
 
 </body>
 
