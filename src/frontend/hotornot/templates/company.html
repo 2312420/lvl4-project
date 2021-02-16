@@ -7,12 +7,6 @@
     <link rel="stylesheet" type="text/css" href="{% static '/css/companypage.css' %}">
 
     <div class = "head">
-        <!--
-        <div style=" float: right; padding-top: 8px">
-            <img height="108px" src="{{ basic_info.logo_url }}" style="float: left" alt="Logo Not Found">
-        </div>
-        -->
-
         <span> <h1 style="font-size: 30pt; display: inline-block">{{ company.short_hand }} </h1>  ({{ company.stock_code }}) </span>
 
         <div id="price_div" class="price">
@@ -20,18 +14,16 @@
         </div>
     </div>
 
-
     <div id="main-body" style="width: 75%; float: left">
 
     <div class = "topnav">
         <a id="our" onclick="navButton('our')" >Our Closing Prediction</a>
         <a id="custom" onclick="navButton('custom')" >Custom Prediction</a>
         <a id="info" onclick="navButton('company')" >Company Information</a>
-        <a style="float: right"> > </a>
+        <a id="expand" style="float: right" onclick="navSentences()"> > </a>
     </div>
 
     <div id="ourPred" class = "ourPred">
-
         <div>
             <div style="font-family: Arial, sans-serif;">
                 <h2>Closing Price Predictions</h2>
@@ -40,43 +32,6 @@
         </div>
 
         <hr style="border-top: 2px solid  #333; position: relative">
-
-    <!--
-        <div style="font-family: Arial, sans-serif;">
-
-            <div style="padding: 1px">
-                {% if company.verdict == "NOT" %}
-                    <img style="float: left" width="50px" src="{% static 'imgs/Not.png' %}">
-                    <h2> Sentences Suggest Not Stock </h2>
-                {% else %}
-                    <img  style="float: left" width="50px" src="{% static 'imgs/Hot.png' %}">
-                    <h2> Sentences Suggest Hot Stock </h2>
-                {% endif %}
-            </div>
-
-
-            <div class="sentence-box">
-            {%  for sentence in sentences%}
-                    <div style="padding-bottom: 20px">
-                        <q style="font-size: large">{{ sentence.text }}</q>
-                        <br>
-                        <small>&nbsp;&nbsp;&nbsp;&nbsp;-{{ sentence.source }}, {{ sentence.date }}
-                            {% if sentence.sentiment == "Positive" %}
-                                <img width="17px" src="{% static 'imgs/Hot.png' %}">
-                            {% elif sentence.sentiment == "Negative" %}
-                                <img width="17px" src="{% static 'imgs/Not.png' %}">
-                            {% else %}
-                                <img width="17px" src="{% static 'imgs/None.png' %}">
-                            {% endif %}
-                        </small>
-                        <br>
-                    </div>
-                {% endfor %}
-            </div>
-
-
-        </div>
-        --!>
     </div>
 
     <div hidden id = "customPred" class = "customPred">
@@ -180,6 +135,9 @@
 
     <script>
 
+
+
+
     var our = document.getElementById("our");
     var custom = document.getElementById("custom");
     var info = document.getElementById("info");
@@ -195,6 +153,11 @@
         cls = "notActive"
     }
     our.classList.add(cls)
+
+    var sents = document.getElementById("side-sentences")
+    var main = document.getElementById("main-body")
+    var expand = document.getElementById("expand")
+
 
     function navButton(button_name) {
 
@@ -329,6 +292,21 @@
             maintainAspectRatio: false
         }
     });
+
+     function navSentences(){
+        if(sents.hidden == true){
+        // Side bar is hidden
+            sents.hidden = false;
+            main.style.width = "75%";
+            expand.innerText = ">";
+        }else{
+        // Side bar is shown
+            sents.hidden = true;
+            main.style.width = "100%";
+            expand.innerText = "<";
+        }
+    }
+
 
     </script>
 {%  endblock %}
