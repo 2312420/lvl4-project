@@ -17,28 +17,8 @@
   animation: spin 2s linear infinite;
 }
 
-
 .mainbody {
   margin-left: 202px;
-}
-
-.sentences {
-  height: 100%;
-  width: 202px;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background: lightgray;
-  overflow-x: hidden;
-  padding-top: 20px;
-  padding-bottom: 500px;
-  float: left;
-}
-
-.sentence-box {
-  border: none;
-  height: 320px;
-  overflow: auto;
 }
 
 .busSummary{
@@ -50,7 +30,7 @@
 .stockInfo{
   font-family: Arial, sans-serif;
   overflow: auto;
-  max-height: 780px;
+  height: 70vh;
 }
 
 .snippet{
@@ -84,6 +64,22 @@
   background-color: #ddd;
 }
 
+.sideinfo {
+  background-color: #ddd;
+  overflow: hidden;
+}
+
+.sideinfo a {
+  font-family: Arial, sans-serif;
+  float: left;
+  color: #333333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -99,23 +95,6 @@
 }
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
-}
-
-
-.sideinfo {
-  background-color: #ddd;
-  overflow: hidden;
-}
-
-.sideinfo a {
-  font-family: Arial, sans-serif;
-  float: left;
-  color: #333333;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: bold;
 }
 
 /* CSS FROM https://www.w3schools.com/howto/howto_js_topnav.asp */

@@ -68,23 +68,6 @@
                 </div>
             </div>
 
-            <!--
-            <div style="width: 80%; float: left">
-                <div style="position: relative; height:auto; width:auto; padding-bottom: 20px">
-                    <canvas style="float: left" id="customChart"></canvas>
-                </div>
-            </div>
-            -->
-
-            <!--
-            <div style="width: 100%; float: left">
-                <div style="position: relative; height:200px; padding-bottom: 20px">
-                    <canvas style="float: left" id="customChart"></canvas>
-                </div>
-            </div>
-            --->
-
-
         </div>
 
         <div style="width: 80%; height:500px; float: left">
@@ -103,22 +86,25 @@
 
         <div>
             <h2> Basic Information </h2>
-            <p> Sector: {{ basic_info.sector }}</p>
-            <p> Industry: {{ basic_info.industry }}</p>
-            <p> Country: {{ basic_info.country }}</p>
-            <p> City: {{ basic_info.city }}</p>
-            <p> Address: {{ basic_info.address1 }}</p>
-            <p> Phone: {{ basic_info.phone }}</p>
-            <p> Website: {{ basic_info.website }}</p>
-            <p> Employees: {{ basic_info.fullTimeEmployees }}</p>
+            <p> <b>Sector:</b> {{ basic_info.sector }}</p>
+            <p> <b>Industry:</b> {{ basic_info.industry }}</p>
+            <p> <b>Country:</b> {{ basic_info.country }}</p>
+            <p> <b>City:</b> {{ basic_info.city }}</p>
+            <p> <b>Address:</b> {{ basic_info.address1 }}</p>
+            <p> <b>Phone:</b> {{ basic_info.phone }}</p>
+            <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
+            <p> <b>Employees:</b> {{ basic_info.fullTimeEmployees }}</p>
         </div>
-        
+
+
         <hr style="border-top: 2px solid  #333; position: relative">
     
         <div style="font-family: Arial, sans-serif;">
             <h2> Financial Information </h2>
         {% for key, value in finance_info.items %}
-                <p> {{ key }}:{{ value }}</p>
+            <div style="width: 50%; float: left">
+                <p> <b>{{ key }}</b>:{{ value }}</p>
+            </div>
         {% endfor %}
         </div>
 
@@ -140,7 +126,7 @@
             {% endif %}
         </div>
 
-        <div style="height: 600px; overflow-y: scroll; overflow-x: hidden">
+        <div style="height: 70vh; overflow-y: scroll; overflow-x: hidden">
             {%  for sentence in sentences%}
                 <div class="snippet">
                     <div style="width: 5%; float: left; padding-right: 5px">
