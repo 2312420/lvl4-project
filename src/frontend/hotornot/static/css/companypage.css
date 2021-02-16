@@ -62,7 +62,27 @@
   margin: 10px;
 }
 
+.custom{
+  background-color: #333333;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: white;
+}
 
+.custom button{
+  font-family: Arial, sans-serif;
+  background-color: whitesmoke;
+  color: #333333;
+  border: 1px solid #333333;
+  padding: 15px 32px;
+  font-weight: bold;
+  font-size: large;
+  margin-top: 20px;
+}
+
+.custom button:hover{
+  background-color: #ddd;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
