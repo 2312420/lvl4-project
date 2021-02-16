@@ -82,7 +82,9 @@ def company_page(request, stock_code):
 
     # Code used for custom prediction options
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
+    page = "our"
     if request.method == "POST":
+        page = "cus"
         dict = request.POST
         start = dict['startdate']
         end = dict['enddate']
@@ -114,6 +116,7 @@ def company_page(request, stock_code):
                     time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
                     cus_labels.append(time)
                 cus_prices = stock_df['Close'].to_list()
+
         else:
             print("NOT VALID")
 
@@ -215,7 +218,8 @@ def company_page(request, stock_code):
                                                                     'labels': cus_pred_labels},
                                                     'basic_info': basic_info,
                                                     'finance_info': finance_info,
-                                                    'sentences': sentences
+                                                    'sentences': sentences,
+                                                    'page': page
                                                     })
 
 

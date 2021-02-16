@@ -23,7 +23,7 @@
         <a id="expand" style="float: right" onclick="navSentences()"> > </a>
     </div>
 
-    <div id="ourPred" class = "ourPred">
+    <div {% if page != "our" %} hidden {% endif %} id="ourPred" class = "ourPred">
         <div>
             <div style="font-family: Arial, sans-serif; position: relative; height: 60vh; margin-bottom: 85px">
                 <h2>Closing Price Predictions</h2>
@@ -34,7 +34,7 @@
         <hr style="border-top: 2px solid  #333; position: relative">
     </div>
 
-    <div hidden id = "customPred" class = "customPred">
+    <div {% if page != "cus" %} hidden {% endif %} id = "customPred" class = "customPred">
         <div style="width: 270px; float: left">
             <div class="custom">
                 <h2>Custom Predictions</h2>
@@ -143,6 +143,7 @@
             {% endfor %}
         </div>
     </div>
+    <label hidden id="page">{{ page }}</label>
 
     <!-- Scripts -->
 
@@ -152,9 +153,6 @@
 
     <script>
 
-
-
-
     var our = document.getElementById("our");
     var custom = document.getElementById("custom");
     var info = document.getElementById("info");
@@ -163,13 +161,22 @@
     var custom_content = document.getElementById("customPred");
     var info_content = document.getElementById("stockInfo");
 
+    var cur = document.getElementById("page");
     var cls = ""
     if(document.getElementById("status").textContent == "HOT"){
         cls = "hotActive"
-    } else {
+    } else if(document.getElementById("status").textContent == "NOT") {
         cls = "notActive"
+    } else {
+        cls = "noneActive"
     }
-    our.classList.add(cls)
+
+    if(cur.innerText == "our"){
+        our.classList.add(cls)
+    } else{
+        custom.classList.add(cls)
+    }
+
 
     var sents = document.getElementById("side-sentences")
     var main = document.getElementById("main-body")
@@ -311,7 +318,6 @@
         }
     });
 
-    var test = document.getElementById("test")
      function navSentences(){
         if(sents.hidden == true){
         // Side bar is hidden
@@ -325,7 +331,6 @@
             expand.innerText = "<";
         }
     }
-
 
     </script>
 {%  endblock %}
