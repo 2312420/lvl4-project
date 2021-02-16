@@ -60,6 +60,10 @@ def index(request):
             companies = companies.order_by('change')
         elif sort_parameter == "HOLD":
             companies = companies.order_by('verdict')
+        elif sort_parameter == "AD":
+            companies = companies.order_by('short_hand')
+        elif sort_parameter == "STOCK":
+            companies = companies.order_by('stock_code')
 
     # Handles ajax request to render search results
     if request.is_ajax():
@@ -221,6 +225,14 @@ def company_page(request, stock_code):
                                                     'sentences': sentences,
                                                     'page': page
                                                     })
+
+
+def how_it_works(request):
+    return render(request, 'how.html')
+
+
+def about(request):
+    return render(request, 'about.html')
 
 
 def redirect(request):
