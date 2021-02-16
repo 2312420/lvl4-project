@@ -55,9 +55,11 @@ def index(request):
     # If statement for sorting options
     if sort_parameter != "Sort by":
         if sort_parameter == "HOT":
-            companies = companies.order_by('verdict')
+            companies = companies.order_by('-change')
         elif sort_parameter == "NOT":
-            companies = companies.order_by('-verdict')
+            companies = companies.order_by('change')
+        elif sort_parameter == "HOLD":
+            companies = companies.order_by('verdict')
 
     # Handles ajax request to render search results
     if request.is_ajax():
