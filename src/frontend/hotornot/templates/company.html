@@ -25,7 +25,7 @@
 
     <div id="ourPred" class = "ourPred">
         <div>
-            <div style="font-family: Arial, sans-serif;">
+            <div style="font-family: Arial, sans-serif; position: relative; height: 60vh; margin-bottom: 85px">
                 <h2>Closing Price Predictions</h2>
                 <canvas id="myChart" height="200px"></canvas>
             </div>
@@ -70,7 +70,7 @@
 
         </div>
 
-        <div style="width: 80%; height:500px; float: left">
+        <div style="width: 80%; height:500px; float: left; position: relative">
             <canvas style="float: left" id="customChart"></canvas>
         </div>
     </div>
@@ -306,10 +306,12 @@
                     }
                 }]
             },
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            responsive: true
         }
     });
 
+    var test = document.getElementById("test")
      function navSentences(){
         if(sents.hidden == true){
         // Side bar is hidden
