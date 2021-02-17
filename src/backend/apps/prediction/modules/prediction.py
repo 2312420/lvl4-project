@@ -47,3 +47,4 @@ def new_predictions(company):
     else:
         return stock_code, "NO-DATA", [], 0
 
+

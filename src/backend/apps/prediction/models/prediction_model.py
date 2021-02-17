@@ -10,7 +10,7 @@ from models import common, sentiment_model
 
 from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler
-
+from sklearn.tree import DecisionTreeRegressor
 
 # Used to make actual predictions
 def linear_regression(df, target_feature, future_days, end_date=-1):
@@ -30,7 +30,9 @@ def linear_regression(df, target_feature, future_days, end_date=-1):
 
     #model = LinearRegression().fit(x_train, y_train)
 
-    clf = make_pipeline(StandardScaler(), SVR(gamma='auto'))
+    #clf = make_pipeline(StandardScaler(), SVR(gamma='auto'))
+    clf = DecisionTreeRegressor()
+    #clf = make_pipeline(StandardScaler(), DecisionTreeRegressor())
     model = clf.fit(x_train, y_train)
 
 
