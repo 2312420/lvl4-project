@@ -14,12 +14,13 @@ from sklearn.linear_model import SGDRegressor
 from sklearn.linear_model import BayesianRidge
 from sklearn.linear_model import SGDRegressor
 
+from sklearn.tree import DecisionTreeRegressor
+
 # Used to fill in missing sentiment data
 def past_sentiment_regression(df):
     train = df.copy()
     x_train = train.drop(["sentiment", "time"], axis=1)
     y_train = train['sentiment']
-    model = BayesianRidge()
     model = make_pipeline(StandardScaler(), BayesianRidge())
     model.fit(x_train, y_train)
     return model
