@@ -17,28 +17,8 @@
   animation: spin 2s linear infinite;
 }
 
-
 .mainbody {
   margin-left: 202px;
-}
-
-.sentences {
-  height: 100%;
-  width: 202px;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background: lightgray;
-  overflow-x: hidden;
-  padding-top: 20px;
-  padding-bottom: 500px;
-  float: left;
-}
-
-.sentence-box {
-  border: none;
-  height: 320px;
-  overflow: auto;
 }
 
 .busSummary{
@@ -50,14 +30,60 @@
 .stockInfo{
   font-family: Arial, sans-serif;
   overflow: auto;
-  max-height: 780px;
+  height: 70vh;
+}
+
+.snippet{
+  font-family: Arial, sans-serif;
+  padding-bottom: 20px;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.custom{
+  background-color: #333333;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: white;
+}
+
+.custom button{
+  font-family: Arial, sans-serif;
+  background-color: whitesmoke;
+  color: #333333;
+  border: 1px solid #333333;
+  padding: 15px 32px;
+  font-weight: bold;
+  font-size: large;
+  margin-top: 20px;
+}
+
+.custom button:hover{
+  background-color: #ddd;
+}
+
+.sideinfo {
+  background-color: #ddd;
+  overflow: hidden;
+}
+
+.sideinfo a {
+  font-family: Arial, sans-serif;
+  float: left;
+  color: #333333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
 
 /* CSS FROM https://codepen.io/maheshambure21/pen/VYJQYG */
 
@@ -70,7 +96,6 @@
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
-
 
 /* CSS FROM https://www.w3schools.com/howto/howto_js_topnav.asp */
 
@@ -106,6 +131,10 @@
   color: white;
 }
 
+.topnav a.noneActive{
+  background-color: darkgrey;
+  color: white;
+}
 
 
 

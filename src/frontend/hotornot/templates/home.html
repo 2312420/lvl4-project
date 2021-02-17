@@ -8,9 +8,10 @@
 
     <div style="padding: 2px">
         <a href="{% url 'index' %}">
-            <img style="filter: brightness(130%); width: 400px; margin-left: auto; margin-right: auto; display: block;" src="{% static 'imgs/LogoV3.png' %}">
+            <img style="filter: brightness(130%); width: 300px; margin-left: auto; margin-right: auto; display: block;" src="{% static 'imgs/LogoV3.png' %}">
         </a>
     </div>
+
 
     <div class = search-wrapper>
 
@@ -24,6 +25,9 @@
             <option selected> Sort by</option>
             <option value="HOT">Hot</option>
             <option value="NOT">Not</option>
+            <option value="HOLD">Hold</option>
+            <option value="AD">Alphabetical</option>
+            <option value="STOCK">Stock Code</option>
         </select>
     </div>
 

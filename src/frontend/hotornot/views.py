@@ -55,9 +55,15 @@ def index(request):
     # If statement for sorting options
     if sort_parameter != "Sort by":
         if sort_parameter == "HOT":
-            companies = companies.order_by('verdict')
+            companies = companies.order_by('-change')
         elif sort_parameter == "NOT":
-            companies = companies.order_by('-verdict')
+            companies = companies.order_by('change')
+        elif sort_parameter == "HOLD":
+            companies = companies.order_by('verdict')
+        elif sort_parameter == "AD":
+            companies = companies.order_by('short_hand')
+        elif sort_parameter == "STOCK":
+            companies = companies.order_by('stock_code')
 
     # Handles ajax request to render search results
     if request.is_ajax():
@@ -80,7 +86,9 @@ def company_page(request, stock_code):
 
     # Code used for custom prediction options
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
+    page = "our"
     if request.method == "POST":
+        page = "cus"
         dict = request.POST
         start = dict['startdate']
         end = dict['enddate']
@@ -112,6 +120,7 @@ def company_page(request, stock_code):
                     time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
                     cus_labels.append(time)
                 cus_prices = stock_df['Close'].to_list()
+
         else:
             print("NOT VALID")
 
@@ -213,8 +222,17 @@ def company_page(request, stock_code):
                                                                     'labels': cus_pred_labels},
                                                     'basic_info': basic_info,
                                                     'finance_info': finance_info,
-                                                    'sentences': sentences
+                                                    'sentences': sentences,
+                                                    'page': page
                                                     })
+
+
+def how_it_works(request):
+    return render(request, 'how.html')
+
+
+def about(request):
+    return render(request, 'about.html')
 
 
 def redirect(request):

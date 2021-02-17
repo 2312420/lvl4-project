@@ -414,7 +414,7 @@ def update_company_predictions():
         content = request.get_json()
         company = Company.query.get(content['stock_code'])
         company.verdict = content['verdict']
-
+        company.change = content['change']
 
         if content['verdict'] == "NO-DATA":
             company.predictions = json.dumps("[]")

@@ -5,23 +5,44 @@
     {% if company.verdict != "NO-DATA" %}
         <a href="{% url 'company_page' company.stock_code %}" style="text-decoration: black">
         <div class="card" style="width: 490px">
+
             {% if company.verdict == "NOT" %}
                 <div class="card-header" style="background-color: #4169E1">
                     <span style="color: white; padding-left: 5px; text-overflow: clip;">{{ company.short_hand }}</span>
                 </div>
 
                 <div class="card-contents">
-                 <img  width="50px" src="{% static 'imgs/Not.png' %}">
+                 <img style="float: left; padding-right: 10px" width="90px" src="{% static 'imgs/Not.png' %}">
+                    <div style="margin-top: 30px">
+                        <progress class="progress-not" data-label="NOT" max="10" value={{ company.not_change }}> </progress>
+                    </div>
                 </div>
 
-            {% else %}
+            {% elif company.verdict == 'HOT' %}
                 <div class="card-header" style="background-color: #B22222">
                     <span style="color: white; padding-left: 5px">{{ company.short_hand }}</span>
                 </div>
 
                 <div class="card-contents">
-                 <img  width="50px" src="{% static 'imgs/Hot.png' %}">
+
+                    <img style="float: left; padding-right: 10px" width="90px" src="{% static 'imgs/Hot.png' %}">
+                    <div style="margin-top: 30px">
+                        <progress class="progress-hot" data-label="HOT" max="10" value={{ company.change }}></progress>
+                    </div>
                 </div>
+
+            {% else %}
+                <div class="card-header" style="background-color: darkgray">
+                    <span style="color: white; padding-left: 5px">{{ company.short_hand }}</span>
+                </div>
+
+                <div class="card-contents">
+                    <img style="float: left; padding-right: 10px" width="90px" src="{% static 'imgs/None.png' %}">
+                    <div style="margin-top: 30px">
+                        <progress class="progress-none" data-label="HOLD" max="10" value=10></progress>
+                    </div>
+                </div>
+
             {%  endif %}
         </div>
         </a>

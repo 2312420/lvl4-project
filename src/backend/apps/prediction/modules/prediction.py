@@ -35,10 +35,15 @@ def new_predictions(company):
             pred = item['predictions']
             new_preds.append([item_date, pred])
 
-        if prediction_df['predictions'][-(days_into_future - 1)] < prediction_df['predictions'][-1]:
-            return stock_code, "HOT", new_preds
+
+
+        change = prediction_df['predictions'][-1] - data.__array__()[-1][5]
+        if change > 1:
+            return stock_code, "HOT", new_preds, change
+        elif change < -1:
+            return stock_code, "NOT", new_preds, change
         else:
-            return stock_code, "NOT", new_preds
+            return stock_code, "HOLD", new_preds, change
     else:
-        return stock_code, "NO-DATA", []
+        return stock_code, "NO-DATA", [], 0
 
