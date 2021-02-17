@@ -134,12 +134,18 @@ if __name__ == '__main__':
     #test_all(30, "SVR_NoScale")
 
     #3 = 1 day into future
-    test_company("FB", 1)
+
+    #test_all(1,  "Tree")
+    #test_all(2,  "Tree")
+    #test_all(5,  "Tree")
+    #test_all(10, "Tree")
+    #test_all(15, "Tree")
+    #test_all(30, "Tree")
 
     #test_all(1,"Scaler")
 
-    #test_company("FB", 1)
+    test_company("FB", 1)
 
-    #test_company("A", 1)
+    test_company("A", 1)
 
-    #test_company("LRCX",1)
+    test_company("LRCX",1)

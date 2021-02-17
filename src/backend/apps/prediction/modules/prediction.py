@@ -37,10 +37,10 @@ def new_predictions(company):
 
 
 
-        change = prediction_df['predictions'][-1] - data.__array__()[-1][5]
-        if change > 1:
+        change = prediction_df['predictions'][-30:].mean() - data.__array__()[-1][5]
+        if change > 0.5:
             return stock_code, "HOT", new_preds, change
-        elif change < -1:
+        elif change < -0.5:
             return stock_code, "NOT", new_preds, change
         else:
             return stock_code, "HOLD", new_preds, change
