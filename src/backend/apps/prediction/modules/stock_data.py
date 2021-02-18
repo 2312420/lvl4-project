@@ -9,7 +9,7 @@ def get_stock_data(stock_code, start_date, end_date, peroid):
     stock_data = yf.Ticker(stock_code)
     stock_df = stock_data.history(interval = peroid, start=start_date, end=end_date)
     return stock_df
-    #Stock DF: Open, High, Low, Close, Volume, Dividends, Split
+    # Stock DF: Open, High, Low, Close, Volume, Dividends, Split
 
 
 # Takes date and time stirng and turns it into date time object

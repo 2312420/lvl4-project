@@ -1,6 +1,5 @@
 import yfinance as yf
 from sklearn.metrics import mean_squared_error, median_absolute_error
-from sklearn.metrics import explained_variance_score
 
 
 def get_pred_true(df, stock_code):
@@ -22,15 +21,15 @@ def get_pred_true(df, stock_code):
     return pred, true
 
 
+# Mean squared error
 def metric1(df, stock_code):
-    # Mean squared error
     pred, true = get_pred_true(df, stock_code)
     result = mean_squared_error(y_true=true, y_pred=pred)
     return result
 
 
+# Median absolute error
 def metric2(df, stock_code):
-    # Median absolute error
     pred, true = get_pred_true(df, stock_code)
     result = median_absolute_error(y_true=true, y_pred=pred)
     return result

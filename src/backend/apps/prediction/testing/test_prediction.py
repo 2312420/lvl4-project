@@ -1,10 +1,6 @@
 # Prediction to run to test if metric has improved
 # Evaluates prediction with data gathered between 2020-11-11 to 2020-12-15
 
-# 15 day
-# 30 day
-# 60 day
-
 # Python scripts
 from modules import company_points
 from models import prediction_model
@@ -54,7 +50,7 @@ def make_predictions(stock_code, days):
     if data.empty:
         return data
     else:
-        prediction_df = prediction_model.linear_regression(data, "close", days, "2020-12-15")
+        prediction_df = prediction_model.random_forest(data, "close", days, "2020-12-15")
         return prediction_df
 
 
@@ -105,6 +101,7 @@ def test_all(days, note, sentence_limiter=0):
             todo -= 1
             print(todo)
 
+
 # test metric for specific company and print to console
 def test_company(stock_code, days):
     company = get_company(stock_code)
@@ -124,20 +121,13 @@ def test_company(stock_code, days):
 
 
 if __name__ == '__main__':
-    #test_all(15, "SVR100", 100)
-    #test_all(30, "SVR100", 100)
+    #test_all(1,  "RandomForest")
+    #test_all(2,  "RandomForest")
+    #test_all(5,  "RandomForest")
+    #test_all(10, "RandomForest")
+    #test_all(15, "RandomForest")
+    #test_all(30, "RandomForest")
 
-    #test_all(15, "SVR1000", 1000)
-    #test_all(30, "SVR1000", 1000)
-
-    #test_all(15, "SVR_NoScale")
-    #test_all(30, "SVR_NoScale")
-
-    #3 = 1 day into future
-
-    test_all(1, "1DayTextBlob")
-    test_all(2, "2DaysTextBlob")
-    test_all(5, "5DaysTextBlob")
-    test_all(10, "10DaysTextBlob")
-    test_all(15, "15DaysTextBlob")
-    test_all(30,"30DaysTextBlob")
+    test_company("FB", 1)
+    test_company("A", 1)
+    test_company("LRCX",1)

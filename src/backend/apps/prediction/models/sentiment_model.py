@@ -10,13 +10,18 @@ from datetime import timedelta
 
 from models import common
 
+from sklearn.linear_model import SGDRegressor
+from sklearn.linear_model import BayesianRidge
+from sklearn.linear_model import SGDRegressor
+
+from sklearn.tree import DecisionTreeRegressor
 
 # Used to fill in missing sentiment data
 def past_sentiment_regression(df):
     train = df.copy()
     x_train = train.drop(["sentiment", "time"], axis=1)
     y_train = train['sentiment']
-    model = LinearRegression()
+    model = make_pipeline(StandardScaler(), BayesianRidge())
     model.fit(x_train, y_train)
     return model
 
@@ -34,8 +39,7 @@ def future_sentiment_regression(df, future_days, end_date=-1):
     x_train = data[['day', 'day_month', 'day_week', 'day_hour', 'day_minute', 'day_dayofweek']]
     y_train = data['sentiment']
 
-
-    model = SVR()
+    model = make_pipeline(StandardScaler(), BayesianRidge()) #BayesianRidge()
     model.fit(x_train[-future_days:], y_train[-future_days:])
 
     recent_sent = df['sentiment'][-1]
