@@ -1,8 +1,7 @@
-from flask import Flask, request
-import flask
 import json
+
 import nltk.data
-import requests
+from flask import Flask, request
 
 app = Flask(__name__)
 
