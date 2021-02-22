@@ -5,7 +5,7 @@
 -- Dumped from database version 12.5
 -- Dumped by pg_dump version 13.0
 
--- Started on 2021-02-22 14:08:23
+-- Started on 2021-02-22 14:47:30
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -41,7 +41,7 @@ SET default_table_access_method = heap;
 
 --
 -- TOC entry 250 (class 1259 OID 17524)
--- Name: points; Type: TABLE; Schema: public; Owner: euano
+-- Name: points; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.points (
@@ -58,11 +58,11 @@ CREATE TABLE public.points (
 );
 
 
-ALTER TABLE public.points OWNER TO euano;
+ALTER TABLE public.points OWNER TO postgres;
 
 --
 -- TOC entry 251 (class 1259 OID 17530)
--- Name: points_id_seq; Type: SEQUENCE; Schema: public; Owner: euano
+-- Name: points_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.points_id_seq
@@ -74,12 +74,12 @@ CREATE SEQUENCE public.points_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.points_id_seq OWNER TO euano;
+ALTER TABLE public.points_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 3262 (class 0 OID 0)
 -- Dependencies: 251
--- Name: points_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: euano
+-- Name: points_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.points_id_seq OWNED BY public.points.id;
@@ -87,7 +87,7 @@ ALTER SEQUENCE public.points_id_seq OWNED BY public.points.id;
 
 --
 -- TOC entry 3039 (class 2604 OID 17532)
--- Name: points id; Type: DEFAULT; Schema: public; Owner: euano
+-- Name: points id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.points ALTER COLUMN id SET DEFAULT nextval('public.points_id_seq'::regclass);
@@ -96,7 +96,7 @@ ALTER TABLE ONLY public.points ALTER COLUMN id SET DEFAULT nextval('public.point
 --
 -- TOC entry 3015 (class 0 OID 17430)
 -- Dependencies: 239
--- Data for Name: cache_inval_bgw_job; Type: TABLE DATA; Schema: _timescaledb_cache; Owner: euano
+-- Data for Name: cache_inval_bgw_job; Type: TABLE DATA; Schema: _timescaledb_cache; Owner: postgres
 --
 
 COPY _timescaledb_cache.cache_inval_bgw_job  FROM stdin;
@@ -106,7 +106,7 @@ COPY _timescaledb_cache.cache_inval_bgw_job  FROM stdin;
 --
 -- TOC entry 3014 (class 0 OID 17433)
 -- Dependencies: 240
--- Data for Name: cache_inval_extension; Type: TABLE DATA; Schema: _timescaledb_cache; Owner: euano
+-- Data for Name: cache_inval_extension; Type: TABLE DATA; Schema: _timescaledb_cache; Owner: postgres
 --
 
 COPY _timescaledb_cache.cache_inval_extension  FROM stdin;
@@ -116,7 +116,7 @@ COPY _timescaledb_cache.cache_inval_extension  FROM stdin;
 --
 -- TOC entry 3013 (class 0 OID 17427)
 -- Dependencies: 238
--- Data for Name: cache_inval_hypertable; Type: TABLE DATA; Schema: _timescaledb_cache; Owner: euano
+-- Data for Name: cache_inval_hypertable; Type: TABLE DATA; Schema: _timescaledb_cache; Owner: postgres
 --
 
 COPY _timescaledb_cache.cache_inval_hypertable  FROM stdin;
@@ -126,7 +126,7 @@ COPY _timescaledb_cache.cache_inval_hypertable  FROM stdin;
 --
 -- TOC entry 2988 (class 0 OID 16999)
 -- Dependencies: 210
--- Data for Name: hypertable; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: hypertable; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.hypertable (id, schema_name, table_name, associated_schema_name, associated_table_prefix, num_dimensions, chunk_sizing_func_schema, chunk_sizing_func_name, chunk_target_size, compressed, compressed_hypertable_id) FROM stdin;
@@ -136,7 +136,7 @@ COPY _timescaledb_catalog.hypertable (id, schema_name, table_name, associated_sc
 --
 -- TOC entry 2995 (class 0 OID 17073)
 -- Dependencies: 218
--- Data for Name: chunk; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: chunk; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.chunk (id, hypertable_id, schema_name, table_name, compressed_chunk_id, dropped) FROM stdin;
@@ -146,7 +146,7 @@ COPY _timescaledb_catalog.chunk (id, hypertable_id, schema_name, table_name, com
 --
 -- TOC entry 2991 (class 0 OID 17038)
 -- Dependencies: 214
--- Data for Name: dimension; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: dimension; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.dimension (id, hypertable_id, column_name, column_type, aligned, num_slices, partitioning_func_schema, partitioning_func, interval_length, integer_now_func_schema, integer_now_func) FROM stdin;
@@ -156,7 +156,7 @@ COPY _timescaledb_catalog.dimension (id, hypertable_id, column_name, column_type
 --
 -- TOC entry 2993 (class 0 OID 17057)
 -- Dependencies: 216
--- Data for Name: dimension_slice; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: dimension_slice; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.dimension_slice (id, dimension_id, range_start, range_end) FROM stdin;
@@ -166,7 +166,7 @@ COPY _timescaledb_catalog.dimension_slice (id, dimension_id, range_start, range_
 --
 -- TOC entry 2997 (class 0 OID 17094)
 -- Dependencies: 219
--- Data for Name: chunk_constraint; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: chunk_constraint; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.chunk_constraint (chunk_id, dimension_slice_id, constraint_name, hypertable_constraint_name) FROM stdin;
@@ -176,7 +176,7 @@ COPY _timescaledb_catalog.chunk_constraint (chunk_id, dimension_slice_id, constr
 --
 -- TOC entry 2999 (class 0 OID 17112)
 -- Dependencies: 221
--- Data for Name: chunk_index; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: chunk_index; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.chunk_index (chunk_id, index_name, hypertable_id, hypertable_index_name) FROM stdin;
@@ -186,7 +186,7 @@ COPY _timescaledb_catalog.chunk_index (chunk_id, index_name, hypertable_id, hype
 --
 -- TOC entry 3011 (class 0 OID 17298)
 -- Dependencies: 236
--- Data for Name: compression_chunk_size; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: compression_chunk_size; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.compression_chunk_size (chunk_id, compressed_chunk_id, uncompressed_heap_size, uncompressed_toast_size, uncompressed_index_size, compressed_heap_size, compressed_toast_size, compressed_index_size) FROM stdin;
@@ -196,7 +196,7 @@ COPY _timescaledb_catalog.compression_chunk_size (chunk_id, compressed_chunk_id,
 --
 -- TOC entry 3001 (class 0 OID 17130)
 -- Dependencies: 223
--- Data for Name: bgw_job; Type: TABLE DATA; Schema: _timescaledb_config; Owner: euano
+-- Data for Name: bgw_job; Type: TABLE DATA; Schema: _timescaledb_config; Owner: postgres
 --
 
 COPY _timescaledb_config.bgw_job (id, application_name, job_type, schedule_interval, max_runtime, max_retries, retry_period) FROM stdin;
@@ -206,7 +206,7 @@ COPY _timescaledb_config.bgw_job (id, application_name, job_type, schedule_inter
 --
 -- TOC entry 3005 (class 0 OID 17209)
 -- Dependencies: 229
--- Data for Name: continuous_agg; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: continuous_agg; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.continuous_agg (mat_hypertable_id, raw_hypertable_id, user_view_schema, user_view_name, partial_view_schema, partial_view_name, bucket_width, job_id, refresh_lag, direct_view_schema, direct_view_name, max_interval_per_job, ignore_invalidation_older_than, materialized_only) FROM stdin;
@@ -216,7 +216,7 @@ COPY _timescaledb_catalog.continuous_agg (mat_hypertable_id, raw_hypertable_id, 
 --
 -- TOC entry 3007 (class 0 OID 17248)
 -- Dependencies: 231
--- Data for Name: continuous_aggs_completed_threshold; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: continuous_aggs_completed_threshold; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.continuous_aggs_completed_threshold (materialization_id, watermark) FROM stdin;
@@ -226,7 +226,7 @@ COPY _timescaledb_catalog.continuous_aggs_completed_threshold (materialization_i
 --
 -- TOC entry 3008 (class 0 OID 17258)
 -- Dependencies: 232
--- Data for Name: continuous_aggs_hypertable_invalidation_log; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: continuous_aggs_hypertable_invalidation_log; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.continuous_aggs_hypertable_invalidation_log (hypertable_id, modification_time, lowest_modified_value, greatest_modified_value) FROM stdin;
@@ -236,7 +236,7 @@ COPY _timescaledb_catalog.continuous_aggs_hypertable_invalidation_log (hypertabl
 --
 -- TOC entry 3006 (class 0 OID 17238)
 -- Dependencies: 230
--- Data for Name: continuous_aggs_invalidation_threshold; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: continuous_aggs_invalidation_threshold; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.continuous_aggs_invalidation_threshold (hypertable_id, watermark) FROM stdin;
@@ -246,7 +246,7 @@ COPY _timescaledb_catalog.continuous_aggs_invalidation_threshold (hypertable_id,
 --
 -- TOC entry 3009 (class 0 OID 17262)
 -- Dependencies: 233
--- Data for Name: continuous_aggs_materialization_invalidation_log; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: continuous_aggs_materialization_invalidation_log; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.continuous_aggs_materialization_invalidation_log (materialization_id, modification_time, lowest_modified_value, greatest_modified_value) FROM stdin;
@@ -256,7 +256,7 @@ COPY _timescaledb_catalog.continuous_aggs_materialization_invalidation_log (mate
 --
 -- TOC entry 3010 (class 0 OID 17279)
 -- Dependencies: 235
--- Data for Name: hypertable_compression; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: hypertable_compression; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.hypertable_compression (hypertable_id, attname, compression_algorithm_id, segmentby_column_index, orderby_column_index, orderby_asc, orderby_nullsfirst) FROM stdin;
@@ -266,7 +266,7 @@ COPY _timescaledb_catalog.hypertable_compression (hypertable_id, attname, compre
 --
 -- TOC entry 3004 (class 0 OID 17201)
 -- Dependencies: 228
--- Data for Name: metadata; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: metadata; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.metadata (key, value, include_in_telemetry) FROM stdin;
@@ -277,7 +277,7 @@ exported_uuid	9264a838-8450-42ed-b3de-006391f50be4	t
 --
 -- TOC entry 2990 (class 0 OID 17023)
 -- Dependencies: 212
--- Data for Name: tablespace; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: euano
+-- Data for Name: tablespace; Type: TABLE DATA; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 COPY _timescaledb_catalog.tablespace (id, hypertable_id, tablespace_name) FROM stdin;
@@ -287,7 +287,7 @@ COPY _timescaledb_catalog.tablespace (id, hypertable_id, tablespace_name) FROM s
 --
 -- TOC entry 3012 (class 0 OID 17313)
 -- Dependencies: 237
--- Data for Name: bgw_policy_compress_chunks; Type: TABLE DATA; Schema: _timescaledb_config; Owner: euano
+-- Data for Name: bgw_policy_compress_chunks; Type: TABLE DATA; Schema: _timescaledb_config; Owner: postgres
 --
 
 COPY _timescaledb_config.bgw_policy_compress_chunks (job_id, hypertable_id, older_than) FROM stdin;
@@ -297,7 +297,7 @@ COPY _timescaledb_config.bgw_policy_compress_chunks (job_id, hypertable_id, olde
 --
 -- TOC entry 3003 (class 0 OID 17165)
 -- Dependencies: 226
--- Data for Name: bgw_policy_drop_chunks; Type: TABLE DATA; Schema: _timescaledb_config; Owner: euano
+-- Data for Name: bgw_policy_drop_chunks; Type: TABLE DATA; Schema: _timescaledb_config; Owner: postgres
 --
 
 COPY _timescaledb_config.bgw_policy_drop_chunks (job_id, hypertable_id, older_than, cascade, cascade_to_materializations) FROM stdin;
@@ -307,7 +307,7 @@ COPY _timescaledb_config.bgw_policy_drop_chunks (job_id, hypertable_id, older_th
 --
 -- TOC entry 3002 (class 0 OID 17148)
 -- Dependencies: 225
--- Data for Name: bgw_policy_reorder; Type: TABLE DATA; Schema: _timescaledb_config; Owner: euano
+-- Data for Name: bgw_policy_reorder; Type: TABLE DATA; Schema: _timescaledb_config; Owner: postgres
 --
 
 COPY _timescaledb_config.bgw_policy_reorder (job_id, hypertable_id, hypertable_index_name) FROM stdin;
@@ -317,7 +317,7 @@ COPY _timescaledb_config.bgw_policy_reorder (job_id, hypertable_id, hypertable_i
 --
 -- TOC entry 3254 (class 0 OID 17524)
 -- Dependencies: 250
--- Data for Name: points; Type: TABLE DATA; Schema: public; Owner: euano
+-- Data for Name: points; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.points (company_id, sentiment, "time", sentence_id, id, open, high, low, close, volume) FROM stdin;
@@ -31508,7 +31508,7 @@ ZBH	-0.06666666666666667	2020-12-13 15:35:11	145843	81081	144.68653767910766	145
 --
 -- TOC entry 3263 (class 0 OID 0)
 -- Dependencies: 220
--- Name: chunk_constraint_name; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: euano
+-- Name: chunk_constraint_name; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 SELECT pg_catalog.setval('_timescaledb_catalog.chunk_constraint_name', 1, false);
@@ -31517,7 +31517,7 @@ SELECT pg_catalog.setval('_timescaledb_catalog.chunk_constraint_name', 1, false)
 --
 -- TOC entry 3264 (class 0 OID 0)
 -- Dependencies: 217
--- Name: chunk_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: euano
+-- Name: chunk_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 SELECT pg_catalog.setval('_timescaledb_catalog.chunk_id_seq', 1, false);
@@ -31526,7 +31526,7 @@ SELECT pg_catalog.setval('_timescaledb_catalog.chunk_id_seq', 1, false);
 --
 -- TOC entry 3265 (class 0 OID 0)
 -- Dependencies: 213
--- Name: dimension_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: euano
+-- Name: dimension_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 SELECT pg_catalog.setval('_timescaledb_catalog.dimension_id_seq', 1, false);
@@ -31535,7 +31535,7 @@ SELECT pg_catalog.setval('_timescaledb_catalog.dimension_id_seq', 1, false);
 --
 -- TOC entry 3266 (class 0 OID 0)
 -- Dependencies: 215
--- Name: dimension_slice_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: euano
+-- Name: dimension_slice_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 SELECT pg_catalog.setval('_timescaledb_catalog.dimension_slice_id_seq', 1, false);
@@ -31544,7 +31544,7 @@ SELECT pg_catalog.setval('_timescaledb_catalog.dimension_slice_id_seq', 1, false
 --
 -- TOC entry 3267 (class 0 OID 0)
 -- Dependencies: 209
--- Name: hypertable_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: euano
+-- Name: hypertable_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_catalog; Owner: postgres
 --
 
 SELECT pg_catalog.setval('_timescaledb_catalog.hypertable_id_seq', 1, false);
@@ -31553,7 +31553,7 @@ SELECT pg_catalog.setval('_timescaledb_catalog.hypertable_id_seq', 1, false);
 --
 -- TOC entry 3268 (class 0 OID 0)
 -- Dependencies: 222
--- Name: bgw_job_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_config; Owner: euano
+-- Name: bgw_job_id_seq; Type: SEQUENCE SET; Schema: _timescaledb_config; Owner: postgres
 --
 
 SELECT pg_catalog.setval('_timescaledb_config.bgw_job_id_seq', 1000, false);
@@ -31562,7 +31562,7 @@ SELECT pg_catalog.setval('_timescaledb_config.bgw_job_id_seq', 1000, false);
 --
 -- TOC entry 3269 (class 0 OID 0)
 -- Dependencies: 251
--- Name: points_id_seq; Type: SEQUENCE SET; Schema: public; Owner: euano
+-- Name: points_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.points_id_seq', 81081, true);
@@ -31570,14 +31570,14 @@ SELECT pg_catalog.setval('public.points_id_seq', 81081, true);
 
 --
 -- TOC entry 3118 (class 2606 OID 17540)
--- Name: points points_pkey; Type: CONSTRAINT; Schema: public; Owner: euano
+-- Name: points points_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.points
     ADD CONSTRAINT points_pkey PRIMARY KEY (id);
 
 
--- Completed on 2021-02-22 14:08:24
+-- Completed on 2021-02-22 14:47:31
 
 --
 -- PostgreSQL database dump complete
