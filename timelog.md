@@ -264,5 +264,90 @@
 
 * *0.5 hour* Meeting with advisor
 
-# 18 
+# 19 Jan
+
+* *3 hours* Working on disseration
+* *4.3 hours* Prediction component code debt
+
+# 20 Jan
+
+* *3.5 hours* Working on metrics for prediction component
+
+# 21 Jan
+
+* *3 hours* Working on prediction component improvements
+* *1 hour* Meeting notes and project documentation
+
+# 22 Jan
+
+* *0.5 hour* Meeting with advisor
+* *2 hours* Working on disseration introduction
+
+# 26 Jan
+
+* *2 hours* Creating sentiment metrics
+
+# 27 Jan
+
+* *3 hours* Creating context metrics
+
+# 28 Jan
+
+* *1 hour* fixing metrics
+* *1 hour* Working on dissertation
+* *1 hour* Documentation
+
+# 29 Jan
+
+* *0.5 hour* Meeting with advisor
+
+# 1 Feb
+
+* *1.5 hours* Context matching metrics
+* *2 hours* Working on improved context matching
+
+# 2 Feb
+
+* *3 hours* Dissertation work
+
+# 3 Feb
+
+* *2 hour* Working on context matching
+
+# 4 Feb
+
+* *2 hours* Running metrics and ironing out bugs
+* *9 hours* Overviewing metrics being run
+
+## 5 Feb
+
+* *0.5 hour* Meeting with advisor
+* *0.5 hour* Post meeting note taking
+
+## 8 Feb
+
+* *5 hours* Working on improving sentiment component
+
+## 9 Feb
+
+* *3 hours* Running metrics and documenting results
+
+## 15 Feb
+
+* *5 hours* Working on frontend improvements
+
+## 16 Feb
+
+* *5 hours* Working on prediction component improvements
+
+
+## 17 Feb
+
+* *1 hour* Documenting prediction performance improvements
+* *1 hour* Ironing out bugs on frontend
+* *2 hours* Containorizing components
+
+## 18 Feb
+
+* *3 hours* Containorizing components
 
