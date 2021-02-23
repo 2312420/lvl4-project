@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  #db:
+  db-main:
+    image: db_main
+    build:
+      context: database/main
+      dockerfile: Dockerfile
+    ports: 
+      - 5432:5432
+  
+  #news-cralwer:
+  #  image: news-crawler
+  #  build:
+  #    context: backend/apps/news-crawler
+  #    dockerfile: Dockerfile
+    
+  #entity-ident:
+  #  image: entity_ident
+  #  build:
+  #    context: backend/apps/entity_identification
+  #    dockerfile: Dockerfile
+  #  ports:
+  #     - 5001:5001
+
+  backend-api:
+    image: backend_api
+    build:
+      context: backend/backend_api
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+
+  #sentence-extraction:
+  #  image: sentence_extraction
+  #  build:
+  #    context: backend/apps/sentence_extraction
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - 5002:5002
+
+  
+
+    

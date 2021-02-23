@@ -596,4 +596,4 @@ def add_company_tag(tag_id, stock_code):
         return flask.Response(status=400)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
