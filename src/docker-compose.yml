@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   #db:
-  db-main:
+  dbmain:
     image: db_main
     build:
       context: database/main
@@ -10,27 +10,39 @@ services:
     ports: 
       - 5432:5432
   
+  frontend:
+    image: frontend
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports: 
+      - 8000:8000
+    depends_on: 
+      - dbmain
+
   #news-cralwer:
   #  image: news-crawler
   #  build:
   #    context: backend/apps/news-crawler
   #    dockerfile: Dockerfile
     
+  
+  #backend-api:
+  #  image: backend_api
+  #  build:
+  #    context: backend/backend_api
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - 5000:5000
+
   #entity-ident:
   #  image: entity_ident
   #  build:
   #    context: backend/apps/entity_identification
   #    dockerfile: Dockerfile
   #  ports:
-  #     - 5001:5001
-
-  backend-api:
-    image: backend_api
-    build:
-      context: backend/backend_api
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
+  #     - 5001:5001      
 
   #sentence-extraction:
   #  image: sentence_extraction
@@ -39,7 +51,22 @@ services:
   #    dockerfile: Dockerfile
   #  ports:
   #    - 5002:5002
-
+  
+  #sentiment-analysis:
+  #  image: sentiment_analysis
+  #  build:
+  #    context: backend/apps/sentiment_analysis
+  #    dockerfile: Dockerfile
+  #  ports: 
+  #    - 5003:5003
+  
+  #prediction:
+  #  image: prediction
+  #  build:
+  #    context: backend/apps/prediction
+  #    dockerfile: Dockerfile
+  #  ports: 
+  #    - 5004:5004
   
 
     

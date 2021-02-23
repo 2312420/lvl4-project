@@ -1,5 +1,4 @@
 import json
-
 import nltk.data
 from flask import Flask, request
 
@@ -28,4 +27,4 @@ def sentence_extraction():
 
 if __name__ == '__main__':
     nltk.download('punkt', download_dir='/app/nltk')
-    app.run(port=5002)
+    app.run(host="0.0.0.0", port=5002)
