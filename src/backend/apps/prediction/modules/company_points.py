@@ -6,7 +6,7 @@ import requests
 import numpy as np
 import pandas as pd
 
-baseurl = "http://127.0.0.1:5000"
+baseurl = "http://backend-api:5000"
 
 
 # Get data points from db given a stock code and time frame

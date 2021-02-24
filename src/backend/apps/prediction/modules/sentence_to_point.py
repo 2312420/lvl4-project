@@ -2,7 +2,7 @@
 import requests
 from modules import stock_data
 
-baseurl = "http://127.0.0.1:5000"
+baseurl = "http://backend-api:5000"
 
 
 # Get all sentences that need to be transformed into points
@@ -71,7 +71,7 @@ def update_points():
 
 
 def redo_points():
-    url = "http://127.0.0.1:5000/sentence/findByStatus"
+    url = "http://backend-api:5000/sentence/findByStatus"
     payload = {"status": "DONE"}
     r = requests.get(url, json=payload)
 

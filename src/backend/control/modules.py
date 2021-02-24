@@ -2,14 +2,20 @@ import requests
 import json
 
 # Component Apis
-article_context = "http://127.0.0.1:5001/ident/article"
-sentence_context = "http://127.0.0.1:5001/ident/sentence"
-sentence_extraction_url = "http://127.0.0.1:5002/sent"
-sentence_sentiment_url = "http://127.0.0.1:5003/sentiment"
-prediction_base_url = "http://127.0.0.1:5004"
+#article_context = "http://127.0.0.1:5001/ident/article"
+#sentence_context = "http://127.0.0.1:5001/ident/sentence"
+#sentence_extraction_url = "http://127.0.0.1:5002/sent"
+#sentence_sentiment_url = "http://127.0.0.1:5003/sentiment"
+#prediction_base_url = "http://127.0.0.1:5004"
+
+article_context = "http://entity-ident:5001/ident/article"
+sentence_context = "http://entity-ident:5001/ident/sentence"
+sentence_extraction_url = "http://sentence-extraction:5002/sent"
+sentence_sentiment_url = "http://sentiment-analysis:5003/sentiment"
+prediction_base_url = "http://prediction:5004"
 
 # Backend Api
-base_url = "http://127.0.0.1:5000"
+base_url = "http://backend-api:5000"
 
 
 # <!-------------------------!> #
@@ -136,8 +142,8 @@ def company_prediction(company):
 # Take sentences and turns them into data points
 def sentence_to_point(sentence):
     url = prediction_base_url + "/points/sentences"
-    url = "http://127.0.0.1:5004/points/sentences"
-    r = requests.post(url="http://127.0.0.1:5004/points/sentences", json=sentence)
+    #url = "http://127.0.0.1:5004/points/sentences"
+    r = requests.post(url=url, json=sentence)
     if r.status_code == 200:
         print("Point updated")
     else:

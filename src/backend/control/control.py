@@ -8,11 +8,28 @@ import psycopg2.extensions
 import select
 
 # Backend Api
-base_url = "http://127.0.0.1:5000"
+base_url = "http://backend-api:5000"
 
-# DB connection
-conn = psycopg2.connect(database="localdb", user="postgres", password="2206")
+# Backend component urls
+entity_ident_url = "http://entity-ident:5001/ident"
+sentence_extraction_url = "http://sentence-extraction:5002/"
+sentence_sentiment_url = "http://sentiment-analysis:5003/"
+prediction_url = "http://prediction:5004/"
 
+
+
+
+
+def wait(url):
+    response = False
+    while True:
+        try:
+            r = requests.get(url)
+            print(r.status_code)
+            if r.status_code == 200:
+                break
+        except:
+            pass
 
 # Get list of unfinished sentences
 def get_unfinished_sentences():
@@ -48,6 +65,8 @@ def process_sentence(sentence):
         md.sentence_sentiment(sentence)
     elif status == "PRED":
         md.sentence_to_point(sentence)
+        # New point has been added so update prediction for company
+        md.company_prediction(sentence['context'])
 
 
 def process_article(article):
@@ -66,15 +85,29 @@ def process(articles, sentences):
     return [], []
 
 
-args = sys.argv
-cur_path = os.path.dirname(os.path.realpath(__file__))
-
 if __name__ == '__main__':
 
-    for company in md.get_companies():
-        md.company_prediction(company)
-        print(company['stock_code'])
+    # DB connection
+    while True:
+        try:
+            conn = psycopg2.connect(host='dbmain',
+                                    port='5432',
+                                    user='postgres',
+                                    password='2206',
+                                    database='maindb')
+            print("Connected to db")
+            break
+        except:
+            pass
 
+    wait(sentence_extraction_url)
+    print("connected to sentence extraction component")
+    wait(entity_ident_url)
+    print("connected to entity identification component")
+    wait(sentence_sentiment_url)
+    print("connected to sentence sentiment component")
+    wait(prediction_url)
+    print("connected to prediction component")
 
     sentences = get_unfinished_sentences()
     articles = get_unfinished_articles()
@@ -87,16 +120,7 @@ if __name__ == '__main__':
     print("Waiting for notifications")
     updates = False
 
-
     while True:
-        #if updates:
-            # There has been an update to the system, company prediction are re-done
-            # !Needs optimization to only run predictions on companies that have had additional info added
-        #    for company in md.get_companies():
-        #        md.company_prediction(company)
-        #        print(company['stock_code'])
-        #    updates = False
-
         if sentences != [] or articles != []:
             # Articles and sentences to be processed
             sentences, articles = process(articles, sentences)
@@ -116,24 +140,3 @@ if __name__ == '__main__':
                 notify = conn.notifies.pop()
                 sentences = get_unfinished_sentences()
                 articles = get_unfinished_articles()
-
-#if(args[1] == 'start' and args[2] == 'backend'):
-#        print("Starting backend api...")
-#        path = cur_path + '/backend_api/app.py'
-#        backed_api = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
-
-#        print("Starting entity identification...")
-#        path = cur_path + '/apps/entity_identification/main.py'
-#        entity_ident = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
-
-#        print("Starting sentence extraction...")
-#        path = cur_path + '/apps/sentence_extraction/sentence.py'
-#        sentence_extraction = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
-
-#        print("Starting Sentiment analysis...")
-#        path = cur_path + '/apps/sentiment_analysis/main.py'
-#        sentiment_analysis = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)
-
-#        print("Starting prediction...")
-#        path = cur_path + '/apps/prediction/main.py'
-#        prediction = Popen(['python', path], shell=True, stdin=PIPE, stdout=PIPE)

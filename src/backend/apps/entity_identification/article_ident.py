@@ -1,6 +1,6 @@
 import common as c
 
-base_url = "http://127.0.0.1:5000"
+base_url = "http://backend-api:5000"
 
 # python -m spacy download en_core_web_sm
 

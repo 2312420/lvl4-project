@@ -4,7 +4,7 @@ from flask import Flask, request
 import json
 from textblob import TextBlob
 
-baseurl = "http://127.0.0.1:5000"
+baseurl = "http://backend-api:5000"
 
 app = Flask(__name__)
 

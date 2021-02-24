@@ -432,11 +432,11 @@ def update_company_predictions():
 
 @app.route('/points/<company_id>', methods=['GET'])
 def get_data_points(company_id):
-    conn =psycopg2.connect(host='localhost',
-                           port='5433',
-                           user='postgres',
-                           password='2206',
-                           database='company_data')
+    conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
+                                    user='postgres',
+                                    password='2206',
+                                    database='timedb')
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute("SELECT * FROM points WHERE company_id= %s ORDER BY time DESC LIMIT 100", [company_id])
     points = json.dumps(cursor.fetchall(), indent=2, default=str)
@@ -454,11 +454,11 @@ def add_data_point():
                 db.session.commit()
                 return flask.Response(status=204)
 
-            conn = psycopg2.connect(host='localhost',
-                                    port='5433',
+            conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
                                     user='postgres',
                                     password='2206',
-                                    database='company_data')
+                                    database='timedb')
             cursor = conn.cursor()
 
 
@@ -483,11 +483,11 @@ def add_data_point():
 @app.route('/points', methods=['GET'])
 def get_all_points():
     try:
-        conn = psycopg2.connect(host='localhost',
-                                    port='5433',
+        conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
                                     user='postgres',
                                     password='2206',
-                                    database='company_data')
+                                    database='timedb')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM points")
         points = cursor.fetchall()
@@ -513,11 +513,11 @@ def points_update_price():
     if request.is_json:
         try:
             content = request.get_json()
-            conn = psycopg2.connect(host='localhost',
-                                    port='5433',
+            conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
                                     user='postgres',
                                     password='2206',
-                                    database='company_data')
+                                    database='timedb')
             cursor = conn.cursor()
             cursor.execute("UPDATE points SET open=%s, high=%s, low=%s, close=%s, volume=%s WHERE id=%s",
                            [content['open'], content['high'], content['low'], content['close'], content['volume'],
@@ -533,11 +533,11 @@ def points_update_price():
 @app.route('/points/<company_id>/<interval>', methods=['GET'])
 def points_from_time_frame(company_id, interval):
     try:
-        conn = psycopg2.connect(host='localhost',
-                                port='5433',
-                                user='postgres',
-                                password='2206',
-                                database='company_data')
+        conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
+                                    user='postgres',
+                                    password='2206',
+                                    database='timedb')
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute("SELECT * FROM points WHERE time > NOW() - INTERVAL %s AND company_id = %s ORDER BY time", [interval, company_id])
         points = json.dumps(cursor.fetchall(), indent=2, default=str)
