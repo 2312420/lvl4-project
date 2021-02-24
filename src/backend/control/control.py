@@ -72,7 +72,7 @@ def process_sentence(sentence_queue):#, sentence):
         elif status == "PRED":
             md.sentence_to_point(sentence)
             # New point has been added so update prediction for company
-            md.company_prediction(sentence['context'])
+            md.company_prediction({"stock_code": sentence['context']})
         sentence_queue.task_done()
         print("t")
     
@@ -112,12 +112,8 @@ def process(articles, sentences):
         #process_sentence(sentence)
         sentence_queue.put(sentence)
 
-    print("!")
     article_queue.join()
-    print("!")
     sentence_queue.join()
-    print("!")
-
     return [], []
 
 

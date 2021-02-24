@@ -133,13 +133,12 @@ def get_sentences_for_sentiment():
 def company_prediction(company):
     url = prediction_base_url + "/predictions"
     r = requests.get(url, json=company)
-    print(r.status_code)
     if r.status_code == 200:
         content = r.json()
         url = base_url + '/company/predictions'
         payload = {'stock_code': content['stock_code'], 'verdict': content['verdict'], 'predictions': content['predictions']}
         r = requests.post(url, json=payload)
-        print("Updated" + content['stock_code'] + " prediction")
+        print("Updated " + content['stock_code'] + " prediction")
 
 
 # Take sentences and turns them into data points
