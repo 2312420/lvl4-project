@@ -1,3 +1,4 @@
+# Api calls and functions to process sentences and articles
 import requests
 import json
 
@@ -69,7 +70,7 @@ def get_articles_context():
     url = base_url + '/article/findByStatus'
     payload = {"status": "CONTEXT"}
     r = requests.get(url, json=payload)
-    return r.json()#r.json()22
+    return r.json()
 
 
 # <!-------------------------!> #
@@ -132,20 +133,21 @@ def get_sentences_for_sentiment():
 def company_prediction(company):
     url = prediction_base_url + "/predictions"
     r = requests.get(url, json=company)
+    print(r.status_code)
     if r.status_code == 200:
         content = r.json()
         url = base_url + '/company/predictions'
         payload = {'stock_code': content['stock_code'], 'verdict': content['verdict'], 'predictions': content['predictions']}
         r = requests.post(url, json=payload)
+        print("Updated" + content['stock_code'] + " prediction")
 
 
 # Take sentences and turns them into data points
 def sentence_to_point(sentence):
     url = prediction_base_url + "/points/sentences"
-    #url = "http://127.0.0.1:5004/points/sentences"
     r = requests.post(url=url, json=sentence)
     if r.status_code == 200:
-        print("Point updated")
+        print("Point Created")
     else:
         print(r.status_code)
 

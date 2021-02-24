@@ -1,7 +1,6 @@
 version: '3.4'
 
 services:
-  #db:
   dbmain:
     image: db_main
     build:
@@ -18,18 +17,17 @@ services:
     ports: 
       - 5433:5432
 
-  #frontend:
-  #  image: frontend
-  #  build: 
-  #    context: frontend
-  #    dockerfile: Dockerfile
-  #  command: python manage.py runserver 0.0.0.0:8000
-  #  ports: 
-  #    - 8000:8000
-  #  depends_on: 
-  #    - dbmain
-  #    - prediction
-
+  frontend:
+    image: frontend
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports: 
+      - 8000:8000
+    depends_on: 
+      - dbmain
+      - prediction
 
   news-cralwer:
     image: news-crawler
