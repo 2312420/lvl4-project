@@ -76,39 +76,10 @@
     </div>
 
     <div hidden id="stockInfo" class="stockInfo">
-        {% include 'company-price-ticker.html' %}
-        <!--
-        <div style="padding-bottom: 5px; position: relative; min-height: 160px">
-            <img src="{{ basic_info.logo_url }}" style="position: absolute; max-height: 160px; max-width: 160px">
-            <p class = "busSummary"> {{ basic_info.longBusinessSummary }}</p>
+        <div id="info-replace" style="margin-top: 10px">
+            <div class = "info-loader"></div>
         </div>
 
-        <hr style="border-top: 2px solid  #333; position: relative">
-
-        <div>
-            <h2> Basic Information </h2>
-            <p> <b>Sector:</b> {{ basic_info.sector }}</p>
-            <p> <b>Industry:</b> {{ basic_info.industry }}</p>
-            <p> <b>Country:</b> {{ basic_info.country }}</p>
-            <p> <b>City:</b> {{ basic_info.city }}</p>
-            <p> <b>Address:</b> {{ basic_info.address1 }}</p>
-            <p> <b>Phone:</b> {{ basic_info.phone }}</p>
-            <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
-            <p> <b>Employees:</b> {{ basic_info.fullTimeEmployees }}</p>
-        </div>
-
-
-        <hr style="border-top: 2px solid  #333; position: relative">
-    
-        <div style="font-family: Arial, sans-serif;">
-            <h2> Financial Information </h2>
-        {% for key, value in finance_info.items %}
-            <div style="width: 50%; float: left">
-                <p> <b>{{ key }}</b>:{{ value }}</p>
-            </div>
-        {% endfor %}
-        </div>
-        -->
     </div>
 
     </div>
@@ -150,6 +121,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+
+    <script type="text/javascript" src="{% static "js/Hammer.js" %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
     <script type="text/javascript" src="{% static "js/company_info.js" %}"></script>
 
@@ -264,8 +241,21 @@
                     }
                 }]
             },
-            maintainAspectRatio: false
-        }
+            maintainAspectRatio: false,
+            plugins: {
+                zoom: {
+							pan: {
+								enabled: true,
+								mode: 'xy' // is panning about the y axis neccessary for bar charts?
+							},
+							zoom: {
+								enabled: true,
+								mode: 'x',
+								sensitivity: 3
+							}
+						}
+            }
+        },
     });
 
 
@@ -316,7 +306,20 @@
                 }]
             },
             maintainAspectRatio: false,
-            responsive: true
+            responsive: true,
+            plugins: {
+                zoom: {
+							pan: {
+								enabled: true,
+								mode: 'xy' // is panning about the y axis neccessary for bar charts?
+							},
+							zoom: {
+								enabled: true,
+								mode: 'x',
+								sensitivity: 3
+							}
+						}
+            }
         }
     });
 

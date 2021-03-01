@@ -17,6 +17,15 @@
   animation: spin 2s linear infinite;
 }
 
+.info-loader{
+  border: 8vh solid white; /* Light grey */
+  border-top: 8vh solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 20vh;
+  height: 20vh;
+  animation: spin 2s linear infinite
+}
+
 .mainbody {
   margin-left: 202px;
 }

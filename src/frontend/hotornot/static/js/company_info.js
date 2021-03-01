@@ -1,4 +1,4 @@
-const stock_info_div = $('#stockInfo')
+const stock_info_div = $('#info-replace')
 
 let company_info_ajax_call = function (endpoint) {
 	$.getJSON(endpoint, {"t":"info"})
@@ -13,6 +13,6 @@ let company_info_ajax_call = function (endpoint) {
 		})
 }
 
-let endpoint = document.location.pathname
-company_info_ajax_call(endpoint)
+let info_endpoint = document.location.pathname
+company_info_ajax_call(info_endpoint)
 

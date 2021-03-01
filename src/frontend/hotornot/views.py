@@ -236,7 +236,6 @@ def company_page(request, stock_code):
                                                     'page': page
                                                     })
 
-
 def how_it_works(request):
     return render(request, 'how.html')
 
