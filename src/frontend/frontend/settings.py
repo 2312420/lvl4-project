@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'frontend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "localdb",
+        'NAME': "maindb",
         'USER': 'postgres',
         'PASSWORD': '2206',
-        'HOST': 'localhost',
+        'HOST': 'dbmain',
         'PORT': '5432',
     }
 }
@@ -137,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-CORS_ALLOWED_ORIGINS=["http://127.0.0.1:5004"]
+CORS_ALLOWED_ORIGINS=["http://127.0.0.1:5004", "http://prediction:5004"]
 # Access-Control-Allow-Methods: GET, POST
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_HEADERS = [
@@ -155,5 +155,6 @@ CORS_ALLOW_METHODS = [
 
 CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1:5004",
+    "http://prediction:5004"
 ]
 

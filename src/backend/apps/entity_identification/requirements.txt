@@ -1,0 +1,5 @@
+pandas==1.1.4
+requests==2.25.0
+fuzzywuzzy==0.18.0
+Flask==1.1.2
+stanza==1.2

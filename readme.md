@@ -1,27 +1,24 @@
-# Guidance
-This is a suggested template for a project. You can modify it as you please, but
-but remember to keep:
+## Building project
+Project requires [docker](https://www.docker.com/) and docker compose to build. Images require at least 5GB of free space
 
-* a timelog, updated regularly in the `timelog.md` format;
-* all source under version control;
-* data well organised and with appropriate ethical approval (for human subject data);
+* cd into src
+* run 'docker-compose build'
+* run 'docker-compose up'
+* Website should be running at "http://127.0.0.1:8000/hotornot/"
+* Basic Overview of backend api can be found at "http://127.0.0.1:5000"
 
-Here's an overview of the structure as it stands:
+> :warning: **Note**: Once entity-ident container is up takes 5-10 mins to download stanza models
 
-* `timelog.md` The time log for your project.
-* `plan.md` A skeleton week-by-week plan for the project. 
-* `data/` data you acquire during the project
-* `src/` source code for your project
-* `status_report/` the status report submitted in December
-* `meetings/` Records of the meetings you have during the project.
-* `dissertation/` source and for your project dissertation
-* `presentation/` your presentation
+## Project Structure Structure
 
-* Make sure you add a `.gitignore` or similar for your VCS for the tools you are using!
-* Add any appropriate continuous integration (e.g. Travis CI) in this directory.
-
-* Remove this `readme.md` file from any repository and replace it with something more appropriate!
-
-## Important
-* It should be easy to rebuild and run your project and your dissertation
-        * Include clear instructions in the relevant directories to make this possible
+    src
+    ├── backend 
+    │   ├── apps                # diffrent backend components 
+    │   ├── backend_api         # Backend api 
+    │   ├── control             # Control component 
+    ├── database   
+    │   ├── main                # Main db sql
+    │   ├── timeseries          # Timesries db sql
+    │   ├── scripts             # Data input scripts
+    └── frontend                # Django webapp
+    

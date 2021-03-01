@@ -1,6 +1,7 @@
-import requests
 import csv
 from datetime import datetime
+
+import requests
 
 url = "http://127.0.0.1:5003/sentiment"
 
@@ -11,12 +12,12 @@ def run_sentiment(text):
     return r.json()['score']
 
 
-
 def calcualte_metrics(title, pos_pos, pos_neg, pos_neu, acu):
     percision = pos_pos / (pos_pos + pos_neg + pos_neu)
     recall = pos_pos / acu
     f1 = 2 * ((percision * recall) / (percision + recall))
     return [title, percision, recall, f1]
+
 
 def run_test(note):
 
@@ -129,7 +130,7 @@ def run_test(note):
             csv_writer.writerow(calcualte_metrics("Negative", neg_neg, neg_pos, neg_neu, acu_neg))
             csv_writer.writerow(calcualte_metrics("Neutral", neu_neu, neu_pos, neu_neg, acu_neu))
 
-
     print(now, datetime.now())
+
 
 run_test("flair, new metrics")
