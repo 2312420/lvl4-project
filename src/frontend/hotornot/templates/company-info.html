@@ -1,0 +1,32 @@
+{% load static %}
+
+    <div style="padding-bottom: 5px; position: relative; min-height: 160px">
+            <img src="{{ basic_info.logo_url }}" style="position: absolute; max-height: 160px; max-width: 160px">
+            <p class = "busSummary"> {{ basic_info.longBusinessSummary }}</p>
+    </div>
+
+        <hr style="border-top: 2px solid  #333; position: relative">
+
+    <div>
+        <h2> Basic Information </h2>
+        <p> <b>Sector:</b> {{ basic_info.sector }}</p>
+        <p> <b>Industry:</b> {{ basic_info.industry }}</p>
+        <p> <b>Country:</b> {{ basic_info.country }}</p>
+        <p> <b>City:</b> {{ basic_info.city }}</p>
+        <p> <b>Address:</b> {{ basic_info.address1 }}</p>
+        <p> <b>Phone:</b> {{ basic_info.phone }}</p>
+        <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
+        <p> <b>Employees:</b> {{ basic_info.fullTimeEmployees }}</p>
+    </div>
+
+
+    <hr style="border-top: 2px solid  #333; position: relative">
+
+    <div style="font-family: Arial, sans-serif;">
+        <h2> Financial Information </h2>
+        {% for key, value in finance_info.items %}
+            <div style="width: 50%; float: left">
+                <p> <b>{{ key }}</b>:{{ value }}</p>
+            </div>
+        {% endfor %}
+    </div>

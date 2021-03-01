@@ -76,7 +76,8 @@
     </div>
 
     <div hidden id="stockInfo" class="stockInfo">
-    
+        {% include 'company-price-ticker.html' %}
+        <!--
         <div style="padding-bottom: 5px; position: relative; min-height: 160px">
             <img src="{{ basic_info.logo_url }}" style="position: absolute; max-height: 160px; max-width: 160px">
             <p class = "busSummary"> {{ basic_info.longBusinessSummary }}</p>
@@ -107,7 +108,7 @@
             </div>
         {% endfor %}
         </div>
-
+        -->
     </div>
 
     </div>
@@ -150,6 +151,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/company_info.js" %}"></script>
 
     <script>
 

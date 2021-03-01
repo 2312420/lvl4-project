@@ -127,6 +127,29 @@ def company_page(request, stock_code):
 
     # Ajax request to update live stock price
     if request.is_ajax():
+
+
+        func = request.GET.get("t")
+        if func == "info":
+            # Get company information
+            stock_info = stock_data.info
+            basic_info = {}
+            finance_info = {}
+            info_fields = "logo_url|longBusinessSummary|zip|sector|fullTimeEmployees|city|phone|state|country|companyOfficers|website|maxAge|address1|industry"
+            for item in stock_info:
+                if re.search(info_fields, item):
+                    basic_info.update({item: stock_info[item]})
+                else:
+                    finance_info.update({item: stock_info[item]})
+
+            html = render_to_string(
+                template_name="company-info.html",
+                context={'basic_info': basic_info,
+                         'finance_info': finance_info}
+            )
+            data_dict = {"html_from_view": html}
+            return JsonResponse(data=data_dict, safe=False)
+
         # Company Current Price data
         current_price = round(si.get_live_price(stock_code), 2)
 
@@ -199,17 +222,6 @@ def company_page(request, stock_code):
         sentences.append({'time': sentence.time, 'date': sentence.date, 'text': sentence.text,
                           'source': source.short_hand, 'sentiment': sentiment})
 
-    # Get company information
-    stock_info = stock_data.info
-    basic_info = {}
-    finance_info = {}
-    info_fields = "logo_url|longBusinessSummary|zip|sector|fullTimeEmployees|city|phone|state|country|companyOfficers|website|maxAge|address1|industry"
-    for item in stock_info:
-        if re.search(info_fields, item):
-            basic_info.update({item: stock_info[item]})
-        else:
-            finance_info.update({item: stock_info[item]})
-
     return render(request, 'company.html', context={'company': company,
                                                     'close_data':   {'labels':  close_labels,
                                                                      'prices':  close_prices},
@@ -220,8 +232,6 @@ def company_page(request, stock_code):
                                                                      'labels': cus_labels,},
                                                     'custom_pred': {'prices': cus_pred_price,
                                                                     'labels': cus_pred_labels},
-                                                    'basic_info': basic_info,
-                                                    'finance_info': finance_info,
                                                     'sentences': sentences,
                                                     'page': page
                                                     })

@@ -86,17 +86,28 @@ WSGI_APPLICATION = 'frontend.wsgi.application'
 #    }
 #}
 
+# Containor DB
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': "maindb",
+#        'USER': 'postgres',
+#        'PASSWORD': '2206',
+#        'HOST': 'dbmain',
+#        'PORT': '5432',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "maindb",
+        'NAME': "localdb",
         'USER': 'postgres',
         'PASSWORD': '2206',
-        'HOST': 'dbmain',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
