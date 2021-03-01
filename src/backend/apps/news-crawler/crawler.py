@@ -3,6 +3,7 @@ from datetime import datetime
 from newspaper import Article, ArticleException
 import feedparser as fp
 import requests
+import time
 
 base_url = "http://backend-api:5000/"
 titles = []
@@ -49,6 +50,7 @@ def output(article_data, article_source_id):
 
 
 if __name__ == '__main__':
+    time.sleep(5) # Sleep for 5 seconds to allow Backend and Datbase to come up and running
     sources = get_source()
     while True:
         for source in sources:

@@ -28,13 +28,7 @@ services:
     depends_on: 
       - dbmain
       - prediction
-
-  news-cralwer:
-    image: news-crawler
-    build:
-      context: backend/apps/news-crawler
-      dockerfile: Dockerfile
-    
+  
   backend-api:
     image: backend_api
     build:
@@ -89,4 +83,11 @@ services:
       - dbmain
       - backend-api
 
+  news-cralwer:
+    image: news-crawler
+    build:
+      context: backend/apps/news-crawler
+      dockerfile: Dockerfile
+    depends_on: 
+      - backend-api
     
