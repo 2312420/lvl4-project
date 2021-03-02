@@ -1,5 +1,6 @@
 {% load static %}
-
+    <link rel="stylesheet" type="text/css" href="{% static '/css/company_info.css' %}">
+    <!--
     <div style="padding-bottom: 5px; position: relative; min-height: 160px">
             <img src="{{ basic_info.logo_url }}" style="position: absolute; max-height: 160px; max-width: 160px">
             <p class = "busSummary"> {{ basic_info.longBusinessSummary }}</p>
@@ -30,3 +31,97 @@
             </div>
         {% endfor %}
     </div>
+    -->
+    <div class="info-header">
+
+        <div>
+            <img src="{{ basic_info.logo_url }}" style="height: 140px; max-width: 200px; position: relative; float: left">
+        </div>
+        <div class="busSummary">
+
+            <div class="info-header-lines"></div>
+
+            <div class="info-header-boxes">
+                <p style="color: lightgray">Sector</p>
+                <p>{{ basic_info.sector }}</p>
+            </div>
+
+            <div class="info-header-lines"></div>
+
+            <div class="info-header-boxes">
+                <p style="color: lightgray">Industry</p>
+                <p>{{ basic_info.industry }}</p>
+            </div>
+
+            <div class="info-header-lines"></div>
+
+            <div class="info-header-boxes">
+                <p style="color: lightgray">Employees</p>
+                <p>{{ basic_info.fullTimeEmployees }}</p>
+            </div>
+
+            <div class="info-header-lines"></div>
+
+            <div class="info-header-boxes">
+                <p style="color: lightgray">Day's Open</p>
+                <p>{{ finance_info.open }}</p>
+            </div>
+
+            <div class="info-header-lines"></div>
+
+        </div>
+
+    </div>
+
+    <hr style="border-top: 2px solid lightgray; position: relative">
+
+    <div class="info-second">
+
+        <div class="info-second-contact">
+            <h2>Contact Info</h2>
+
+            <!--
+            <p> <b>Country:</b> {{ basic_info.country }}</p>
+            <p> <b>City:</b> {{ basic_info.city }}</p>
+            <p> <b>Address:</b> {{ basic_info.address1 }}</p>
+            <p> <b>Phone:</b> {{ basic_info.phone }}</p>
+            <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
+            --->
+            <div class="info-second-contact-boxes">
+                <p style="color: lightgray" >Country</p>
+                <p style="color: lightgray" >City</p>
+                <p style="color: lightgray" >Address</p>
+                <p style="color: lightgray" >Phone</p>
+                <p style="color: lightgray" >Website</p>
+            </div>
+
+            <div class="info-second-contact-boxes">
+                <p>{{ basic_info.country }}</p>
+                <p>{{ basic_info.city }}</p>
+                <p>{{ basic_info.address1 }}</p>
+                <p>{{ basic_info.phone }}</p>
+                <p><a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
+            </div>
+        </div>
+        <!--
+        <div class="info-second-sum">
+            <p> {{ basic_info.longBusinessSummary }}</p>
+        </div>
+        --->
+    </div>
+
+
+    <hr style="border-top: 2px solid lightgray; position: relative">
+
+
+
+
+    <div style="font-family: Arial, sans-serif;">
+        <h2> Financial Information </h2>
+        {% for key, value in finance_info.items %}
+            <div style="width: 50%; float: left">
+                <p> <b>{{ key }}</b>:{{ value }}</p>
+            </div>
+        {% endfor %}
+    </div>
+

@@ -14,12 +14,12 @@
         </div>
     </div>
 
-    <div id="main-body" style="width: 75%; float: left">
+    <div id="main-body" style="width: 75%; float: left;">
 
     <div class = "topnav">
         <a id="our" onclick="navButton('our')" >Our Closing Prediction</a>
         <a id="custom" onclick="navButton('custom')" >Custom Prediction</a>
-        <a id="info" onclick="navButton('company')" >Company Information</a>
+        <a id="info" onclick="navButton('company')" >Company Profile</a>
         <a id="expand" style="float: right" onclick="navSentences()"> > </a>
     </div>
 
@@ -35,6 +35,7 @@
     </div>
 
     <div {% if page != "cus" %} hidden {% endif %} id = "customPred" class = "customPred">
+        <!--
         <div style="width: 270px; float: left">
             <div class="custom">
                 <h2>Custom Predictions</h2>
@@ -67,6 +68,42 @@
                     <span style="color: #B22222"> 15th Dec 2020</span>
                 </div>
             </div>
+
+        </div>
+        -->
+
+        <div class="pred-box">
+            <div class="pred-box-head">
+                Custom Predictions
+            </div>
+            <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post">
+            {% csrf_token %}
+            <div class="pred-box-mid">
+
+                <div>
+                    <div style="width: 30%; float: left;">
+                        <label style="text-align: center">Start Date</label>
+                    </div>
+                    <div style="width: 70%; float: left;">
+                        <input type="date" name="startdate" id="startdate">
+                    </div>
+                </div>‌‌
+                ‌‌
+                <div style="width: 30%; float: left;">
+                        <label style="text-align: center">End Date</label>
+                </div>
+                <div style="width: 70%; float: left;">
+                        <input type="date" name="enddate" id="enddate">
+                </div>
+            </div>
+
+            <div style="margin-top: 5px"></div>
+
+            <div class="pred-box-bottom">
+                <button type="submit"> Make Prediction</button>
+            </div>
+
+            </form>
 
         </div>
 
