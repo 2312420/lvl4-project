@@ -127,8 +127,6 @@ def company_page(request, stock_code):
 
     # Ajax request to update live stock price
     if request.is_ajax():
-
-
         func = request.GET.get("t")
         if func == "info":
             # Get company information

@@ -7,6 +7,8 @@ class Company(models.Model):
     verdict = models.TextField()
     predictions = models.JSONField()
     change = models.FloatField()
+    sector = models.TextField()
+    industry = models.TextField()
 
     class Meta:
         db_table = "company"

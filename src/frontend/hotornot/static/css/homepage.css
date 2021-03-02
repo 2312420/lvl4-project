@@ -162,4 +162,20 @@ a{color: inherit}
     background-color: white;
 }
 
+.tags{
+    font-size: 14px;
+    background-color: lightgray;
+    border-radius: 5px;
+    float: left;
+    padding: 2px;
+    color: white;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px"
+}
+
+.tags:hover{
+    background-color: grey;
+    transition: color .1s ease-in-out;
+}
 

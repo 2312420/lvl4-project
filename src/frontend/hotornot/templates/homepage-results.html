@@ -16,6 +16,10 @@
                     <div style="margin-top: 30px">
                         <progress class="progress-not" data-label="NOT" max="10" value={{ company.not_change }}> </progress>
                     </div>
+                    <div>
+                        <p class="tags" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
+                        <p class="tags" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
+                    </div>
                 </div>
 
             {% elif company.verdict == 'HOT' %}
@@ -29,6 +33,10 @@
                     <div style="margin-top: 30px">
                         <progress class="progress-hot" data-label="HOT" max="10" value={{ company.change }}></progress>
                     </div>
+                    <div>
+                        <p class="tags" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
+                        <p class="tags" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
+                    </div>
                 </div>
 
             {% else %}
@@ -41,6 +49,10 @@
                     <div style="margin-top: 30px">
                         <progress class="progress-none" data-label="HOLD" max="10" value=10></progress>
                     </div>
+                    <div>
+                        <p class="tags" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
+                        <p class="tags" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
+                    </div>
                 </div>
 
             {%  endif %}
@@ -48,3 +60,14 @@
         </a>
     {% endif %}
 {% endfor %}
+
+<script>
+    var search_bar = document.getElementById("user-input")
+    function tag_select(tag_name) {
+        console.log(tag_name)
+        search_bar.value = tag_name
+        sendRequest()
+        return false;
+    }
+
+</script>
