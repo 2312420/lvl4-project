@@ -42,29 +42,29 @@
             <div class="info-header-lines"></div>
 
             <div class="info-header-boxes">
-                <p style="color: lightgray">Sector</p>
-                <p>{{ basic_info.sector }}</p>
+                <p>Sector</p>
+                <b>{{ basic_info.sector }}</b>
             </div>
 
             <div class="info-header-lines"></div>
 
             <div class="info-header-boxes">
-                <p style="color: lightgray">Industry</p>
-                <p>{{ basic_info.industry }}</p>
+                <p>Industry</p>
+                <b>{{ basic_info.industry }}</b>
             </div>
 
             <div class="info-header-lines"></div>
 
             <div class="info-header-boxes">
-                <p style="color: lightgray">Employees</p>
-                <p>{{ basic_info.fullTimeEmployees }}</p>
+                <p>Employees</p>
+                <b>{{ basic_info.fullTimeEmployees }}</b>
             </div>
 
             <div class="info-header-lines"></div>
 
             <div class="info-header-boxes">
-                <p style="color: lightgray">Day's Open</p>
-                <p>{{ finance_info.open }}</p>
+                <p>Day's Open</p>
+                <b>{{ finance_info.open }}</b>
             </div>
 
             <div class="info-header-lines"></div>
@@ -73,7 +73,14 @@
 
     </div>
 
-    <hr style="border-top: 2px solid lightgray; position: relative">
+    <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
+
+    <div style="margin-right: 1%">
+        <h2> Business Summary </h2>
+        <p>{{ basic_info.longBusinessSummary }}</p>
+    </div>
+
+    <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
 
     <div class="info-second">
 
@@ -88,40 +95,25 @@
             <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
             --->
             <div class="info-second-contact-boxes">
-                <p style="color: lightgray" >Country</p>
-                <p style="color: lightgray" >City</p>
-                <p style="color: lightgray" >Address</p>
-                <p style="color: lightgray" >Phone</p>
-                <p style="color: lightgray" >Website</p>
+                <p>Country</p>
+                <p>City</p>
+                <p>Address</p>
+                <p>Phone</p>
+                <p>Website</p>
             </div>
 
             <div class="info-second-contact-boxes">
-                <p>{{ basic_info.country }}</p>
-                <p>{{ basic_info.city }}</p>
-                <p>{{ basic_info.address1 }}</p>
-                <p>{{ basic_info.phone }}</p>
-                <p><a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
+                <p style="font-weight: bold">{{ basic_info.country }}</p>
+                <p style="font-weight: bold">{{ basic_info.city }}</p>
+                <p style="font-weight: bold">{{ basic_info.address1 }}</p>
+                <p style="font-weight: bold">{{ basic_info.phone }}</p>
+                <p style="font-weight: bold"><a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
             </div>
         </div>
-        <!--
-        <div class="info-second-sum">
-            <p> {{ basic_info.longBusinessSummary }}</p>
-        </div>
-        --->
+
     </div>
 
-
-    <hr style="border-top: 2px solid lightgray; position: relative">
-
+    <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
 
 
-
-    <div style="font-family: Arial, sans-serif;">
-        <h2> Financial Information </h2>
-        {% for key, value in finance_info.items %}
-            <div style="width: 50%; float: left">
-                <p> <b>{{ key }}</b>:{{ value }}</p>
-            </div>
-        {% endfor %}
-    </div>
 

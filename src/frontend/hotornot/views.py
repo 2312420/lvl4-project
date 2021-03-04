@@ -124,10 +124,10 @@ def company_page(request, stock_code):
         else:
             print("NOT VALID")
 
-
     # Ajax request to update live stock price
     if request.is_ajax():
         func = request.GET.get("t")
+
         if func == "info":
             # Get company information
             stock_info = stock_data.info
@@ -143,8 +143,90 @@ def company_page(request, stock_code):
             html = render_to_string(
                 template_name="company-info.html",
                 context={'basic_info': basic_info,
-                         'finance_info': finance_info}
+                         'finance_info': finance_info})
+            data_dict = {"html_from_view": html}
+            return JsonResponse(data=data_dict, safe=False)
+
+        elif func == "fan":
+            # Get finance info
+            stats = {}
+            income = {}
+            balance = {}
+            cashflow = {}
+            for item, key in si.get_stats(stock_code).iterrows():
+                #stats.update({key['Attribute']: key['Value']})
+                print(item)
+
+                attribute = key['Attribute']
+                print(attribute)
+                if 42 < item < 51:
+                    income.update({attribute: key['Value']})
+                elif 50 < item < 57:
+                    balance.update({attribute: key['Value']})
+                elif 56 < item < 59:
+                    cashflow.update({attribute: key['Value']})
+
+            html = render_to_string(
+                template_name="company-fan.html",
+                context={'stats': stats, 'income': income, 'balance': balance, 'cashflow':cashflow}
             )
+
+            data_dict = {"html_from_view": html}
+            return JsonResponse(data=data_dict, safe=False)
+
+        elif request.GET.dict() != {}:
+            dict = request.GET.dict()
+            start = dict['startdate']
+            end = dict['enddate']
+            if start and end:
+                url = "http://prediction:5004/predictions/custom"
+                payload = {
+                    "start_date": start,
+                    "end_date": end,
+                    "stock_code": stock_code
+                }
+                try:
+                    r = requests.post(url, json=payload)
+                    if r.status_code == 200:
+
+                        # Formatting predicted data
+                        content = r.json()
+                        cus_labels = []
+                        cus_prices = []
+                        cus_pred_labels = []
+                        cus_pred_price = []
+
+                        for item in r.json():
+                            cus_pred_labels.append(item[0])
+                            cus_pred_price.append(item[1])
+
+                        # Getting historical Info
+                        stock_df = stock_data.history(start=datetime.strptime(start, "%Y-%m-%d"),
+                                                      end=datetime.strptime(end, "%Y-%m-%d"))
+                        for item in stock_df.index.to_list():
+                            time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+                            cus_labels.append(time)
+                        cus_prices = stock_df['Close'].to_list()
+
+                        context = {
+                            'custom_close': {'prices': cus_prices,
+                                             'labels': cus_labels, },
+                            'custom_pred': {'prices': cus_pred_price,
+                                            'labels': cus_pred_labels},
+                            'error': 'none'
+                        }
+                    else:
+                        context = {"error": "pred"}
+                except:
+                    context = {"error": "connection"}
+            else:
+                context = {"error": "date"}
+
+            html = render_to_string(
+                template_name="company-custom.html",
+                context=context,
+            )
+
             data_dict = {"html_from_view": html}
             return JsonResponse(data=data_dict, safe=False)
 

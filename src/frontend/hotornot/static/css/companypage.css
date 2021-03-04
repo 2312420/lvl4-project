@@ -74,7 +74,8 @@
 .pred-box{
   font-family: Arial, sans-serif;
   color: #333333;
-  width: 270px;
+  width: 20%;
+  float: left;
   text-align: center;
   border-radius: 10px;
   border: 1px solid #fff;

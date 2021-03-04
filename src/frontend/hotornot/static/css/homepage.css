@@ -63,6 +63,7 @@ a{color: inherit}
 .card:hover, .card:focus{
     background-color: whitesmoke;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: box-shadow .2s ease-in-out;
 }
 
 .card{
@@ -171,11 +172,12 @@ a{color: inherit}
     color: white;
     margin-right: 5px;
     padding-left: 5px;
-    padding-right: 5px"
+    padding-right: 5px;
+    transition: background-color .2s ease-in-out;
 }
 
 .tags:hover{
     background-color: grey;
-    transition: color .1s ease-in-out;
+    transition: background-color .2s ease-in-out;
 }
 

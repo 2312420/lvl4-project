@@ -1,0 +1,108 @@
+<div>
+
+    {% if error %}
+        <div style="position: relative; height: 60vh;">
+        <canvas style="float: left; display: inline" id="customChart"></canvas>
+        </div>
+
+        <script>
+        var ctx2 = document.getElementById('customChart');
+        var lineChart = new Chart(ctx2, {
+            type: 'line',
+            options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                }]
+            },
+            maintainAspectRatio: false,
+            },});
+        /**
+            data = htmlDecode("{{ custom_close.labels }}")
+            cus_dates = []
+
+            pred_labels = htmlDecode("{{ custom_pred.labels }}")
+            pred_prices = htmlDecode("{{ custom_pred.prices }}")
+
+            for(i = 0; i < data.length; i++){
+                cus_dates = cus_dates.concat(new Date(data[i]))
+            }
+
+
+            pred_points = []
+            for(i = 0; i < pred_labels.length; i++){
+            pred_points = pred_points.concat([{
+                'x': (new Date(pred_labels[i])),
+                'y': parseFloat(pred_prices[i])
+            }])
+            }
+
+            var ctx2 = document.getElementById('customChart');
+            var lineChart = new Chart(ctx2, {
+            type: 'line',
+
+            data: {
+            labels: cus_dates,
+            datasets: [{
+                data: {{ custom_close.prices }},
+                label: "Closing Price History",
+                borderColor: "#3e95cd",
+                fill: false
+            },{
+                data: pred_points,
+                label: "Our Predicted Prices",
+                borderColor: "#dd2a2a",
+                fill: false
+            }]
+            },
+
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }]
+                },
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    zoom: {
+                        pan: {
+                            enabled: true,
+                            mode: 'xy' // is panning about the y axis neccessary for bar charts?
+                        },
+                        zoom: {
+                            enabled: true,
+                            mode: 'x',
+                            sensitivity: 3
+                        }
+                    }
+                }
+            }
+        });
+        **/
+    </script>
+    {% else %}
+        <div style="margin-top: 30%; font-family: Arial, sans-serif; color: white; background: #B22222; padding: 20px; border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+        {% if error == "connection" %}
+            <strong>Error</strong> Could not connect to prediction system
+        {% elif error == "pred" %}
+            <strong>Error</strong> Something went wrong calculating prediction
+        {% else %}
+            <strong>Error</strong> Date missing
+
+        {% endif %}
+        </div>
+    {% endif %}
+
+
+</div>
+
+
+

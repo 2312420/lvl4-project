@@ -19,7 +19,8 @@
     <div class = "topnav">
         <a id="our" onclick="navButton('our')" >Our Closing Prediction</a>
         <a id="custom" onclick="navButton('custom')" >Custom Prediction</a>
-        <a id="info" onclick="navButton('company')" >Company Profile</a>
+        <a id="info" onclick="navButton('info')" >Company Profile</a>
+        <a id="financial" onclick="navButton('fan')">Financials</a>
         <a id="expand" style="float: right" onclick="navSentences()"> > </a>
     </div>
 
@@ -35,48 +36,12 @@
     </div>
 
     <div {% if page != "cus" %} hidden {% endif %} id = "customPred" class = "customPred">
-        <!--
-        <div style="width: 270px; float: left">
-            <div class="custom">
-                <h2>Custom Predictions</h2>
-
-                <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post">
-                {% csrf_token %}
-                <div>
-                    <div style="width: 30%; float: left;">
-                        <label style="text-align: center">Start Date</label>
-                    </div>
-                    <div style="width: 70%; float: left;">
-                        <input type="date" name="startdate" id="startdate">
-                    </div>
-                </div>
-
-                <div>
-                    <div style="width: 30%; float: left;">
-                        <label style="text-align: center">End Date</label>
-                    </div>
-                    <div style="width: 70%; float: left;">
-                        <input type="date" name="enddate" id="enddate">
-                    </div>
-                </div>
-
-                <button type="submit" style="width: 100%">Make Prediction</button>
-                </form>
-
-                <div style="background-color: lightcoral; padding: 2px;">
-                    <span style="color: #B22222">Start date must be before</span>
-                    <span style="color: #B22222"> 15th Dec 2020</span>
-                </div>
-            </div>
-
-        </div>
-        -->
 
         <div class="pred-box">
             <div class="pred-box-head">
                 Custom Predictions
             </div>
-            <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post">
+            <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post" id="post-form">
             {% csrf_token %}
             <div class="pred-box-mid">
 
@@ -97,7 +62,7 @@
                 </div>
             </div>
 
-            <div style="margin-top: 5px"></div>
+            <div style="float: right; margin-left: 280px"></div>
 
             <div class="pred-box-bottom">
                 <button type="submit"> Make Prediction</button>
@@ -107,17 +72,30 @@
 
         </div>
 
-        <div style="width: 80%; height:500px; float: left; position: relative">
-            <canvas style="float: left" id="customChart"></canvas>
+        <div style="float: right; width: 79%;">
+
+            <div hidden id="graphLoader">
+                <div class = "info-loader"></div>
+            </div>
+            <div id="customGraph"></div>
+
         </div>
+
     </div>
 
-    <div hidden id="stockInfo" class="stockInfo">
+    <div  {% if page != "cus" %} hidden {% endif %} id="stockInfo" class="stockInfo">
         <div id="info-replace" style="margin-top: 10px">
             <div class = "info-loader"></div>
         </div>
 
     </div>
+
+    <div hidden id="fanInfo" class="stockInfo">
+        <div id="fan-replace" style="margin-top: 10px">
+            <div class = "info-loader"></div>
+        </div>
+    </div>
+
 
     </div>
 
@@ -166,16 +144,20 @@
 
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
     <script type="text/javascript" src="{% static "js/company_info.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/custom_pred.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/company_fan.js" %}"></script>
 
     <script>
 
     var our = document.getElementById("our");
     var custom = document.getElementById("custom");
     var info = document.getElementById("info");
+    var fan = document.getElementById("financial")
 
     var our_content = document.getElementById("ourPred");
     var custom_content = document.getElementById("customPred");
     var info_content = document.getElementById("stockInfo");
+    var fan_content = document.getElementById("fanInfo")
 
     var cur = document.getElementById("page");
     var cls = ""
@@ -204,10 +186,12 @@
         custom.classList.remove(cls);
         info.classList.remove(cls);
         our.classList.remove(cls);
+        fan.classList.remove(cls);
 
         custom_content.hidden = true;
         info_content.hidden = true;
         our_content.hidden = true;
+        fan_content.hidden = true;
 
         if(button_name == "our"){
             our.classList.add(cls)
@@ -215,9 +199,12 @@
         } else if(button_name == "custom"){
             custom.classList.add(cls)
             custom_content.hidden = false;
-        } else {
+        } else if (button_name == "info"){
             info.classList.add(cls)
             info_content.hidden = false;
+        } else {
+            fan.classList.add(cls)
+            fan_content.hidden = false;
         }
 
 
@@ -297,6 +284,8 @@
 
 
     // Standard Chart
+
+    /**
     data = htmlDecode("{{ custom_close.labels }}")
     cus_dates = []
 
@@ -359,6 +348,7 @@
             }
         }
     });
+    **/
 
      function navSentences(){
         if(sents.hidden == true){
@@ -373,6 +363,7 @@
             expand.innerText = "<";
         }
     }
+
 
     </script>
 {%  endblock %}
