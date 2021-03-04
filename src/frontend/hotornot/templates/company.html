@@ -113,22 +113,34 @@
             {% endif %}
         </div>
 
+
+
         <div style="height: 70vh; overflow-y: scroll; overflow-x: hidden">
-            {%  for sentence in sentences%}
+            {% for sentence in sentences %}
+
                 <div class="snippet">
-                    <div style="width: 5%; float: left; padding-right: 5px">
+
+                    <div class="snippet-sent">
+                        <p style="padding: 5px" > "{{ sentence.text }}" </p>
+
+                    </div>
+
+                    <div class="snippet-bottom">
+                        <small>{{ sentence.source }}, {{ sentence.date }} </small>
                         {% if sentence.sentiment == "Positive" %}
-                            <img width="100%" src="{% static 'imgs/Hot.png' %}">
+                            <img style="height: 19px; float: right" src="{% static 'imgs/Hot.png' %}">
                         {% elif sentence.sentiment == "Negative" %}
-                            <img width="100%" src="{% static 'imgs/Not.png' %}">
+                            <img style="height: 19px; float: right" src="{% static 'imgs/Not.png' %}">
                         {% else %}
-                            <img width="100%" src="{% static 'imgs/None.png' %}">
+                            <img style="height: 19px; float: right" src="{% static 'imgs/None.png' %}">
                         {% endif %}
                     </div>
-                    <q style="width: 90%; float: left;">{{ sentence.text }} <small>&nbsp;&nbsp;&nbsp;&nbsp;-{{ sentence.source }}, {{ sentence.date }} </small></q>
+
                 </div>
+
             {% endfor %}
         </div>
+
     </div>
     <label hidden id="page">{{ page }}</label>
 

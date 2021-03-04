@@ -41,14 +41,6 @@
   height: 70vh;
 }
 
-.snippet{
-  font-family: Arial, sans-serif;
-  padding-bottom: 20px;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-  margin: 10px;
-}
 
 .sideinfo {
   background-color: #ddd;
@@ -180,6 +172,28 @@
   color: white;
   transition: background-color .2s ease-in;
 
+}
+
+.snippet{
+  font-family: Arial, sans-serif;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 20px;
+  border-radius: 10px;
+  min-height: 50px;
+  height: auto;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 1px lightgray;
+}
+
+.snippet-bottom{
+   background-color: whitesmoke;
+   width: 100%;
+   box-shadow: 0 0 0 1px lightgray;
+   border: 1px solid #fff;
+   height: 20px;
 }
 
 
