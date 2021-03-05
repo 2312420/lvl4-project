@@ -42,21 +42,7 @@
 }
 
 
-.sideinfo {
-  background-color: #ddd;
-  overflow: hidden;
-}
 
-.sideinfo a {
-  font-family: Arial, sans-serif;
-  float: left;
-  color: #333333;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: bold;
-}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -132,6 +118,7 @@
 
 .topnav {
   background-color: #333;
+  border: 1px solid #333;
   overflow: hidden;
 }
 
@@ -194,6 +181,23 @@
    box-shadow: 0 0 0 1px lightgray;
    border: 1px solid #fff;
    height: 20px;
+}
+
+.sideinfo {
+  background-color: whitesmoke;
+  border: 1px solid lightgray;
+  overflow: hidden;
+}
+
+.sideinfo a {
+  font-family: Arial, sans-serif;
+  float: left;
+  color: #333333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 

@@ -24,7 +24,7 @@
         <a id="expand" style="float: right" onclick="navSentences()"> > </a>
     </div>
 
-    <div {% if page != "our" %} hidden {% endif %} id="ourPred" class = "ourPred">
+    <div hidden id="ourPred" class = "ourPred">
         <div>
             <div style="font-family: Arial, sans-serif; position: relative; height: 60vh; margin-bottom: 85px">
                 <h2>Closing Price Predictions</h2>
@@ -35,7 +35,7 @@
         <hr style="border-top: 2px solid  #333; position: relative">
     </div>
 
-    <div {% if page != "cus" %} hidden {% endif %} id = "customPred" class = "customPred">
+    <div hidden id = "customPred" class = "customPred">
 
         <div class="pred-box">
             <div class="pred-box-head">
@@ -83,7 +83,7 @@
 
     </div>
 
-    <div  {% if page != "cus" %} hidden {% endif %} id="stockInfo" class="stockInfo">
+    <div hidden  id="stockInfo" class="stockInfo">
         <div id="info-replace" style="margin-top: 10px">
             <div class = "info-loader"></div>
         </div>
@@ -102,13 +102,13 @@
     <div id="side-sentences" style="width: 25%; float: left">
         <div class="sideinfo">
             {% if company.verdict == "NOT" %}
-                <img style="float: left" height="45px" src="{% static 'imgs/Not.png' %}">
+                <img style="float: left; margin-top: 1px" height="45px" src="{% static 'imgs/Not.png' %}">
                 <a>Sentences Suggest NOT</a>
             {% elif company.verdict == "HOT" %}
-                <img  style="float: left" height="45px" src="{% static 'imgs/Hot.png' %}">
+                <img  style="float: left; margin-top: 1px" height="45px" src="{% static 'imgs/Hot.png' %}">
                 <a>Sentences Suggest HOT</a>
             {% else %}
-                <img  style="float: left" height="45px" src="{% static 'imgs/None.png' %}">
+                <img  style="float: left; margin-top: 1px" height="45px" src="{% static 'imgs/None.png' %}">
                 <a>Sentences Suggest HOLD</a>
             {% endif %}
         </div>
@@ -181,12 +181,7 @@
         cls = "noneActive"
     }
 
-    if(cur.innerText == "our"){
-        our.classList.add(cls)
-    } else{
-        custom.classList.add(cls)
-    }
-
+    navButton("our")
 
     var sents = document.getElementById("side-sentences")
     var main = document.getElementById("main-body")

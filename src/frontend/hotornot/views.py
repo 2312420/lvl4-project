@@ -83,46 +83,7 @@ def company_page(request, stock_code):
     # Company DB data
     company = Company.objects.get(stock_code=stock_code)
     stock_data = yf.Ticker(stock_code)
-
-    # Code used for custom prediction options
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
-    page = "our"
-    if request.method == "POST":
-        page = "cus"
-        dict = request.POST
-        start = dict['startdate']
-        end = dict['enddate']
-
-        if start and end:
-            url = "http://prediction:5004/predictions/custom"
-            payload = {
-                "start_date": start,
-                "end_date": end,
-                "stock_code": stock_code
-            }
-            r = requests.post(url, json=payload)
-            if r.status_code == 200:
-
-                # Formatting predicted data
-                content = r.json()
-                cus_labels = []
-                cus_prices = []
-                cus_pred_labels = []
-                cus_pred_price = []
-
-                for item in r.json():
-                    cus_pred_labels.append(item[0])
-                    cus_pred_price.append(item[1])
-
-                # Getting historical Info
-                stock_df = stock_data.history(start=datetime.strptime(start, "%Y-%m-%d"), end=datetime.strptime(end, "%Y-%m-%d"))
-                for item in stock_df.index.to_list():
-                    time = datetime.strptime(str(item), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
-                    cus_labels.append(time)
-                cus_prices = stock_df['Close'].to_list()
-
-        else:
-            print("NOT VALID")
 
     # Ajax request to update live stock price
     if request.is_ajax():
@@ -154,11 +115,7 @@ def company_page(request, stock_code):
             balance = {}
             cashflow = {}
             for item, key in si.get_stats(stock_code).iterrows():
-                #stats.update({key['Attribute']: key['Value']})
-                print(item)
-
                 attribute = key['Attribute']
-                print(attribute)
                 if 42 < item < 51:
                     income.update({attribute: key['Value']})
                 elif 50 < item < 57:
@@ -168,7 +125,7 @@ def company_page(request, stock_code):
 
             html = render_to_string(
                 template_name="company-fan.html",
-                context={'stats': stats, 'income': income, 'balance': balance, 'cashflow':cashflow}
+                context={'stats': stats, 'income': income, 'balance': balance, 'cashflow': cashflow}
             )
 
             data_dict = {"html_from_view": html}
@@ -313,7 +270,7 @@ def company_page(request, stock_code):
                                                     'custom_pred': {'prices': cus_pred_price,
                                                                     'labels': cus_pred_labels},
                                                     'sentences': sentences,
-                                                    'page': page
+
                                                     })
 
 def how_it_works(request):

@@ -43,48 +43,10 @@
     background-color: white;
 }
 
-.card-wrapper:hover, .card-wrapper:focus{
-    border: 1px solid #009688;
-    background-color: white;
-}
+
 
 a{color: inherit}
 
-.card-wrapper-2{
-    margin-left: 10%;
-    margin-right: 10%;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto;
-    grid-gap: 10px;
-    padding: 10px;
-}
-
-.card:hover, .card:focus{
-    background-color: whitesmoke;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: box-shadow .2s ease-in-out;
-}
-
-.card{
-    height: 140px;
-    background-color: #EBEBEB;
-    font-family: 'Roboto', sans-serif;
-    /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
-    width: 10px;
-}
-
-.card-header{
-    font-size: 30px;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.card-contents{
-    padding-top: 7px;
-    padding-left: 5px;
-}
 
 .progress-not{
     -webkit-appearance: none;
@@ -107,7 +69,8 @@ a{color: inherit}
 }
 
 .progress-not::-webkit-progress-value{
-    background-color: #4169E1;
+    background: rgb(79,104,177);
+    background: linear-gradient(90deg, rgba(79,104,177,1) 0%, rgba(32,145,168,1) 100%);
 }
 
 .progress-hot{
@@ -131,7 +94,8 @@ a{color: inherit}
 }
 
 .progress-hot::-webkit-progress-value{
-    background-color: #B22222;
+    background: rgb(178,34,34);
+    background: linear-gradient(90deg, rgba(178,34,34,1) 0%, rgba(199,77,36,1) 100%);
 }
 
 .progress-none{
@@ -155,12 +119,14 @@ a{color: inherit}
 }
 
 .progress-none::-webkit-progress-value{
-    background-color: darkgrey;
+    background: rgb(142,139,138);
+    background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
 }
 
 
 ::-webkit-progress-bar {
-    background-color: white;
+    background: rgb(142,139,138);
+    background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
 }
 
 .tags{
@@ -169,7 +135,7 @@ a{color: inherit}
     border-radius: 5px;
     float: left;
     padding: 2px;
-    color: white;
+    color: grey;
     margin-right: 5px;
     padding-left: 5px;
     padding-right: 5px;
@@ -177,7 +143,7 @@ a{color: inherit}
 }
 
 .tags:hover{
-    background-color: grey;
+    background-color: darkgrey;
     transition: background-color .2s ease-in-out;
 }
 
