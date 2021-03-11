@@ -18,8 +18,8 @@
                         <progress class="progress-not" data-label="NOT" max="10" value={{ company.not_change }}> </progress>
                     </div>
                     <div>
-                        <p class="tags" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
-                        <p class="tags" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
+                        <p class="tags not" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
+                        <p class="tags not" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
                     </div>
                 </div>
 
@@ -35,8 +35,8 @@
                         <progress class="progress-hot" data-label="HOT" max="10" value={{ company.change }}></progress>
                     </div>
                     <div>
-                        <p class="tags" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
-                        <p class="tags" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
+                        <p class="tags hot" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
+                        <p class="tags hot" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
                     </div>
                 </div>
 
@@ -51,8 +51,8 @@
                         <progress class="progress-none" data-label="HOLD" max="10" value=10></progress>
                     </div>
                     <div>
-                        <p class="tags" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
-                        <p class="tags" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
+                        <p class="tags hold" onclick="return tag_select(this.textContent)" >{{ company.industry }}</p>
+                        <p class="tags hold" onclick="return tag_select(this.textContent)">{{ company.sector }}</p>
                     </div>
                 </div>
 

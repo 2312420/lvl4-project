@@ -125,8 +125,10 @@ a{color: inherit}
 
 
 ::-webkit-progress-bar {
-    background: rgb(142,139,138);
-    background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
+    /**background: rgb(142,139,138);
+    background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);**/
+    background : white;
+    border: 1px solid lightgray;
 }
 
 .tags{
@@ -135,11 +137,38 @@ a{color: inherit}
     border-radius: 5px;
     float: left;
     padding: 2px;
-    color: grey;
+    color: white;
     margin-right: 5px;
     padding-left: 5px;
     padding-right: 5px;
     transition: background-color .2s ease-in-out;
+}
+
+.tags.hot{
+     background: rgb(178,34,34);
+     background: linear-gradient(90deg, rgba(178,34,34,1) 0%, rgba(199,77,36,1) 100%);
+}
+
+.tags.not{
+    background: rgb(79,104,177);
+    background: linear-gradient(90deg, rgba(79,104,177,1) 0%, rgba(32,145,168,1) 100%);
+}
+
+.tags.hold{
+    background: rgb(142,139,138);
+    background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
+}
+
+.tags.hot:hover{
+    background: rgb(178,34,34);
+}
+
+.tags.not:hover{
+    background: rgb(79,104,177);
+}
+
+.tags.hold:hover{
+    background: rgb(142,139,138);
 }
 
 .tags:hover{

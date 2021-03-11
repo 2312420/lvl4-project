@@ -41,9 +41,6 @@
   height: 70vh;
 }
 
-
-
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -56,10 +53,10 @@
   float: left;
   text-align: center;
   border-radius: 10px;
-  border: 1px solid #fff;
-  box-shadow: 0 0 0 1px lightgray;
+  border: 1px solid lightgray;
   margin-top: 5px;
   overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
 }
 
 .pred-box-head{
@@ -118,7 +115,6 @@
 
 .topnav {
   background-color: #333;
-  border: 1px solid #333;
   overflow: hidden;
 }
 
@@ -171,8 +167,8 @@
   height: auto;
   overflow: hidden;
   background-color: white;
-  border: 1px solid #fff;
-  box-shadow: 0 0 0 1px lightgray;
+  border: 1px solid lightgray;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
 }
 
 .snippet-bottom{
@@ -183,22 +179,51 @@
    height: 20px;
 }
 
+.snippet-bottom.hot{
+  background: rgb(178,34,34);
+  background: linear-gradient(90deg, rgba(178,34,34,1) 0%, rgba(199,77,36,1) 100%);
+}
+
+.snippet-bottom.not{
+   background: rgb(79,104,177);
+  background: linear-gradient(90deg, rgba(79,104,177,1) 0%, rgba(32,145,168,1) 100%);
+}
+
+.snippet-bottom.hold{
+  background: rgb(142,139,138);
+  background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
+}
+
 .sideinfo {
-  background-color: whitesmoke;
-  border: 1px solid lightgray;
   overflow: hidden;
+}
+
+.side-hot{
+  background: rgb(178,34,34);
+  background: linear-gradient(90deg, rgba(178,34,34,1) 0%, rgba(199,77,36,1) 100%);
+}
+
+.side-not{
+  background: rgb(79,104,177);
+  background: linear-gradient(90deg, rgba(79,104,177,1) 0%, rgba(32,145,168,1) 100%);
+}
+
+.side-none{
+  background: rgb(142,139,138);
+  background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
 }
 
 .sideinfo a {
   font-family: Arial, sans-serif;
   float: left;
-  color: #333333;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
   font-weight: bold;
 }
+
 
 
 

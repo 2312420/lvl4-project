@@ -9,9 +9,10 @@
 }
 
 .card:hover, .card:focus{
-    background-color: whitesmoke;
+    background-color: #E8E8E8;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: box-shadow .2s ease-in-out;
+    transition: background-color .2s ease-in-out;
 }
 
 .card{

@@ -100,19 +100,22 @@
     </div>
 
     <div id="side-sentences" style="width: 25%; float: left">
-        <div class="sideinfo">
-            {% if company.verdict == "NOT" %}
-                <img style="float: left; margin-top: 1px" height="45px" src="{% static 'imgs/Not.png' %}">
-                <a>Sentences Suggest NOT</a>
-            {% elif company.verdict == "HOT" %}
-                <img  style="float: left; margin-top: 1px" height="45px" src="{% static 'imgs/Hot.png' %}">
-                <a>Sentences Suggest HOT</a>
-            {% else %}
-                <img  style="float: left; margin-top: 1px" height="45px" src="{% static 'imgs/None.png' %}">
-                <a>Sentences Suggest HOLD</a>
-            {% endif %}
-        </div>
-
+        {% if company.verdict == "NOT" %}
+            <div class="sideinfo side-not">
+                <a>Sentences Suggest {{ company.stock_code }} is Not</a>
+                <img  style="float: right; margin: 3px; filter: brightness(0) invert(1)" height="40px" src="{% static 'imgs/Not.png' %}">
+            </div>
+        {% elif company.verdict == "HOT" %}
+            <div class="sideinfo side-hot">
+                <a>Sentences Suggest {{ company.stock_code }} is Hot</a>
+                <img  style="float: right; margin: 3px; filter: brightness(0) invert(1)" height="40px" src="{% static 'imgs/Hot.png' %}">
+            </div>
+        {% else %}
+            <div class="sideinfo side-none">
+                <a>Sentences Suggest to Hold {{ company.stock_code }}</a>
+                <img  style="float: right; margin: 3px; filter: brightness(0) invert(1)" height="40px" src="{% static 'imgs/None.png' %}">
+            </div>
+        {% endif %}
 
 
         <div style="height: 70vh; overflow-y: scroll; overflow-x: hidden">
@@ -125,17 +128,16 @@
 
                     </div>
 
-                    <div class="snippet-bottom">
+                    <div class="snippet-bottom {% if sentence.sentiment == "Positive" %} hot {% elif sentence.sentiment == "Negative" %} not {% else %} hold {% endif %}">
                         <small>{{ sentence.source }}, {{ sentence.date }} </small>
                         {% if sentence.sentiment == "Positive" %}
-                            <img style="height: 19px; float: right" src="{% static 'imgs/Hot.png' %}">
+                            <img style="height: 19px; float: right; filter: brightness(0) invert(1)" src="{% static 'imgs/Hot.png' %}">
                         {% elif sentence.sentiment == "Negative" %}
-                            <img style="height: 19px; float: right" src="{% static 'imgs/Not.png' %}">
+                            <img style="height: 19px; float: right; filter: brightness(0) invert(1)" src="{% static 'imgs/Not.png' %}">
                         {% else %}
-                            <img style="height: 19px; float: right" src="{% static 'imgs/None.png' %}">
+                            <img style="height: 19px; float: right; filter: brightness(0) invert(1)" src="{% static 'imgs/None.png' %}">
                         {% endif %}
                     </div>
-
                 </div>
 
             {% endfor %}
