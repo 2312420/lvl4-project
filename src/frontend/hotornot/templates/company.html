@@ -291,74 +291,6 @@
         },
     });
 
-
-    // Standard Chart
-
-    /**
-    data = htmlDecode("{{ custom_close.labels }}")
-    cus_dates = []
-
-    pred_labels = htmlDecode("{{ custom_pred.labels }}")
-    pred_prices = htmlDecode("{{ custom_pred.prices }}")
-
-    for(i = 0; i < data.length; i++){
-        cus_dates = cus_dates.concat(new Date(data[i]))
-    }
-
-
-    pred_points = []
-    for(i = 0; i < pred_labels.length; i++){
-        pred_points = pred_points.concat([{
-            'x': (new Date(pred_labels[i])),
-            'y': parseFloat(pred_prices[i])
-        }])
-    }
-
-    var ctx2 = document.getElementById('customChart');
-    var lineChart = new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: cus_dates,
-            datasets: [{
-                data: {{ custom_close.prices }},
-                label: "Closing Price History",
-                borderColor: "#3e95cd",
-                fill: false
-            },{
-                data: pred_points,
-                label: "Our Predicted Prices",
-                borderColor: "#dd2a2a",
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'day'
-                    }
-                }]
-            },
-            maintainAspectRatio: false,
-            responsive: true,
-            plugins: {
-                zoom: {
-							pan: {
-								enabled: true,
-								mode: 'xy' // is panning about the y axis neccessary for bar charts?
-							},
-							zoom: {
-								enabled: true,
-								mode: 'x',
-								sensitivity: 3
-							}
-						}
-            }
-        }
-    });
-    **/
-
      function navSentences(){
         if(sents.hidden == true){
         // Side bar is hidden
@@ -372,7 +304,6 @@
             expand.innerText = "<";
         }
     }
-
 
     </script>
 {%  endblock %}

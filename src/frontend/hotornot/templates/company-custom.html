@@ -6,23 +6,6 @@
         </div>
 
         <script>
-        /**
-        var ctx2 = document.getElementById('customChart');
-        var lineChart = new Chart(ctx2, {
-            type: 'line',
-            options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'day'
-                    }
-                }]
-            },
-            maintainAspectRatio: false,
-            },});
-         **/
-
             data = htmlDecode("{{ custom_close.labels }}")
             cus_dates = []
 
