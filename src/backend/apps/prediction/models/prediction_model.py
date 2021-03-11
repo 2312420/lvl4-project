@@ -25,10 +25,4 @@ def random_forest(df, target_feature, future_days, end_date=-1):
     preds = model.predict(x_future)
     x_future['predictions'] = preds
 
-    # Plot graph (for testing)
-    # plt.plot(data['close'])
-    # plt.plot(x_future['predictions'], color='green', alpha=0.4)
-    # plt.xticks(fontsize=5)
-    # plt.show()
-
     return x_future

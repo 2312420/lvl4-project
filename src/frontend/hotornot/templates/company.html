@@ -14,16 +14,17 @@
         </div>
     </div>
 
-    <div id="main-body" style="width: 75%; float: left">
+    <div id="main-body" style="width: 75%; float: left;">
 
     <div class = "topnav">
         <a id="our" onclick="navButton('our')" >Our Closing Prediction</a>
         <a id="custom" onclick="navButton('custom')" >Custom Prediction</a>
-        <a id="info" onclick="navButton('company')" >Company Information</a>
+        <a id="info" onclick="navButton('info')" >Company Profile</a>
+        <a id="financial" onclick="navButton('fan')">Financials</a>
         <a id="expand" style="float: right" onclick="navSentences()"> > </a>
     </div>
 
-    <div {% if page != "our" %} hidden {% endif %} id="ourPred" class = "ourPred">
+    <div hidden id="ourPred" class = "ourPred">
         <div>
             <div style="font-family: Arial, sans-serif; position: relative; height: 60vh; margin-bottom: 85px">
                 <h2>Closing Price Predictions</h2>
@@ -34,13 +35,16 @@
         <hr style="border-top: 2px solid  #333; position: relative">
     </div>
 
-    <div {% if page != "cus" %} hidden {% endif %} id = "customPred" class = "customPred">
-        <div style="width: 270px; float: left">
-            <div class="custom">
-                <h2>Custom Predictions</h2>
+    <div hidden id = "customPred" class = "customPred">
 
-                <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post">
-                {% csrf_token %}
+        <div class="pred-box">
+            <div class="pred-box-head">
+                Custom Predictions
+            </div>
+            <form action="http://127.0.0.1:8000/hotornot/{{ company.stock_code }}" method="post" id="post-form">
+            {% csrf_token %}
+            <div class="pred-box-mid">
+
                 <div>
                     <div style="width: 30%; float: left;">
                         <label style="text-align: center">Start Date</label>
@@ -48,100 +52,97 @@
                     <div style="width: 70%; float: left;">
                         <input type="date" name="startdate" id="startdate">
                     </div>
-                </div>
-
-                <div>
-                    <div style="width: 30%; float: left;">
+                </div>‌‌
+                ‌‌
+                <div style="width: 30%; float: left;">
                         <label style="text-align: center">End Date</label>
-                    </div>
-                    <div style="width: 70%; float: left;">
+                </div>
+                <div style="width: 70%; float: left;">
                         <input type="date" name="enddate" id="enddate">
-                    </div>
-                </div>
-
-                <button type="submit" style="width: 100%">Make Prediction</button>
-                </form>
-
-                <div style="background-color: lightcoral; padding: 2px;">
-                    <span style="color: #B22222">Start date must be before</span>
-                    <span style="color: #B22222"> 15th Dec 2020</span>
                 </div>
             </div>
 
-        </div>
+            <div style="float: right; margin-left: 280px"></div>
 
-        <div style="width: 80%; height:500px; float: left; position: relative">
-            <canvas style="float: left" id="customChart"></canvas>
-        </div>
-    </div>
-
-    <div hidden id="stockInfo" class="stockInfo">
-    
-        <div style="padding-bottom: 5px; position: relative; min-height: 160px">
-            <img src="{{ basic_info.logo_url }}" style="position: absolute; max-height: 160px; max-width: 160px">
-            <p class = "busSummary"> {{ basic_info.longBusinessSummary }}</p>
-        </div>
-
-        <hr style="border-top: 2px solid  #333; position: relative">
-
-        <div>
-            <h2> Basic Information </h2>
-            <p> <b>Sector:</b> {{ basic_info.sector }}</p>
-            <p> <b>Industry:</b> {{ basic_info.industry }}</p>
-            <p> <b>Country:</b> {{ basic_info.country }}</p>
-            <p> <b>City:</b> {{ basic_info.city }}</p>
-            <p> <b>Address:</b> {{ basic_info.address1 }}</p>
-            <p> <b>Phone:</b> {{ basic_info.phone }}</p>
-            <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
-            <p> <b>Employees:</b> {{ basic_info.fullTimeEmployees }}</p>
-        </div>
-
-
-        <hr style="border-top: 2px solid  #333; position: relative">
-    
-        <div style="font-family: Arial, sans-serif;">
-            <h2> Financial Information </h2>
-        {% for key, value in finance_info.items %}
-            <div style="width: 50%; float: left">
-                <p> <b>{{ key }}</b>:{{ value }}</p>
+            <div class="pred-box-bottom">
+                <button type="submit"> Make Prediction</button>
             </div>
-        {% endfor %}
+
+            </form>
+
+        </div>
+
+        <div style="float: right; width: 79%;">
+
+            <div hidden id="graphLoader">
+                <div class = "info-loader"></div>
+            </div>
+            <div id="customGraph"></div>
+
         </div>
 
     </div>
+
+    <div hidden  id="stockInfo" class="stockInfo">
+        <div id="info-replace" style="margin-top: 10px">
+            <div class = "info-loader"></div>
+        </div>
+
+    </div>
+
+    <div hidden id="fanInfo" class="stockInfo">
+        <div id="fan-replace" style="margin-top: 10px">
+            <div class = "info-loader"></div>
+        </div>
+    </div>
+
 
     </div>
 
     <div id="side-sentences" style="width: 25%; float: left">
-        <div class="sideinfo">
-            {% if company.verdict == "NOT" %}
-                <img style="float: left" height="45px" src="{% static 'imgs/Not.png' %}">
-                <a>Sentences Suggest NOT</a>
-            {% elif company.verdict == "HOT" %}
-                <img  style="float: left" height="45px" src="{% static 'imgs/Hot.png' %}">
-                <a>Sentences Suggest HOT</a>
-            {% else %}
-                <img  style="float: left" height="45px" src="{% static 'imgs/None.png' %}">
-                <a>Sentences Suggest HOLD</a>
-            {% endif %}
-        </div>
+        {% if company.verdict == "NOT" %}
+            <div class="sideinfo side-not">
+                <a>Sentences Suggest {{ company.stock_code }} is Not</a>
+                <img  style="float: right; margin: 3px; filter: brightness(0) invert(1)" height="40px" src="{% static 'imgs/Not.png' %}">
+            </div>
+        {% elif company.verdict == "HOT" %}
+            <div class="sideinfo side-hot">
+                <a>Sentences Suggest {{ company.stock_code }} is Hot</a>
+                <img  style="float: right; margin: 3px; filter: brightness(0) invert(1)" height="40px" src="{% static 'imgs/Hot.png' %}">
+            </div>
+        {% else %}
+            <div class="sideinfo side-none">
+                <a>Sentences Suggest to Hold {{ company.stock_code }}</a>
+                <img  style="float: right; margin: 3px; filter: brightness(0) invert(1)" height="40px" src="{% static 'imgs/None.png' %}">
+            </div>
+        {% endif %}
+
 
         <div style="height: 70vh; overflow-y: scroll; overflow-x: hidden">
-            {%  for sentence in sentences%}
+            {% for sentence in sentences %}
+
                 <div class="snippet">
-                    <div style="width: 5%; float: left; padding-right: 5px">
+
+                    <div class="snippet-sent">
+                        <p style="padding: 5px" > "{{ sentence.text }}" </p>
+
+                    </div>
+
+                    <div class="snippet-bottom {% if sentence.sentiment == "Positive" %} hot {% elif sentence.sentiment == "Negative" %} not {% else %} hold {% endif %}">
+                        <small>{{ sentence.source }}, {{ sentence.date }} </small>
                         {% if sentence.sentiment == "Positive" %}
-                            <img width="100%" src="{% static 'imgs/Hot.png' %}">
+                            <img style="height: 19px; float: right; filter: brightness(0) invert(1)" src="{% static 'imgs/Hot.png' %}">
                         {% elif sentence.sentiment == "Negative" %}
-                            <img width="100%" src="{% static 'imgs/Not.png' %}">
+                            <img style="height: 19px; float: right; filter: brightness(0) invert(1)" src="{% static 'imgs/Not.png' %}">
                         {% else %}
-                            <img width="100%" src="{% static 'imgs/None.png' %}">
+                            <img style="height: 19px; float: right; filter: brightness(0) invert(1)" src="{% static 'imgs/None.png' %}">
                         {% endif %}
                     </div>
-                    <q style="width: 90%; float: left;">{{ sentence.text }} <small>&nbsp;&nbsp;&nbsp;&nbsp;-{{ sentence.source }}, {{ sentence.date }} </small></q>
                 </div>
+
             {% endfor %}
         </div>
+
     </div>
     <label hidden id="page">{{ page }}</label>
 
@@ -149,17 +150,28 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+
+    <script type="text/javascript" src="{% static "js/Hammer.js" %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+
     <script type="text/javascript" src="{% static "js/price_ticker.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/company_info.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/custom_pred.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/company_fan.js" %}"></script>
 
     <script>
 
     var our = document.getElementById("our");
     var custom = document.getElementById("custom");
     var info = document.getElementById("info");
+    var fan = document.getElementById("financial")
 
     var our_content = document.getElementById("ourPred");
     var custom_content = document.getElementById("customPred");
     var info_content = document.getElementById("stockInfo");
+    var fan_content = document.getElementById("fanInfo")
 
     var cur = document.getElementById("page");
     var cls = ""
@@ -171,12 +183,7 @@
         cls = "noneActive"
     }
 
-    if(cur.innerText == "our"){
-        our.classList.add(cls)
-    } else{
-        custom.classList.add(cls)
-    }
-
+    navButton("our")
 
     var sents = document.getElementById("side-sentences")
     var main = document.getElementById("main-body")
@@ -188,10 +195,12 @@
         custom.classList.remove(cls);
         info.classList.remove(cls);
         our.classList.remove(cls);
+        fan.classList.remove(cls);
 
         custom_content.hidden = true;
         info_content.hidden = true;
         our_content.hidden = true;
+        fan_content.hidden = true;
 
         if(button_name == "our"){
             our.classList.add(cls)
@@ -199,9 +208,12 @@
         } else if(button_name == "custom"){
             custom.classList.add(cls)
             custom_content.hidden = false;
-        } else {
+        } else if (button_name == "info"){
             info.classList.add(cls)
             info_content.hidden = false;
+        } else {
+            fan.classList.add(cls)
+            fan_content.hidden = false;
         }
 
 
@@ -262,60 +274,21 @@
                     }
                 }]
             },
-            maintainAspectRatio: false
-        }
-    });
-
-
-    // Standard Chart
-    data = htmlDecode("{{ custom_close.labels }}")
-    cus_dates = []
-
-    pred_labels = htmlDecode("{{ custom_pred.labels }}")
-    pred_prices = htmlDecode("{{ custom_pred.prices }}")
-
-    for(i = 0; i < data.length; i++){
-        cus_dates = cus_dates.concat(new Date(data[i]))
-    }
-
-
-    pred_points = []
-    for(i = 0; i < pred_labels.length; i++){
-        pred_points = pred_points.concat([{
-            'x': (new Date(pred_labels[i])),
-            'y': parseFloat(pred_prices[i])
-        }])
-    }
-
-    var ctx2 = document.getElementById('customChart');
-    var lineChart = new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: cus_dates,
-            datasets: [{
-                data: {{ custom_close.prices }},
-                label: "Closing Price History",
-                borderColor: "#3e95cd",
-                fill: false
-            },{
-                data: pred_points,
-                label: "Our Predicted Prices",
-                borderColor: "#dd2a2a",
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'day'
-                    }
-                }]
-            },
             maintainAspectRatio: false,
-            responsive: true
-        }
+            plugins: {
+                zoom: {
+							pan: {
+								enabled: true,
+								mode: 'xy' // is panning about the y axis neccessary for bar charts?
+							},
+							zoom: {
+								enabled: true,
+								mode: 'x',
+								sensitivity: 3
+							}
+						}
+            }
+        },
     });
 
      function navSentences(){

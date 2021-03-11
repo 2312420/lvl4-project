@@ -1,0 +1,35 @@
+
+
+{% for key, value in stats.items %}
+        <p>{{ key }} : {{ value }}</p>
+{% endfor %}
+
+<div style="width: 40%">
+    <h2>Income Statement</h2>
+
+    {% for key, value in income.items %}
+        {% cycle 'whitesmoke' 'white' as colour silent%}
+        <div style="background-color: {{ colour }}; padding: 2px">{{ key }} <span style="float: right">{{ value }}</span></div>
+    {% endfor %}
+
+</div>
+
+<div style="width: 40%">
+    <h2>Balance Sheet</h2>
+
+    {% for key, value in balance.items %}
+        {% cycle 'whitesmoke' 'white' as colour silent%}
+        <div style="background-color: {{ colour }}; padding: 2px">{{ key }} <span style="float: right">{{ value }}</span></div>
+    {% endfor %}
+
+</div>
+
+<div style="width: 40%">
+    <h2>Cash Flow Statement</h2>
+
+    {% for key, value in cashflow.items %}
+        {% cycle 'whitesmoke' 'white' as colour silent%}
+        <div style="background-color: {{ colour }}; padding: 2px">{{ key }} <span style="float: right">{{ value }}</span></div>
+    {% endfor %}
+
+</div>

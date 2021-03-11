@@ -1,0 +1,44 @@
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/company_info.css' %}">
+
+
+    <div style="width: 20%; float: left; background-color: whitesmoke; height: 100%; border: solid 1px lightgray; margin-right: 1%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px">
+        <img src="{{ basic_info.logo_url }}" style="width: 100%">
+
+
+        <div style="padding: 5px">
+            <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
+            <h3>Basic Information</h3>
+            <p>Sector: <b>{{ basic_info.sector }}</b></p>
+            <p>Industry: <b>{{ basic_info.industry }}</b></p>
+            <p>Employees: <b>{{ basic_info.fullTimeEmployees }}</b> </p>
+
+            <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
+
+            <h3>Todays Stats</h3>
+            <p>Open: <b>{{ finance_info.open }}</b></p>
+            <p>High: <b>{{ finance_info.dayHigh }}</b></p>
+            <p>Low: <b>{{ finance_info.dayLow }}</b></p>
+
+            <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
+        </div>
+
+    </div>
+
+    <div style="width: 75%; float: left; padding: 1%; background-color: whitesmoke; border: solid 1px lightgray; height: 100%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px">
+        <h1> {{ finance_info.longName }}</h1>
+
+        <hr style="border-top: 2px solid lightgray; position: relative; margin-right: 1%">
+
+        <h2> Business Summary </h2>
+        <p> {{ basic_info.longBusinessSummary }}</p>
+
+        <h2> Contact Information </h2>
+        <p> <b>Country:</b> {{ basic_info.country }}</p>
+        <p> <b>City:</b> {{ basic_info.city }}</p>
+        <p> <b>Address:</b> {{ basic_info.address1 }}</p>
+        <p> <b>Phone:</b> {{ basic_info.phone }}</p>
+        <p> <b>Website:</b> <a href="{{ basic_info.website }}">{{ basic_info.website }}</a></p>
+    </div>
+
+

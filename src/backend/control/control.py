@@ -1,16 +1,10 @@
 import modules as md
 import requests
-#import os
-#from subprocess import *
-#import sys
 import psycopg2
 import psycopg2.extensions
 import select
 from queue import Queue
 from threading import Thread
-#from time import time
-
-#import threading
 
 # Backend Api
 base_url = "http://backend-api:5000"

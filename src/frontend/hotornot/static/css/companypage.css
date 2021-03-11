@@ -7,7 +7,6 @@
     display: inline;
 }
 
-
 .loader {
   border: 4px solid white; /* Light grey */
   border-top: 4px solid #3498db; /* Blue */
@@ -15,6 +14,15 @@
   width: 10px;
   height: 10px;
   animation: spin 2s linear infinite;
+}
+
+.info-loader{
+  border: 8vh solid white; /* Light grey */
+  border-top: 8vh solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 20vh;
+  height: 20vh;
+  animation: spin 2s linear infinite
 }
 
 .mainbody {
@@ -33,57 +41,63 @@
   height: 70vh;
 }
 
-.snippet{
-  font-family: Arial, sans-serif;
-  padding-bottom: 20px;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-  margin: 10px;
-}
-
-.custom{
-  background-color: #333333;
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  color: white;
-}
-
-.custom button{
-  font-family: Arial, sans-serif;
-  background-color: whitesmoke;
-  color: #333333;
-  border: 1px solid #333333;
-  padding: 15px 32px;
-  font-weight: bold;
-  font-size: large;
-  margin-top: 20px;
-}
-
-.custom button:hover{
-  background-color: #ddd;
-}
-
-.sideinfo {
-  background-color: #ddd;
-  overflow: hidden;
-}
-
-.sideinfo a {
-  font-family: Arial, sans-serif;
-  float: left;
-  color: #333333;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: bold;
-}
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.pred-box{
+  font-family: Arial, sans-serif;
+  color: #333333;
+  width: 20%;
+  float: left;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  margin-top: 5px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
+}
+
+.pred-box-head{
+  background-color: whitesmoke;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 0 0 1px lightgray;
+  border: 1px solid #fff;
+}
+
+.pred-box-bottom{
+  background-color: whitesmoke;
+  width: 100%;
+  box-shadow: 0 0 0 1px lightgray;
+  border: 1px solid #fff;
+}
+
+.pred-box-mid{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+.pred-box-bottom button{
+  font-family: Arial, sans-serif;
+  background-color: #333333;
+  color: white;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  font-size: large;
+  padding: 4px;
+  margin: 5px;
+  transition: background-color .2s ease-in;
+}
+
+.pred-box-bottom button:hover{
+  background-color: #151515;
+}
+
+
 
 /* CSS FROM https://codepen.io/maheshambure21/pen/VYJQYG */
 
@@ -117,6 +131,7 @@
 .topnav a:hover {
   background-color: #ddd;
   color: black;
+  transition: background-color .2s ease-in;
 }
 
 /* --- */
@@ -124,17 +139,91 @@
 .topnav a.hotActive {
   background-color: #B22222;
   color: white;
+  transition: background-color .2s ease-in;
+
 }
 
 .topnav a.notActive {
   background-color: #4169E1;
   color: white;
+  transition: background-color .2s ease-in;
+
 }
 
 .topnav a.noneActive{
   background-color: darkgrey;
   color: white;
+  transition: background-color .2s ease-in;
+
 }
+
+.snippet{
+  font-family: Arial, sans-serif;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 20px;
+  border-radius: 10px;
+  min-height: 50px;
+  height: auto;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid lightgray;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
+}
+
+.snippet-bottom{
+   background-color: whitesmoke;
+   width: 100%;
+   box-shadow: 0 0 0 1px lightgray;
+   border: 1px solid #fff;
+   height: 20px;
+}
+
+.snippet-bottom.hot{
+  background: rgb(178,34,34);
+  background: linear-gradient(90deg, rgba(178,34,34,1) 0%, rgba(199,77,36,1) 100%);
+}
+
+.snippet-bottom.not{
+   background: rgb(79,104,177);
+  background: linear-gradient(90deg, rgba(79,104,177,1) 0%, rgba(32,145,168,1) 100%);
+}
+
+.snippet-bottom.hold{
+  background: rgb(142,139,138);
+  background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
+}
+
+.sideinfo {
+  overflow: hidden;
+}
+
+.side-hot{
+  background: rgb(178,34,34);
+  background: linear-gradient(90deg, rgba(178,34,34,1) 0%, rgba(199,77,36,1) 100%);
+}
+
+.side-not{
+  background: rgb(79,104,177);
+  background: linear-gradient(90deg, rgba(79,104,177,1) 0%, rgba(32,145,168,1) 100%);
+}
+
+.side-none{
+  background: rgb(142,139,138);
+  background: linear-gradient(90deg, rgba(142,139,138,1) 0%, rgba(195,193,192,1) 100%);
+}
+
+.sideinfo a {
+  font-family: Arial, sans-serif;
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+}
+
 
 
 

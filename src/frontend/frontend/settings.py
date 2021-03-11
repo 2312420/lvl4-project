@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'frontend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# Default
 #DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
@@ -86,6 +87,7 @@ WSGI_APPLICATION = 'frontend.wsgi.application'
 #    }
 #}
 
+# Containor DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -97,6 +99,17 @@ DATABASES = {
     }
 }
 
+# Local
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': "localdb",
+#        'USER': 'postgres',
+#        'PASSWORD': '2206',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
