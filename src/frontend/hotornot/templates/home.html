@@ -5,12 +5,17 @@
 {% block body_block %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/homepage.css' %}">
 
-    <div class = search-wrapper>
 
+    <div style="padding: 2px">
+        <a href="{% url 'index' %}">
+            <img style="filter: brightness(130%); width: 900px; margin-left: auto; margin-right: auto; display: block; padding: 30px" src="{% static 'imgs/LogoV4.png' %}">
+        </a>
+    </div>
+
+
+    <div class = search-wrapper>
         <i id="search-icon" class="fas fa-search"></i>
         <input id="user-input" class="search" type="text" placeholder="search" >
-
-
     </div>
 
     <div class = search-wrapper>
@@ -18,6 +23,9 @@
             <option selected> Sort by</option>
             <option value="HOT">Hot</option>
             <option value="NOT">Not</option>
+            <option value="HOLD">Hold</option>
+            <option value="AD">Alphabetical</option>
+            <option value="STOCK">Stock Code</option>
         </select>
     </div>
 

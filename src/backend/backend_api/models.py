@@ -34,6 +34,7 @@ class Company(db.Model):
     short_hand = db.Column(db.String)
     verdict = db.Column(db.String)
     predictions = db.Column(db.JSON)
+    change = db.Column(db.Float)
 
     def __init__(self, stock_code, short_hand):
         self.stock_code = stock_code
@@ -46,7 +47,9 @@ class Company(db.Model):
         return {
             'stock_code': self.stock_code,
             'short_hand': self.short_hand,
-            'predictions': self.predictions
+            'predictions': self.predictions,
+            'verdict': self.verdict,
+            'change': self.change,
         }
 
 
@@ -139,3 +142,44 @@ class Sentence(db.Model):
             'time': self.time.strftime("%H:%M:%S"),
             'context': self.context
         }
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+
+    tag_id = db.Column(db.Integer, primary_key=True)
+    tag_title = db.Column(db.String())
+
+    def __init__(self, tag_title):
+        self.tag_title = tag_title
+
+    def __repr__(self):
+        return '<id {}>'.format(self.tag_id)
+
+    def serialize(self):
+        return {
+            'tag_id': self.tag_id,
+            'tag_title': self.tag_title
+        }
+
+
+class CompanyTag(db.Model):
+    __tablename__ = "company_tags"
+
+    company_code = db.Column(db.String())
+    tag_id = db.Column(db.Integer())
+    id = db.Column(db.Integer(), primary_key=True)
+
+    def __init__(self, tag_id, company_code):
+        self.tag_id = tag_id
+        self.company_code = company_code
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+    def serialize(self):
+        return {
+            'tag_id': self.tag_id,
+            'company_code': self.company_code
+        }
+

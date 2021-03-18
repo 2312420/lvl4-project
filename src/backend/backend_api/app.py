@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from models import Company, Source, Article, Sentence
+from models import Company, Source, Article, Sentence, Tag, CompanyTag
 from flask_sqlalchemy import SQLAlchemy
 import flask
 from extensions import db
@@ -123,6 +123,8 @@ def update_article():
             article = Article.query.get(content['id'])
             article.title = content['title']
             article.transcript = content['transcript']
+            article.context = content['context']
+            article.status = content['status']
             db.session.commit()
             return flask.Response(status=200)
         except:
@@ -257,6 +259,24 @@ def delete_sentence(sentence_id):
             return flask.Response(status=200)
     except:
         return flask.Response(status=400)
+
+
+@app.route('/sentence/<sentence_id>/context/only', methods=['PUT'])
+def update_sentence_context_only(sentence_id):
+    if request.is_json:
+        try:
+            content = request.get_json()
+            sentence = Sentence.query.get(sentence_id)
+            if sentence == None:
+                return flask.Response(status=404)
+            else:
+                sentence.context = content['context']
+                db.session.commit()
+                return flask.Response(status=200)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
 
 
 @app.route('/sentence/<sentence_id>/context', methods=['PUT'])
@@ -394,7 +414,7 @@ def update_company_predictions():
         content = request.get_json()
         company = Company.query.get(content['stock_code'])
         company.verdict = content['verdict']
-
+        company.change = content['change']
 
         if content['verdict'] == "NO-DATA":
             company.predictions = json.dumps("[]")
@@ -412,11 +432,11 @@ def update_company_predictions():
 
 @app.route('/points/<company_id>', methods=['GET'])
 def get_data_points(company_id):
-    conn =psycopg2.connect(host='localhost',
-                           port='5433',
-                           user='postgres',
-                           password='2206',
-                           database='company_data')
+    conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
+                                    user='postgres',
+                                    password='2206',
+                                    database='timedb')
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute("SELECT * FROM points WHERE company_id= %s ORDER BY time DESC LIMIT 100", [company_id])
     points = json.dumps(cursor.fetchall(), indent=2, default=str)
@@ -434,11 +454,11 @@ def add_data_point():
                 db.session.commit()
                 return flask.Response(status=204)
 
-            conn = psycopg2.connect(host='localhost',
-                                    port='5433',
+            conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
                                     user='postgres',
                                     password='2206',
-                                    database='company_data')
+                                    database='timedb')
             cursor = conn.cursor()
 
 
@@ -463,11 +483,11 @@ def add_data_point():
 @app.route('/points', methods=['GET'])
 def get_all_points():
     try:
-        conn = psycopg2.connect(host='localhost',
-                                    port='5433',
+        conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
                                     user='postgres',
                                     password='2206',
-                                    database='company_data')
+                                    database='timedb')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM points")
         points = cursor.fetchall()
@@ -493,11 +513,11 @@ def points_update_price():
     if request.is_json:
         try:
             content = request.get_json()
-            conn = psycopg2.connect(host='localhost',
-                                    port='5433',
+            conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
                                     user='postgres',
                                     password='2206',
-                                    database='company_data')
+                                    database='timedb')
             cursor = conn.cursor()
             cursor.execute("UPDATE points SET open=%s, high=%s, low=%s, close=%s, volume=%s WHERE id=%s",
                            [content['open'], content['high'], content['low'], content['close'], content['volume'],
@@ -513,11 +533,11 @@ def points_update_price():
 @app.route('/points/<company_id>/<interval>', methods=['GET'])
 def points_from_time_frame(company_id, interval):
     try:
-        conn = psycopg2.connect(host='localhost',
-                                port='5433',
-                                user='postgres',
-                                password='2206',
-                                database='company_data')
+        conn = psycopg2.connect(host='dbtime',
+                                    port='5432',
+                                    user='postgres',
+                                    password='2206',
+                                    database='timedb')
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute("SELECT * FROM points WHERE time > NOW() - INTERVAL %s AND company_id = %s ORDER BY time", [interval, company_id])
         points = json.dumps(cursor.fetchall(), indent=2, default=str)
@@ -526,5 +546,54 @@ def points_from_time_frame(company_id, interval):
         return flask.Response(status=400)
 
 
+# <---------------------------->
+# <----- timeseries Calls ----->
+# <---------------------------->
+
+
+@app.route('/tag', methods=['POST'])
+def add_tag():
+    if request.is_json:
+        try:
+            content = request.get_json()
+            to_add = Tag(content['title'])
+            try:
+                db.session.add(to_add)
+                db.session.commit()
+                return json.dumps(to_add.serialize()) #flask.Response(status=201)
+            except:
+                return flask.Response(status=400)
+        except:
+            return flask.Response(status=400)
+    else:
+        return flask.Response(status=405)
+
+
+@app.route('/tag/<tag_title>', methods=['GET'])
+def get_tag_id(tag_title):
+    try:
+        tag = Tag.query.filter_by(tag_title=tag_title).all()
+
+        if tag == []:
+            return flask.Response(status=404)
+        else:
+            return json.dumps(tag[0].serialize())
+    except:
+        return flask.Response(status=405)
+
+@app.route('/tag/<tag_id>/<stock_code>', methods=['POST'])
+def add_company_tag(tag_id, stock_code):
+    to_add = CompanyTag(tag_id, stock_code)
+    try:
+        to_add = CompanyTag(tag_id, stock_code)
+        try:
+            db.session.add(to_add)
+            db.session.commit()
+            return flask.Response(status=201)
+        except:
+            return flask.Response(status=400)
+    except:
+        return flask.Response(status=400)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000)

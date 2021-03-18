@@ -1,26 +1,17 @@
-from modules import prediction as pre
-from modules import models as md
 from datetime import datetime
-import pandas as pd
+from modules import prediction
 
-def custom_prediction(start_date, end_date, stock_code):
 
-    points = pre.get_points(stock_code, "3 month")
-
-    data = pre.squish_sentiment(pre.filter_points(points))
-    df = pre.format_df(data, stock_code)
-
-    range_df = df[df['time'] > start_date]
-    end_dt = datetime.strptime(end_date, "%Y-%m-%d")
-
-    days_into_future = (end_dt - range_df['time'].iloc[-1]).days + 2
-    prediction_df = md.linear_regression(range_df, "close", days_into_future)
-
+# Custom prediction between start data and end date for a given company
+def custom_predictions(start_date, end_date, stock_code):
+    prediction_df = prediction.custom_predictions(stock_code, start_date, end_date, 'close')
     new_preds = []
     for index, item in prediction_df.iterrows():
-        date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+        item_date = datetime.strptime(str(index), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
         pred = item['predictions']
-        new_preds.append([date, pred])
+        new_preds.append([item_date, pred])
 
     return new_preds
+
+
 

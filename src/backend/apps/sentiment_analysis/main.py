@@ -1,21 +1,17 @@
 # Imports
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-from flask import Flask, request
-import flask
-import json
-import requests
 
-baseurl = "http://127.0.0.1:5000"
+from flask import Flask, request
+import json
+from textblob import TextBlob
+
+baseurl = "http://backend-api:5000"
 
 app = Flask(__name__)
 
 
-# Analyses sentiment score of sentence
-# will be replaced with more complex system if time permits
 def get_sentiment_score(sentence):
-    sent = SentimentIntensityAnalyzer()
-    sent_dict = sent.polarity_scores(sentence)
-    return sent_dict['compound']
+    blob = TextBlob(sentence)
+    return blob.sentiment.polarity
 
 
 @app.route('/', methods=['GET'])
@@ -31,4 +27,4 @@ def get_sentence_sentiment():
 
 
 if __name__ == "__main__":
-    app.run(port=5003)
+    app.run(host="0.0.0.0", port=5003)
