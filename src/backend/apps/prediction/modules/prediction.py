@@ -1,5 +1,6 @@
 from datetime import date
 from datetime import datetime
+from datetime import timedelta
 from modules import company_points
 from models import prediction_model
 
@@ -23,7 +24,8 @@ def custom_predictions(stock_code, start_date, end_date, target_feature):
 # For updating stored company predictions
 def new_predictions(company):
     days_into_future = 30
-    end_date = date.today().strftime("%Y-%m-%d")
+    end_date = date.today() + timedelta(days=days_into_future)
+    end_date = end_date.strftime("%Y-%m-%d")
 
     stock_code = company['stock_code']
     data = company_points.get_data(stock_code, first_article, end_date)
