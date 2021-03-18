@@ -136,7 +136,7 @@ def company_prediction(company):
     if r.status_code == 200:
         content = r.json()
         url = base_url + '/company/predictions'
-        payload = {'stock_code': content['stock_code'], 'verdict': content['verdict'], 'predictions': content['predictions']}
+        payload = {'stock_code': content['stock_code'], 'verdict': content['verdict'], 'predictions': content['predictions'], 'change': content['change']}
         r = requests.post(url, json=payload)
         print("Updated " + content['stock_code'] + " prediction")
 

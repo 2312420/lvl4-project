@@ -242,7 +242,7 @@ def company_page(request, stock_code):
         pred_prices.append(item[1])
 
     # Getting Company sentence data
-    all_sentences = Sentence.objects.filter(context=stock_code).order_by('date')
+    all_sentences = Sentence.objects.filter(context=stock_code, status='DONE').order_by('date')[:20]
     sentences = []
     for sentence in all_sentences:
         article_id = sentence.article_id

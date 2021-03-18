@@ -125,6 +125,12 @@ if __name__ == '__main__':
         except:
             pass
     
+    wait(prediction_url)
+    print("connected to prediction component")
+
+    for company in md.get_companies():
+        md.company_prediction(company)
+
     # Wait for components to be up and running
     wait(sentence_extraction_url)
     print("connected to sentence extraction component")
@@ -132,8 +138,10 @@ if __name__ == '__main__':
     print("connected to entity identification component")
     wait(sentence_sentiment_url)
     print("connected to sentence sentiment component")
-    wait(prediction_url)
-    print("connected to prediction component")
+    
+
+    
+    
 
     # Get inital unfisihed list
     sentences = get_unfinished_sentences()
