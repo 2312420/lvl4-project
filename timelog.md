@@ -340,7 +340,6 @@
 
 * *5 hours* Working on prediction component improvements
 
-
 ## 17 Feb
 
 * *1 hour* Documenting prediction performance improvements
@@ -351,3 +350,49 @@
 
 * *3 hours* Containorizing components
 
+## 19 Feb
+
+* *0.5 hour* Meeting with advisor
+* *1 hour* Post meeting documentation
+
+## 22 Feb
+* *3 hours* Working on Containorizing components
+* *1 hour* Working on wireframes for frontend overhaul
+
+## 23 Feb
+* *8 hours* Working on homepage
+
+## 24 Feb
+* *4 Hours* Working on company page
+* *4 hours* Working on Containorizing components
+
+## 25 Feb
+* *4 hours* Workong on company page
+* *4 hours* Finalizing containorization
+
+## 26 Feb
+* *0.5 hours* Meeting with advisor
+* *0.5 hours* Post meeting documentation
+
+## 1 Mar
+* *3 hours* Working on company page
+
+## 2 Mar
+* *2 hours* Working on company page
+
+## 5 Mar
+
+* *0.5 hours* Meeting with advisor
+* *4 hours* Homepage and Company page improvemens
+
+## 8 mar
+
+* *2 hours* Researching user study information
+
+## 12 mar
+
+* *0.5 hours* Meeting with advisor
+
+## 13 mar
+
+* *2 hours* User study
