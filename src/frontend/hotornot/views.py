@@ -214,8 +214,15 @@ def company_page(request, stock_code):
 
         return JsonResponse(data=data_dict, safe=False)
 
-    # Historical stock Information
-    stock_df = stock_data.history(start=(datetime.now() - timedelta(days=50)), end=datetime.now())
+    # Get historical stock Information
+    # Loop in case problem with yahoo API
+    recivied  = False
+    while recivied == False:
+        try:
+            stock_df = stock_data.history(start=(datetime.now() - timedelta(days=50)), end=datetime.now())
+            recivied = True
+        except:
+            print("failed to get stock data")
 
     close_labels = []
     pred_labels = []
