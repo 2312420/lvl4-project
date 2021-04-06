@@ -9,6 +9,7 @@
 ### Build steps
 * cd into src
 * run 'docker-compose build'
+* build can take up to 10 minutes
 * run 'docker-compose up'
 * Website should be running at "http://127.0.0.1:8000/hotornot/"
 * Basic Overview of backend api can be found at "http://127.0.0.1:5000"

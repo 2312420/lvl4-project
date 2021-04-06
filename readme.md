@@ -1,9 +1,10 @@
-## Building project
+## Building project (More detail in src/Readme)
 Project requires [docker](https://www.docker.com/) and docker compose to build. Images require at least 5GB of free space
 
 * cd into src
 * run 'docker-compose build'
-* run 'docker-compose up'
+* can take up to 10 minutes to build
+* build can take up to 10 minutes
 * Website should be running at "http://127.0.0.1:8000/hotornot/"
 * Basic Overview of backend api can be found at "http://127.0.0.1:5000"
 
