@@ -1,8 +1,9 @@
+# Imports
 from flask import Flask, request
 import flask
 import json
 
-# Python libs
+# Python files
 from modules import prediction, sentence_to_point
 import custom_pred
 

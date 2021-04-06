@@ -1,10 +1,14 @@
 # Used for getting data for given company given a certain time frame
-from modules import stock_data
-from models import sentiment_model
+
+# Imports
 from datetime import date, datetime
 import requests
 import numpy as np
 import pandas as pd
+
+# Python files
+from modules import stock_data
+from models import sentiment_model
 
 baseurl = "http://backend-api:5000"
 
@@ -19,6 +23,7 @@ def get_points(stock_code, start_date):
     return r.json()
 
 
+# Gets historical stock price
 def stock_points(stock_code, start_date, end_date):
     data = stock_data.get_stock_data(stock_code, start_date, end_date,"1d")
     return data
@@ -52,6 +57,7 @@ def squish_sentiment(points):
     return output
 
 
+# Combine actual datafframes
 def combine_data(df, stock_data):
     model = sentiment_model.past_sentiment_regression(df)
     dates = []
@@ -73,6 +79,7 @@ def combine_data(df, stock_data):
     return df
 
 
+# create new dataframe from sentiment and historical data
 def create_df(sentiment, historical):
     new_sentiment = squish_sentiment(sentiment)
 
@@ -96,6 +103,7 @@ def create_df(sentiment, historical):
     return df.sort_index(ascending=True, axis=0)
 
 
+# Main function for getting finished dataframe for comapny
 def get_data(stock_code, start_date, end_date):
     sentiment_data = get_points(stock_code, start_date)
     historical_data = stock_points(stock_code, start_date, end_date)
