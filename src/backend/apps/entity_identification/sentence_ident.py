@@ -4,7 +4,6 @@ from collections import Counter
 
 
 base_url = "http://backend-api:5000"
-#nlp = spacy.load('en_core_web_sm')
 
 
 # Get article from db via api

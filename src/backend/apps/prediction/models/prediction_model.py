@@ -1,7 +1,11 @@
 # Contains predictions models
+
+# Imports
 import pandas as pd
-from models import common, sentiment_model
 from sklearn.ensemble import RandomForestRegressor
+
+# Python files
+from models import common, sentiment_model
 
 
 # Used to make actual predictions

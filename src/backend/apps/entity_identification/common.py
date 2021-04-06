@@ -5,6 +5,7 @@ stanza.download('en', processors='tokenize,ner', model_dir='/app/stanza_resource
 nlp = stanza.Pipeline(lang='en', processors='tokenize,ner', dir='/app/stanza_resources')
 
 
+# Get list of entites from transcript
 def get_entities(transcript):
      doc = nlp(transcript)
      return doc

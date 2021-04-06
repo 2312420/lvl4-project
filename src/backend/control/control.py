@@ -1,10 +1,13 @@
-import modules as md
+# Imports
 import requests
 import psycopg2
 import psycopg2.extensions
 import select
 from queue import Queue
 from threading import Thread
+
+# Python files
+import modules as md
 
 # Backend Api
 base_url = "http://backend-api:5000"
@@ -55,7 +58,8 @@ def get_unfinished_articles():
     return articles
 
 
-def process_sentence(sentence_queue):#, sentence):
+# Logic for processing sentences
+def process_sentence(sentence_queue):
     while True:
         sentence = sentence_queue.get()
         status = sentence['status']
@@ -68,9 +72,9 @@ def process_sentence(sentence_queue):#, sentence):
             # New point has been added so update prediction for company
             md.company_prediction({"stock_code": sentence['context']})
         sentence_queue.task_done()
-        print("t")
-    
 
+
+# Logic for processing articles
 def process_article(article_queue):#, article):
     while True:
         article = article_queue.get()
@@ -80,30 +84,29 @@ def process_article(article_queue):#, article):
         elif status == "SENTENCES":
             md.article_sentence_extraction(article)
         article_queue.task_done()
-        print("t")
-    
 
+    
+# process articles and sentences
 def process(articles, sentences):
     article_queue = Queue()
     sentence_queue = Queue()
     num_threads = 2
 
+    # Create threads for article queue
     for i in range(num_threads):
         worker = Thread(target=process_article, args=(article_queue,))
         worker.setDaemon(True)
         worker.start()
-        #t = threading.Thread(target=proc)
 
+    # Create threads for sentence queue
     for i in range(num_threads):
         worker = Thread(target=process_sentence, args=(sentence_queue,))
         worker.setDaemon(True)
         worker.start()
 
     for article in articles:
-        #process_article(article)
         article_queue.put(article)
     for sentence in sentences:
-        #process_sentence(sentence)
         sentence_queue.put(sentence)
 
     article_queue.join()
@@ -138,10 +141,6 @@ if __name__ == '__main__':
     print("connected to entity identification component")
     wait(sentence_sentiment_url)
     print("connected to sentence sentiment component")
-    
-
-    
-    
 
     # Get inital unfisihed list
     sentences = get_unfinished_sentences()

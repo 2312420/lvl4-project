@@ -1,14 +1,10 @@
 # Api calls and functions to process sentences and articles
+
+# Imports
 import requests
 import json
 
 # Component Apis
-#article_context = "http://127.0.0.1:5001/ident/article"
-#sentence_context = "http://127.0.0.1:5001/ident/sentence"
-#sentence_extraction_url = "http://127.0.0.1:5002/sent"
-#sentence_sentiment_url = "http://127.0.0.1:5003/sentiment"
-#prediction_base_url = "http://127.0.0.1:5004"
-
 article_context = "http://entity-ident:5001/ident/article"
 sentence_context = "http://entity-ident:5001/ident/sentence"
 sentence_extraction_url = "http://sentence-extraction:5002/sent"
@@ -42,6 +38,7 @@ def update_sentence_context(sentence):
             print("Something went wrong")
 
 
+# Get article context and update databse
 def update_article_context(article):
     r = requests.get(url=article_context, json=article)
     if r.status_code == 200:
@@ -59,13 +56,15 @@ def update_article_context(article):
         print("Article context updated")
 
 
-def get_sentences():
+# Get senteces from database that need context analysis done
+def get_sentences_context():
     url = base_url + '/sentence/findByStatus'
     payload = {"status": "CONTEXT"}
     r = requests.get(url, json=payload)
     return r.json()
 
 
+# Get article context from database
 def get_articles_context():
     url = base_url + '/article/findByStatus'
     payload = {"status": "CONTEXT"}
@@ -77,6 +76,7 @@ def get_articles_context():
 # <!---- SENT EXTRACTION ----!> #
 # <!-------------------------!> #
 
+# Send article to sentence extraction component and update database
 def article_sentence_extraction(article):
     r = requests.get(sentence_extraction_url, json=article)
     if r.status_code == 200:
@@ -95,6 +95,7 @@ def article_sentence_extraction(article):
         print("Sentences extracted")
 
 
+# Get article that need sentences extracted
 def get_articles_for_extract():
     url = base_url + '/article/findByStatus'
     payload = {"status": "SENTENCES"}
@@ -107,6 +108,7 @@ def get_articles_for_extract():
 # <!-------------------------!> #
 
 
+# Process sentences sentiment and update database
 def sentence_sentiment(sentence):
     r = requests.get(sentence_sentiment_url, json=sentence)
     if r.status_code == 200:
@@ -117,6 +119,7 @@ def sentence_sentiment(sentence):
         print("Sentiment analyzed")
 
 
+# Get senteces that need sentiment analysis preformed
 def get_sentences_for_sentiment():
     url = base_url + '/sentence/findByStatus'
     payload = {"status": "SENTIMENT"}
@@ -162,7 +165,7 @@ def get_companies():
 
 
 # Get all sentences that need to be transformed into points
-def get_sentences():
+def get_sentences_points():
     url = base_url + "/sentence/findByStatus"
     payload = {"status": "PRED"}
     r = requests.get(url, json=payload)
