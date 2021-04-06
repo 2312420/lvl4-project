@@ -4,7 +4,7 @@ import requests
 
 # Data set from kaggle:
 # https://www.kaggle.com/dgawlik/nyse?select=securities.csv
-companies_df = pd.read_csv('companies.csv')
+companies_df = pd.read_csv('../companies.csv')
 
 
 def add_company(stock_code, short_hand):

@@ -57,7 +57,7 @@ def calculate(name ,dict):
     return [name, TP, TN, FP, FN, accuracy, precision, recall, F1]
 
 
-with open('data_sets/NER_Dataset.csv') as csv_file:
+with open('../../../../../data/eval_context/data_sets/NER_Dataset.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
 
@@ -178,16 +178,16 @@ with open('data_sets/NER_Dataset.csv') as csv_file:
     Overall["FP"] += (Orgs["FP"] + Locs["FP"] + Pers["FP"] + Misc["FP"])
     Overall["FN"] += (Orgs["FN"] + Locs["FN"] + Pers["FN"] + Misc["FN"])
 
-    #now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    #note = "StanzaContext"
-    #with open('results/' + now + "(" + note + ").csv", "x") as o:
-    #    csv_writer = csv.writer(o, delimiter=',', )
-    #    csv_writer.writerow(['Entity_Type', 'True Positive', 'True Negative', "False Positive", "False Negative", "Accuracy", "Precision", "Recall", "F1"])
-    #    csv_writer.writerow(calculate("Organisation", Orgs))
-    #    csv_writer.writerow(calculate("Person", Pers))
-    #    csv_writer.writerow(calculate("Location", Locs))
-    #    csv_writer.writerow(calculate("Misc", Misc))
-    #    csv_writer.writerow(calculate("Overall", Overall))
+    now = datetime.now().strftime("%d-%m-%Y, %H-%M")
+    note = "StanzaContext"
+    with open('../../../../../data/eval_context/results/' + now + "(" + note + ").csv", "x") as o:
+        csv_writer = csv.writer(o, delimiter=',', )
+        csv_writer.writerow(['Entity_Type', 'True Positive', 'True Negative', "False Positive", "False Negative", "Accuracy", "Precision", "Recall", "F1"])
+        csv_writer.writerow(calculate("Organisation", Orgs))
+        csv_writer.writerow(calculate("Person", Pers))
+        csv_writer.writerow(calculate("Location", Locs))
+        csv_writer.writerow(calculate("Misc", Misc))
+        csv_writer.writerow(calculate("Overall", Overall))
 
 
 

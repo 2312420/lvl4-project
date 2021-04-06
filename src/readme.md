@@ -1,41 +1,83 @@
-# Readme
-
-Put a brief description of your code here. This should at least describe the file structure.
-
-## Build instructions
-
-**You must** include the instructions necessary to build and deploy this project successfully. If appropriate, also include 
-instructions to run automated tests. 
+## Building Instructions
 
 ### Requirements
-
-List the all of the pre-requisites software required to set up your project (e.g. compilers, packages, libraries, OS, hardware)
-
-For example:
-
-* Python 3.7
-* Packages: listed in `requirements.txt` 
-* Tested on Windows 10
-
-or another example:
-
-* Requires Raspberry Pi 3 
-* a Linux host machine with the `arm-none-eabi` toolchain (at least version `x.xx`) installed
-* a working LuaJIT installation > 2.1.0
+* [docker](https://www.docker.com/)
+* docker compose
+* python 3.7
+* 5 GB or so of room for containers
 
 ### Build steps
+* cd into src
+* run 'docker-compose build'
+* run 'docker-compose up'
+* Website should be running at "http://127.0.0.1:8000/hotornot/"
+* Basic Overview of backend api can be found at "http://127.0.0.1:5000"
 
-List the steps required to build software. 
+> :warning: **Note**: Once entity-ident container is up takes 5-10 mins to download stanza models
 
-Hopefully something simple like `pip install -e .` or `make` or `cd build; cmake ..`. In
-some cases you may have much more involved setup required.
+> :warning: **Note**: System only has data collected between Nov 11th 2020 to Dec 15th 2020
 
-### Test steps
+### Test Steps
 
-List steps needed to show your software works. This might be running a test suite, or just starting the program; but something that could be used to verify your code is working correctly.
+#### Entity Identifcation tests
 
-Examples:
+* go to src/backend/apps/entity_identification/tests
+* edit test.py with note if desired
+* run test.py
+* results stored in data/eval_sentiment/results
 
-* Run automated tests by running `pytest`
-* Start the software by running `bin/editor.exe` and opening the file `examples/example_01.bin`
+#### Sentiment analysis tests
+
+* go to src/backend/apps/sentiment_analysis/tests
+* edit test.py with note if desired
+* run test.py
+* results stored in data/eval_sentiment/results
+
+#### Prediction tests
+
+* go to src/backend/apps/prediction/tests
+* edit test_prediciton.py
+* change bottom of \__main__ to required test
+* run test_prediction.py
+* results stored in data/eval_prediction/results
+
+#### Backend API unit tests
+
+* go to src/backend/backend_api/tests
+* run 'api_tests.py' and 'points_tests' to test bakcend api calls
+
+## Src Rundown 
+
+### Directory structure
+
+    src
+    ├── backend 
+    │   ├── apps                        
+    │   │   ├── entity_identification   # Context analysis component
+    │   │   ├── news-crawler            # News crawler component
+    │   │   ├── prediction              # Stock prediciton component
+    │   │   ├── sentence_extraction     # Sentence extraction component
+    │   │   └── sentiment_analysis      # Sentiment analysis component
+    │   ├── backend_api                 # Backend api 
+    │   ├── control                     # Control component 
+    ├── database   
+    │   ├── main                        # Main db sql
+    │   ├── timeseries                  # Timesries db sql
+    │   ├── scripts                     # Data input scripts
+    └── frontend                        # Django webapp
+
+
+### Description 
+Project split into three parts: backend, database, frontend
+#### /backend
+
+* /apps contains components for collecting and processing articles. Each component has its own docker file and API
+* backend_api contains flask API which communicates to the main and timeseries database
+* control component for communicating with '/apps' components and backend api 
+
+#### /database
+contains SQL for main and timeseries databases along with some scripts used to input data into them.
+
+#### /frontend
+Contains the django webapp  
 

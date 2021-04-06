@@ -9,6 +9,8 @@ Project requires [docker](https://www.docker.com/) and docker compose to build. 
 
 > :warning: **Note**: Once entity-ident container is up takes 5-10 mins to download stanza models
 
+> :warning: **Note**: System only has data collected between Nov 11th 2020 to Dec 15th 2020
+
 ## Project Structure Structure
 
     src

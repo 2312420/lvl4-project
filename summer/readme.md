@@ -1,9 +1,9 @@
 # Summer work
 
-* PROJECT NAME
-* YOUR NAME
-* STUDENT_ID
-* SUPERVISOR NAME
+* hotOrNot: Tracking company attractiveness and profitability from news streams 
+* Euan O'Neill
+* 2312420o
+* Richard McCreadie 
 
 Use this file to keep a report stating what you completed over the summer. The following is an *template* that you can use as a basis. 
 

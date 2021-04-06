@@ -53,7 +53,7 @@ def run_test(note):
     neu_neg = 0
     neu_neu = 0
 
-    with open('data_sets/all-data.csv') as f:
+    with open('../../../../../data/eval_sentiment/data_sets/all-data.csv') as f:
         csv_reader = csv.reader(f, delimiter=',')
         now = datetime.now().strftime("%d-%m-%Y, %H-%M")
 
@@ -110,8 +110,7 @@ def run_test(note):
                         pos_neu += 1
                     incorret += 1
 
-
-        with open('results/' + now + "(" + note + ").csv", "x") as o:
+        with open('../../../../../data/eval_sentiment/results/' + now + "(" + note + ").csv", "x") as o:
             csv_writer = csv.writer(o, delimiter=',',)
             csv_writer.writerow(['title', 'result'])
             csv_writer.writerow(['total sentences', correct + incorret])
@@ -132,5 +131,5 @@ def run_test(note):
 
     print(now, datetime.now())
 
-
+# run_test(<note>)
 run_test("flair, new metrics")

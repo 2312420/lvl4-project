@@ -72,7 +72,7 @@ def test_all(days, note, sentence_limiter=0):
     days += 2
     companies = get_companies()
     now = datetime.now().strftime("%d-%m-%Y, %H-%M")
-    file_name = "results/all/" + str(days - 2) + "/" + now + "(" + note + ").csv"
+    file_name = "../../../../../data/eval_prediction/results/all/" + str(days - 2) + "/" + now + "(" + note + ").csv"
     with open(file_name, "x") as f:
         fieldnames = ["stock_code", "short_hand", "sentences", "Mean Squared Error", "Median Absolute Error"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -121,13 +121,9 @@ def test_company(stock_code, days):
 
 
 if __name__ == '__main__':
-    #test_all(1,  "RandomForest")
-    #test_all(2,  "RandomForest")
-    #test_all(5,  "RandomForest")
-    #test_all(10, "RandomForest")
-    #test_all(15, "RandomForest")
-    #test_all(30, "RandomForest")
+    #test_all(<days>, <note>)
+    test_all(15, "15 day test")
 
-    test_company("FB", 1)
-    test_company("A", 1)
-    test_company("LRCX",1)
+    #test_company(<stock_code>, <days>)
+    test_company("FB", 15)
+    
