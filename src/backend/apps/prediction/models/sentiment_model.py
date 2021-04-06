@@ -1,20 +1,16 @@
 # Sentiment prediction model to fill in missing sentiemnt data
-from sklearn.linear_model import LinearRegression
+
+# Imports
 from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVR
 from sklearn.pipeline import make_pipeline
-import matplotlib.pyplot as plt
+from sklearn.linear_model import BayesianRidge
 import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 
+# Python files
 from models import common
 
-from sklearn.linear_model import SGDRegressor
-from sklearn.linear_model import BayesianRidge
-from sklearn.linear_model import SGDRegressor
-
-from sklearn.tree import DecisionTreeRegressor
 
 # Used to fill in missing sentiment data
 def past_sentiment_regression(df):

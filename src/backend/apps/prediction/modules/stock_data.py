@@ -1,4 +1,6 @@
 # Used for getting stock data from Yahoo Finances
+
+# Imports
 import yfinance as yf
 from datetime import datetime
 from datetime import timedelta

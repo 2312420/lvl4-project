@@ -1,5 +1,6 @@
 # Common functions used between both models
 
+
 # Take time feature and expand it into multiple features
 def expand_time(df):
     df["day_month"] = df["time"].dt.month

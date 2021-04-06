@@ -50,9 +50,10 @@ def output(article_data, article_source_id):
 
 
 if __name__ == '__main__':
-    time.sleep(5) # Sleep for 5 seconds to allow Backend and Datbase to come up and running
+    time.sleep(60) # Sleep for 1 minute to allow Backend and Datbase to come up and running
     sources = get_source()
     while True:
+        total = 0
         for source in sources:
             print("Fetching from " + source['short_hand'])
             data = get_articles(source['rss'])
@@ -63,4 +64,7 @@ if __name__ == '__main__':
                     count += 1
                     output(article, source['id'])
             print("new articles found: " + str(count))
-        print("Round Complete")
+            total += count
+        print("Round Complete, " + str(total) + " New articles")
+        if total < 5: # Not enough new articles, sleep for five minutes
+            time.sleep(60*5)

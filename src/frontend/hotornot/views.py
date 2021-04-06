@@ -85,7 +85,7 @@ def company_page(request, stock_code):
     stock_data = yf.Ticker(stock_code)
     cus_labels = cus_prices = cus_pred_labels = cus_pred_price = None
 
-    # Ajax request to update live stock price
+    # Ajax request to update page
     if request.is_ajax():
         func = request.GET.get("t")
 

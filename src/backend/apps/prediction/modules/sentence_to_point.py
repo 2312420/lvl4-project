@@ -1,5 +1,9 @@
 # Used for turning sentences in HotOrNot databse into data points in time series database
+
+# Imports
 import requests
+
+# Python files
 from modules import stock_data
 
 baseurl = "http://backend-api:5000"

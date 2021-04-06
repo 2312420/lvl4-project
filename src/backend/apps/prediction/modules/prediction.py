@@ -1,6 +1,11 @@
+# Script to use models to make stock price predictions
+
+# Imports
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+
+# Python files
 from modules import company_points
 from models import prediction_model
 

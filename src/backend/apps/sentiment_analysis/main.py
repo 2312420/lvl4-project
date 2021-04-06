@@ -9,8 +9,9 @@ baseurl = "http://backend-api:5000"
 app = Flask(__name__)
 
 
-def get_sentiment_score(sentence):
-    blob = TextBlob(sentence)
+# Using textblobs gets sentiment score for sentence text
+def get_sentiment_score(text):
+    blob = TextBlob(text)
     return blob.sentiment.polarity
 
 
