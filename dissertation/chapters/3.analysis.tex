@@ -1,0 +1,195 @@
+\chapter{Analysis/Requirements}
+\label{Analysis}
+
+\section{Requirement Gathering}
+
+To begin work on the system, it was first necessary to capture the required features and requirements \cite{Cooper_1998}. To create the initial list, a collection of user stories was collated, in order to ascertain the functional system requirements. This was then used to build the non-functional requirements through logically thinking what was needed to facilitate the functional requirements. Once the finalized list of requirements was created, the next step was to use the MoSCoW \citep{website:Moscow} method to prioritize them. The MoSCoW method ranks requirements in one of four categories:
+    \begin{itemize}
+        \item \textbf{Must}: Requirements that are needed to achieve the minimum viable product
+        \item \textbf{Should}: Requirements that are important to the system but not vital
+        \item \textbf{Could}: Requirements that would be good to have in the system but are not as important
+        \item \textbf{Won't Have this Time}: Requirements that are outside the scope of the project
+    \end{itemize}
+Using the MoSCoW method to group requirements by priority allowed for focusing on the issues that were most critical to the project's success. Once the final list of requirements was decided upon they were divided into \textit{Frontend} requirements, those which concerned the webapp and user interface of the system, and \textit{Backend Requirements}, what was needed in the backend to support the overall system.
+    
+    \subsection{Users Stories}
+    Different user scenarios were created, detailing the different users that could potentially access the system with each having different degrees of experience in the world of stock trading and different goals when accessing the system. The following four users were developed:
+    
+        \begin{itemize}
+    
+        \item \textbf{Colin} is an experienced financial investor who uses the site to view the \textit{hottest} companies in which he could make a worthwhile investments. 
+        
+        \item \textbf{Jacki} is new to stock trading and wishes to search up companies known to her. Once she has identified a company, she wants to read relevant information such as the company's employee count.
+        
+        \item \textbf{Kate} is interested in the future of a given company and therefore wants to see potential predictions of the company's stock price. She wants to make her own predictions and see the relevant articles that backup these predictions.
+        
+        \item \textbf{Paul} is interested in technology companies similar to Apple. When he searches the system for Apple he wants related companies to appear and further options to refine his search.
+    
+        \end{itemize}
+    
+    From each of these users we can begin to see the required features that the system will need to facilitate their interactions. 
+    
+\section{Backend Requirements}
+The Backend requirements are those related to the backend system of the project which are needed for the system to be able to operate and fulfill the needs of the frontend. Each requirement has an ID, title, description and complexity score and, as previously mentioned, are separated into one of three groups; Must, Should and Could.  
+
+    \BlankLine
+    \BlankLine
+    \subsubsection{MUST}
+    \BlankLine
+    \phantom{~}\noindent
+   
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|l|} 
+        \hline
+        ID & Title                  & Description                                                                                                                             & Complexity  \\ 
+        \hline
+        1  & Article collector      & \begin{tabular}[c]{@{}l@{}}The system can gather articles from a given~news\\~sources\end{tabular}                                      & 2           \\ 
+        \hline
+        2  & Data storage           & \begin{tabular}[c]{@{}l@{}}Data storage system to store all necessary information\\~on companies, articles, sentences, etc\end{tabular} & 2           \\ 
+        \hline
+        3  & Context identification & \begin{tabular}[c]{@{}l@{}}System can identify companies being discussed in \\articles and sentences~\end{tabular}                      & 4           \\ 
+        \hline
+        4  & Sentence extraction    & \begin{tabular}[c]{@{}l@{}}The system can divide articles into meaningful \\sentences\end{tabular}                                      & 3           \\ 
+        \hline
+        5  & Sentiment analysis     & \begin{tabular}[c]{@{}l@{}}The system can analyse sentences and give a \\sentiment score\end{tabular}                                   & 3           \\ 
+        \hline
+        6  & Stock prediction       & \begin{tabular}[c]{@{}l@{}}System can use sentiment to predict stock \\price for companies\end{tabular}                                 & 5           \\
+        \hline
+        \end{tabular}
+    \end{table}
+    
+    
+    \BlankLine
+    \BlankLine
+    \subsubsection{SHOULD}
+    \BlankLine
+    \BlankLine
+
+
+    \phantom{~}\noindent
+    
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|l|} 
+        \hline
+        ID & Title                                                                   & Description                                                                                                                  & Complexity  \\ 
+        \hline
+        7  & \begin{tabular}[c]{@{}l@{}}Accurate context \\analysis\end{tabular}     & \begin{tabular}[c]{@{}l@{}}Improved accuracy, precision and recall scores of the \\context analysis system\end{tabular}      & 3           \\ 
+        \hline
+        8  & \begin{tabular}[c]{@{}l@{}}Accurate sentiment~ ~\\analysis\end{tabular} & \begin{tabular}[c]{@{}l@{}}Improved accuracy, precision and recall scores of the \\sentiment analysis system~ ~\end{tabular} & 3           \\ 
+        \hline
+        9  & Accurate stock prediction                                                     & \begin{tabular}[c]{@{}l@{}}Improvements to prediction model that lowers overall\\error score\end{tabular}                   & 4           \\ 
+        \hline
+        10 & Variety of companies                                                    & \begin{tabular}[c]{@{}l@{}}System contains multiple companies being analysed~\\~\end{tabular}                                & 1           \\
+        \hline
+        \end{tabular}
+    \end{table}
+    
+    
+       
+    \BlankLine
+    \BlankLine
+    \subsubsection{COULD}
+    \BlankLine
+    \BlankLine
+    
+    \phantom{~}\noindent
+    
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|l|} 
+        \hline
+        ID & Title                    & Description                                                                                                   & Complexity  \\ 
+        \hline
+        11 & Prediction options       & \begin{tabular}[c]{@{}l@{}}Different stock price predication options such as \\custom time frame\end{tabular} & 3           \\ 
+        \hline
+        12 & Deployed and accessible~ & \begin{tabular}[c]{@{}l@{}}The frontend system is deployed and accessible\\~\end{tabular}                     & 3           \\
+        \hline
+        \end{tabular}
+    \end{table}
+    
+
+\section{Frontend Requirements}
+The frontend requirements relate to the part of the system with which a potential user would interact and the various features this frontend system needs. Again, these requirements all have an ID, title, description and complexity score and are sorted into one of the three MoSCoW groups.
+    
+    \BlankLine
+    \BlankLine
+    \subsubsection{MUST}
+    \BlankLine
+    \BlankLine
+    
+    \phantom{~}\noindent
+   
+    \begin{table}[h]
+        \centering
+        \refstepcounter{table}
+        \label{ff}
+        \begin{tabular}{|l|l|l|l|} 
+        \hline
+        id & Title              & Description                                                                                                                                    & Complexity  \\ 
+        \hline
+        13 & Home page          & \begin{tabular}[c]{@{}l@{}}Homepage for web app containing a broad list of companies \\in system and navigation between pages\end{tabular}     & 2           \\ 
+        \hline
+        14 & Company page       & \begin{tabular}[c]{@{}l@{}}Company page to house company specific information such \\as statistics, stock price, etc~\end{tabular}             & 2           \\ 
+        \hline
+        15 & Search bar         & \begin{tabular}[c]{@{}l@{}}Search bar that allows user to search through companies\\by typing in name of company\end{tabular}                 & 3           \\ 
+        \hline
+        16 & Filters and tags   & \begin{tabular}[c]{@{}l@{}}Expanded filter and tag options for search~\\~~\end{tabular}                                                        & 3           \\ 
+        \hline
+        17 & Prediction results & \begin{tabular}[c]{@{}l@{}}Prediction results are shown for the future price of a given \\company with an attractiveness verdict~\end{tabular} & 2           \\ 
+        \hline
+        18 & Stock graph        & \begin{tabular}[c]{@{}l@{}}Graph of current and previous stock prices for a given \\company~\end{tabular}                                      & 2           \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+    \BlankLine
+    \BlankLine
+    \subsubsection{SHOULD}
+    \BlankLine
+    \BlankLine
+    
+    \phantom{~}\noindent
+    
+    \begin{table}[h]
+        \centering
+        \refstepcounter{table}
+        \label{ff}
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+        ID & Title             & Description                                                                                                                   & Complexity  \\
+        \hline
+        19 & Related companies & \begin{tabular}[c]{@{}l@{}}When searching for a given company similar companies\\will also appear in the search\end{tabular} & 3          \\
+        \hline
+        20 & Website design    & The website achieves a high system usability score~                                                                           & 3          \\          
+        \hline
+        \end{tabular}
+    \end{table}
+    
+    \BlankLine
+    \BlankLine
+    \subsubsection{COULD} \phantom{}
+    \BlankLine
+    
+    \begin{table}[h]
+        \centering
+        \refstepcounter{table}
+        \label{ff}
+        \begin{tabular}{|l|l|l|l|} 
+        \hline
+        ID & Title                  & Description                                                                                                                                              & Complexity  \\ 
+        \hline
+        21 & Additional information & \begin{tabular}[c]{@{}l@{}}Additional information displayed on the company page\\ such as financial information, sector, industry, etc~\end{tabular}     & 2           \\ 
+        \hline
+        22 & Personalisation        & \begin{tabular}[c]{@{}l@{}}Option for users to personalize their experience~through \\creating an account, having favourite~companies, etc\end{tabular}  & 3           \\ 
+        \hline
+        23 & Article snippets       & \begin{tabular}[c]{@{}l@{}}Sentences taken from crawled articles that relate to\\ company being viewed are shown along with \\ their sentiment\end{tabular} & 3           \\
+        \hline
+        \end{tabular}
+    \end{table}
+    
+    
+\section{Summary}
+This chapter summarizes the approach of the requirement elicitation process through the use of user stories and the MoSCoW system. An outline of the backend and frontend requirements along with their ID, Title, Description and complexity score is also provided.
+

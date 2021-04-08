@@ -1,0 +1,445 @@
+% List requiremts
+% Ret   Test    Pass or Fail
+
+% Test, what test / performance lead you to consider  it complete
+% Logical test
+
+% Summary, key findings
+
+% Only four decimal points
+
+% Complete Requirement validation
+
+% Add in unit testing
+
+%BACKGROUND
+    
+    %WHAT DOING (QUESTION)
+    
+    %HOW GOING TO DO - data set
+    
+    %TELL EXPECTATIONS
+    
+    %DESCRIBE THING (TABLE)
+    
+    %MAKE OBSERVATIONS FROM TABLE
+    
+    %DRAW CONCLUSION
+    
+    %SAY WHAT IT MEANS ABOUT SSYTEM
+    
+    
+\chapter{Evaluation}
+\label{Evaluation}
+Evaluating and improving the overall system was a main focus of the project, as it was not only important to have accurate predictions shown to users but also important to document how those improvements were made.
+
+    \section{Correctness Testing}
+    
+        \subsection{Requirement Validation}
+        
+        \subsubsection{Backend Requirements } \phantom{}
+        \begin{table}[h]
+            \begin{tabular}{|l|l|l|}
+                \hline
+                Requirement           & Test & Pass or Fail \\ \hline
+                \#1: Article Gatherer      & \begin{tabular}[c]{@{}l@{}} Met by News Crawler component \\~ \end{tabular}   & PASS            \\ \hline
+                \#2: Database              & \begin{tabular}[c]{@{}l@{}} Met by main database and \\ time-series database \end{tabular}   & PASS            \\ \hline
+                \#3: Context Identification & \begin{tabular}[c]{@{}l@{}} Met by context analysis component \\~ \end{tabular}    & PASS            \\ \hline
+                \#4: Sentence Extraction   & \begin{tabular}[c]{@{}l@{}} Met by sentence extraction component \\~ \end{tabular}    & PASS            \\ \hline
+                \#5: Sentiment Analysis    & \begin{tabular}[c]{@{}l@{}} Met by sentiment analysis component \\~ \end{tabular}    & PASS            \\ \hline
+                \#6: Stock prediction      & \begin{tabular}[c]{@{}l@{}} Met by stock prediction component \\~ \end{tabular}    & PASS            \\ \hline
+                \#7: Accurate Context Analysis & \begin{tabular}[c]{@{}l@{}} Component performance evaluated and \\ improved in section \ref{eval:context} \end{tabular}    & PASS            \\ \hline
+                \#8: Accurate Sentiment Analysis & \begin{tabular}[c]{@{}l@{}} Component performance evaluated and \\ improved in section \ref{eval:sentiment} \end{tabular}   & PASS            \\ \hline
+                \#9: Accurate Prediction &  \begin{tabular}[c]{@{}l@{}} Component performance evaluated and \\ improved in section \ref{eval:prediction} \end{tabular}    & PASS             \\ \hline
+                \#10: Variety of companies & \begin{tabular}[c]{@{}l@{}} Met by databases storing \\ multiple companies in system\end{tabular}   & PASS            \\ \hline
+                \#11: Prediction Options & \begin{tabular}[c]{@{}l@{}} Met by custom prediction option in \\ webapp \end{tabular}   & PASS            \\ \hline
+                \#12: Deployed and Accessible & \begin{tabular}[c]{@{}l@{}} Met by webapp being accessible \\  by users \end{tabular}   & FAIL            \\
+                \hline
+            \end{tabular}
+        \end{table}
+        \newline
+        \subsubsection{Frontend Requirements}  \phantom{}
+        
+        \begin{table}[h]
+            \begin{tabular}{|l|l|l|}
+                \hline
+                Requirement                 & Test & Pass or Fail \\ \hline
+                \#13: Home page             & \begin{tabular}[c]{@{}l@{}} Met by homepage of webapp \\ \end{tabular}    & PASS            \\ \hline
+                \#14: Company page          & \begin{tabular}[c]{@{}l@{}} Met by company page of webapp \end{tabular}   & PASS            \\ \hline
+                \#15: Search bar            & \begin{tabular}[c]{@{}l@{}} Met by search bar on home \\ page of webapp \end{tabular}   & PASS            \\ \hline
+                \#16: Filters and tags      & \begin{tabular}[c]{@{}l@{}} Met by tag table in system and \\ filter option on webapp \end{tabular}  & PASS            \\ \hline
+                \#17: prediction results    & \begin{tabular}[c]{@{}l@{}} Met by prediction graph on \\ company page \end{tabular}   & PASS            \\ \hline
+                \#18: stock graph           & \begin{tabular}[c]{@{}l@{}} Met by stock graph on company \\ page \end{tabular}   & PASS            \\ \hline
+                \#19: related companies     & \begin{tabular}[c]{@{}l@{}} Met by search results showing \\ similar companies \end{tabular}   & PASS            \\ \hline
+                \#20: website design        & \begin{tabular}[c]{@{}l@{}} Met by component achieving acceptable  \\ SUS score in section \ref{eval:user_study}  \end{tabular}   & PASS            \\ \hline
+                \#21: additional information & \begin{tabular}[c]{@{}l@{}} Met by company profile and financials \\ tab on company page \end{tabular}    & PASS            \\ \hline
+                \#22: Personalisation       & \begin{tabular}[c]{@{}l@{}} Met by ability to create account \\ and tailor the website to needs \end{tabular}   & FAIL            \\ \hline
+                \#23: Article snippets      & \begin{tabular}[c]{@{}l@{}} Met by sentence side bar on \\ company page \end{tabular}   & PASS            \\ \hline
+            \end{tabular}
+        \end{table}
+        
+        \subsection{Unit Test}
+        In order to evaluate the Backend API, a series of unit tests were created. These unit tests operate on the source, article, sentence and company API calls. Four unit test classes were created relating to Source, Article, Sentence and Company with each having testing API calls that inserted, modified, retrieved and deleted data. This ensured that data was being inputted and modified correctly whenever a change was made to the Backend API. 
+        
+    
+    \section{Backend Evaluation}
+    The backend system contains multiple machine learning models that assisted in the processing of articles and sentences. Evaluating the system was necessary to improve the overall prediction performance and effectiveness of the system. The three major components that impact final prediction performance are the context analysis component, sentiment analysis component and stock prediction component. To discover bottlenecks in the overall system and find ways to improve the performance it was critical that these three components be evaluated. 
+    
+        \subsection{Context Analysis}
+        \label{eval:context}
+        %Background
+        The context analysis component is an important first step in the system as it is used to understand what companies are being discussed in a given article or sentence. This is done through a named entity recognition model provided by Spacy \citep{technology:Spacy} that identifies and labels entities in a given text. These entities can be given various labels however the ones we are concerned with are Organisation, Person and Location. 
+        
+        %WHAT
+        To access the performance of the component we will first evaluate the performance of the current Spacy model and compare it to that model of another technology, that being Stanza \citep{technology:Stanza}. %HOW
+        To do this, we will use an annotated data set containing over 47,000 sentences sourced from Kaggle. Both models will be used to analyze each sentence in the dataset and compare the potential entities found to the actual entities in the dataset. Recording the results for each model and entity type will allow us to compare the model's performances.
+        %EXPECTIATION
+        Since Stanza contains a more modern and advanced named entity recognition model we should expect to see a performance increase with this model.
+        
+        %DESCRIBE TABLE
+        Tables \ref{sub:spacy} and \ref{sub:stanza} show the performance results for each model, with each row being a different entity type and each column being a different performance metric to create a confusion matrix. 
+        %Observation from table
+        Looking at Spacy's results in \ref{sub:spacy} and comparing them to Stanza results in \ref{sub:stanza} we can see that Stanza's overall performance is better, scoring marginally higher than the Spacy model in all four metrics.
+        
+        %Draw conclusion / what it means
+        Overall we can see that Stanza provides a more effective NER model than the one previously being used through Spacy. This means that the context analysis component is more effective using the Stanza model and was duly modified to do so.
+        
+        \begin{table}[h]
+            \centering
+            \begin{subtable}{\textwidth}
+                \centering
+                \begin{tabular}{|l|l|l|l|l|} 
+                \hline
+                \textbf{Entity Type} & \textbf{Accuracy}                           & \textbf{Precision}                          & \textbf{Recall}                             & \textbf{F1}                                  \\ 
+                \hline
+                Organisation         & {0.725973} & {0.646951} & {0.273625} & {0.38459}   \\ 
+                \hline
+                Person               & {0.818419} & {0.710441} & {0.273704} & {0.395167}  \\ 
+                \hline
+                Location             & {0.768405} & {0.805118} & {0.747453} & {0.775215}  \\ 
+                \hline
+                Other                & {0.513416} & {0.366572} & {0.479684} & {0.415568}  \\ 
+                \hline
+                \textbf{Overall}     & {0.70153}  & {0.62525}  & {0.4737}   & {0.53902}   \\
+                \hline
+                \end{tabular}
+                \smallskip
+                \caption{Spacy NER confusion matrix} \label{sub:spacy}
+            \end{subtable}
+            \bigskip
+            \begin{subtable}{\textwidth}
+                \centering
+                \begin{tabular}{|l|l|l|l|l|} 
+                \hline
+                \textbf{Entity Type} & \textbf{Accuracy}                                                              & \textbf{Precision}                                                             & \textbf{Recall}                                                                & \textbf{F1}                                                                     \\ 
+                \hline
+                Organisation         & {}{0.7600}  & {0.7248}                                    & {0.2705}                                    & {0.3940}                                     \\ 
+                \hline
+                Person               & {0.8509}                                    & {0.7513}                                    & {0.2907}                                    & {}{0.4199}  \\ 
+                \hline
+                Location             & {}{0.7802} & {}{0.7937} & {0.7580}                                    & {0.7755}                                     \\ 
+                \hline
+                Other                & {0.5072}                                     & {0.3606}                                    & {}{0.4839} & {0.4133}                                      \\ 
+                \hline
+                \textbf{Overall}     & {0.7171}                                    & {0.6343}                                    & {0.4808}                                    & {0.5470}                                     \\
+                \hline
+                \end{tabular}
+                \caption{Stanza NER confusion matrix} \label{sub:stanza}
+            \end{subtable}
+            \smallskip
+            \caption{NER model performances} \label{tab:eval_NER}
+        \end{table}
+        
+        In order to evaluate the true performance gain, provided by the Stanza model, we need to access the performance increase of the overall system. To do this, we devised an end to end test of the entire system to compare the prediction performance when using the Spacy NER model to the prediction performance when using the Stanza NER model.
+                
+        The prediction performance is measured using news data gathered from the news crawler between November 11th 2020 to December 15th 2020, ensuring that both of the NER models use the same data set and that the evaluation is fair. The Mean Squared Error and the median absolute error are calculated for each company for a given time frame and the results shown on the Table show the average across all companies. Since we previously saw superior performance with the Stanza model, we expected to see a similar result provided to the overall system.
+                
+        Table \ref{Table: NER_Performance} shows the Mean Squared Error and median absolute error for each model in a 1 day to 30-day time frame. Table \ref{Table: NER_Performance} shows a small yet noticeable and consistent performance increase across all time frames when the Stanza model was used. This shows that the positive impact on performance that the Stanza model had on the component also had a positive impact on the performance of the overall system. 
+                
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{|l|l|l|l|l|l|l|}
+            \multicolumn{3}{l}{Mean Squared Error}                                                                                                & \multicolumn{1}{l}{} & \multicolumn{3}{l}{Median Absolute Error}                                                       \\ 
+            \cline{1-3}\cline{5-7}
+            Time Frame & Spacy                                                                        & Stanza                                    &                      & Time Frame & Spacy                                   & Stanza                                   \\ 
+            \cline{1-3}\cline{5-7}
+            1 day      & {50.86}                                     & {49.57}  &                      & 1 day      & {3.42} & {3.38}  \\ 
+            \cline{1-3}\cline{5-7}
+            2 days     & {}{93.1}   & {91.5}   &                      & 2 days     & {4.03} & {3.97}  \\ 
+            \cline{1-3}\cline{5-7}
+            5 days     & {}{123.48} & {122.92} &                      & 5 days     & {4.72} & {4.63}  \\ 
+            \cline{1-3}\cline{5-7}
+            10 days    & {141.06}                                    & {136.68} &                      & 10 days    & {5.37} & {5.29}  \\ 
+            \cline{1-3}\cline{5-7}
+            15 days    & {}{160.25} & {158.4}  &                      & 15 days    & {5.55} & {5.47}  \\ 
+            \cline{1-3}\cline{5-7}
+            30 days    & {}{209.92} & {207.41} &                      & 30 days    & {6.36} & {6.28}  \\
+            \cline{1-3}\cline{5-7}
+            \end{tabular}
+            \bigskip
+            \caption{Prediction performance comparisons between Spacy and Stanza}
+            \label{Table: NER_Performance}
+        \end{table}
+        
+        \subsection{Sentiment Analysis}
+        \label{eval:sentiment}
+        The sentiment analysis component is used to analyze the sentiment expressed in sentences in the system. This sentiment goes on to found the basis of predictions made in the stock prediction component and therefore is a critical component in the overall system. Initially, the sentiment was analyzed using VADER sentiment \citep{Technology:Vader} however other technologies exist that could provide better results.
+        
+        Therefore, to evaluate the sentiment analysis component, we will compare the performance of the VADER sentiment model to two other technologies. The first technology we looked at was the Natural Language Toolkit \citep{Technology:NLTK}, or NLTK, which is an extensive Python library that has a whole host of language processing models and features, one of which is sentiment analysis. The second technology evaluated was Textblob \citep{technology:Textblob}, an extension to NLTK that provides easier and more simplistic APIs to make full use of NLTK's features.
+      
+        To access the performance of each technology, an annotated data set comprising 4,846 sentences collected from financial news streams was sourced from Kaggle. Each sentence in the data set is labelled -1, 0 or 1 meaning negative sentiment, neutral sentiment or positive sentiment. Each technology analyzed all the sentences in the set and compared its result to the actual ones in the dataset. Keeping track of the correct and incorrect scores allows us to calculate the precision, recall and F1 score for each technology. Since NLTK is a more established technology, we expect to see some improvement between that and VADER sentiment and perhaps even more improvement with Textblob, since it is an extension to NLTK. 
+        
+        \begin{table}[h]
+        \centering
+            \begin{subtable}{\textwidth}
+                \centering
+                \begin{tabular}{|l|l|l|l|} 
+                \hline
+                         & Precision                                   & Recall                                      & F1 Score                                     \\ 
+                \hline
+                Positive & {0.4732} & {0.7116} & {0.5684}  \\ 
+                \hline
+                Negative & {0.5462} & {0.3129} & {0.3979}  \\ 
+                \hline
+                Neutral  & {0.7996} & {0.6804} & {0.7352}  \\
+                \hline
+                \end{tabular}
+                \smallskip
+                \caption{VADER sentiment confusion Matrix} \label{sub:sent_vader}
+            \end{subtable}
+            
+            \bigskip
+            
+            \begin{subtable}{\textwidth}
+                \centering
+                \begin{tabular}{|l|l|l|l|} 
+                \hline
+                         & Precision                                                                      & Recall                                                                         & F1 Score                                                                        \\ 
+                \hline
+                Positive & {}{0.4741} & {0.7117}                                    & {}{0.5691}  \\ 
+                \hline
+                Negative & {}{0.4741} & {}{0.3113} & {}{0.3962}  \\ 
+                \hline
+                Neutral  & {}{0.8}      & {0.6821}                                    & {}{0.7364}  \\
+                \hline
+                \end{tabular}
+                \smallskip
+                \caption{NLTK confusion Matrix} \label{sub:sent_NLTK}
+            \end{subtable}
+            
+            \bigskip
+            
+            \begin{subtable}{\textwidth}
+                \centering
+                \begin{tabular}{|l|l|l|l|} 
+                \hline
+                         & Precision                                   & Recall                                                                         & F1 Score                                     \\ 
+                \hline
+                Positive & {0.6577} & {0.4285}                                    & {0.5189}   \\ 
+                \hline
+                Negative & {0.5550} & {}{0.3841} & {0.4540}  \\ 
+                \hline
+                Neutral  & {0.7443}  & {0.9153}                                    & {0.821}     \\
+                \hline
+                \end{tabular}
+                \smallskip
+                \caption{Textblob confusion Matrix} \label{sub:sent_Textblob}
+            \end{subtable}
+            
+        \caption{Sentiment analysis performance}
+        \end{table}
+        
+        Tables \ref{sub:sent_vader}, \ref{sub:sent_NLTK} and \ref{sub:sent_Textblob} show the results for each technology, with the results being separated into metrics for positive, negative and neutral sentences. Comparing NLTK in Table \ref{sub:sent_NLTK} to VADER sentiment in Table \ref{sub:sent_vader} we can see that NLTK performs better with neutral and positive sentences, however recorded a decrease in performance for negative sentences. Textblob's F1 score in Table \ref{sub:sent_Textblob} shows that it performed better than both NLTK and VADER sentiment for negative and neutral sentences, but performed slightly worse for positive sentences. Overall, NLTK and Textblob provided better performances than the VADER sentiment model with Textblob having the best performance overall. It was therefore decided that the sentiment analysis component would use the Textblob sentiment model.
+        
+        Similar to what was done with the context analysis component we needed to evaluate the overall performance increase to the system through end-to-end testing. Again, this was done using news data gathered from the news crawler between November 11th 2020 to December 15th 2020 and comparing the prediction performances to the old system which used VADER sentiment to the new system which uses Textblob.
+        
+        Looking at Table \ref{Table: sent_Performance} again, similar to the performance increase in the context analysis component, we see a small, yet noticeable performance increase across all time frames suggesting that the improvements to the sentiment analysis component have had a positive impact on the overall performance of the system. 
+        
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{|l|l|l|l|l|l|l|}
+            \multicolumn{3}{l}{Mean Squared Error}                             & \multicolumn{1}{l}{} & \multicolumn{3}{l}{Median Absolute Error}  \\ 
+            \cline{1-3}\cline{5-7}
+            Time Frame & VADER sentiment                                     & Text Blob &                      & Time Frame & VADER sentiment & Text Blob             \\ 
+            \cline{1-3}\cline{5-7}
+            1 day      & {51.44}  & 50.86     &                      & 1 day      & 3.52  & 3.42                  \\ 
+            \cline{1-3}\cline{5-7}
+            2 days     & {99.8}   & 93.1      &                      & 2 days     & 4.23  & 4.03                  \\ 
+            \cline{1-3}\cline{5-7}
+            5 days     & {134.05} & 123.48    &                      & 5 days     & 4.95  & 4.72                  \\ 
+            \cline{1-3}\cline{5-7}
+            10 days    & {159.97} & 141.06    &                      & 10 days    & 5.79  & 5.37                  \\ 
+            \cline{1-3}\cline{5-7}
+            15 days    & {190.01} & 160.25    &                      & 15 days    & 6.61  & 5.55                  \\ 
+            \cline{1-3}\cline{5-7}
+            30 days    & {242.8}  & 209.92    &                      & 30 days    & 6.87  & 6.36                  \\
+            \cline{1-3}\cline{5-7}
+            \end{tabular}
+            \bigskip
+            \caption{Prediction performance comparisons between VADER sentiment and Text Blob}
+            \label{Table: sent_Performance}
+        \end{table}
+        
+        \subsection{Stock Prediction Component}
+        \label{eval:prediction}
+        %Background
+        The stock prediction component is what makes the final prediction for companies in the system and is the culmination of all the previous components. The component contains two models: the sentiment model, used to predict missing and future sentiment, and the stock prediction model, used to predict a company's stock price at a given time. Since the component was built using Sklearn \citep{technology:Scikit-learn}, which comes packaged with multiple different models, it was simple to replace models for trials.
+        
+            \subsubsection{Sentiment Model} We will first evaluate the sentiment model by looking at the different possible models that could improve the overall prediction performance and compare them to one another. To do this, we will compare the prediction performance results in a one-day time frame for different models, using the articles crawled between November 11th 2020 to December 15th 2020 as training data. Table \ref{Table: pred_sent_model} shows the three most effective models tested; Support vector machines (SVM), Bayesian regression and Bayesian regression with a Scalar to the data applied along with their associated MSE and MAE scores. Looking at the Table it would suggest that a Bayesian model is more effective along with a marginal performance when a scalar is applied to the training data.
+            
+            \begin{table}[h]
+            \centering
+            \begin{tabular}{|l|l|l|l|} 
+            \cline{2-4}
+            \multicolumn{1}{l|}{} & \textbf{SVM} & \textbf{Bayesian} & \textbf{Bayesian + Scalar}  \\ 
+            \hline
+            MSE                   & 50.86                      & 49.78             & 49.9                        \\ 
+            \hline
+            MAE                   & 3.42                       & 3.405             & 3.3                         \\
+            \hline
+            \end{tabular}
+            \caption{Comparison between different models in a one day time-frame}
+            \bigskip
+            \label{Table: pred_sent_model}
+            \end{table}
+            
+            Since Table \ref{Table: pred_sent_model} suggested an improvement with the Bayesian model with a scalar over the Support Vector Machine approach originally used, a more extensive evaluation was performed. Using the November 11th 2020 to December 15th 2020 article data the Mean Squared Error and mean absolute error scores of the SVM and Bayesian and Scalar model were calculated for 1 day to 30-day time frame. Table \ref{Table: pred_sent_final} shows the results of the test performed and suggests an increase in performance using the Bayesian Model with a scalar across all time frames. 
+            
+            \begin{table}[h]
+            \caption{Performance comparison between SVM sentiment model and Bayesian model with a scalar}
+            \label{Table: pred_sent_final}
+            \centering
+            \begin{tabular}{|l|l|l|l|l|l|l|}
+            \multicolumn{3}{l}{Mean Squared Error}                                                                         & \multicolumn{1}{l}{} & \multicolumn{3}{l}{Median Absolute Error}  \\ 
+            \cline{1-3}\cline{5-7}
+            Time Frame                                                                           & SVM    & Bayesian + Scalar &                      & Time Frame & SVM  & Bayesian + Scalar         \\ 
+            \cline{1-3}\cline{5-7}
+            {1 day}                                             & 50.86  & 49.9           &                      & 1 day      & 3.42 & 3.38                   \\ 
+            \cline{1-3}\cline{5-7}
+            {2 days}                                            & 93.1   & 91.6           &                      & 2 days     & 4.03 & 3.96                   \\ 
+            \cline{1-3}\cline{5-7}
+            {5 days}                                            & 123.48 & 121.90         &                      & 5 days     & 4.72 & 4.67                   \\ 
+            \cline{1-3}\cline{5-7}
+            {10 days} & 141.06 & 138.76         &                      & 10 days    & 5.37 & 5.31                   \\ 
+            \cline{1-3}\cline{5-7}
+            15 days                                                                              & 160.25 & 158.02         &                      & 15 days    & 5.55 & 5.47                   \\ 
+            \cline{1-3}\cline{5-7}
+            30 days                                                                              & 209.92 & 207.56         &                      & 30 days    & 6.36 & 6.31                   \\
+            \cline{1-3}\cline{5-7}
+            \end{tabular}
+            \end{table}
+        
+            
+        \subsubsection{Stock Prediction Model}
+        The final model to be evaluated in the system was the stock prediction model, which is used to predict the future prices of a given stock using the sentiment data collected. This prediction is then used to determine the overall verdict of a company, which is then displayed to the user.
+        
+        To evaluate the prediction model, we compared the effectiveness of the current Support Vector Machines model to other potentially effective models. We used sentiment data scraped by the news crawler between November 11th 2020 to December 15th 2020 to train the different models, then compared how they performed in 1 day to 30-day intervals into the future per company and calculated the averages  to create an overall score for each company. The two other models evaluated were a Decision Tree regression model and a Random Forest regression model. 
+        
+        Table \ref{Table: pred_MSE} shows the Mean Squared Error (MSE) for each model tested and each time frame into the future. \ref{Table: pred_MAE} shows the Mean Absolute Error (MAE) for each model tested for each time frame into the future. Table \ref{Table: pred_MSE} and Table \ref{Table: pred_MAE} both show a considerable performance increase from an SVM model to the Decision Tree or Random Forest across all time frames, however, SVM does show better MSE results for the 30-day time frames.
+        
+        Overall, we can see that there was a considerable performance increase when using a Decision Tree or Random Forest model over an SVM one. Therefore, it proved that switching to one of these models would also be beneficial for the system as a whole. The Random Forest regressor was selected to be implemented over the Decision Tree model for multiple reasons. Firstly, Random Forest proved to be more effective in the long term and does not overfit the data as the Decision Tree Model does.
+        
+        \begin{table}[h]
+            
+            \begin{subtable}{\linewidth}
+            \centering
+            \begin{tabular}{|l|l|l|l|}
+            \multicolumn{4}{l}{Mean Squared Error}                                                                                                                                                    \\ 
+            \hline
+            Time Frame & SVM                                       & Decision Trees                            & Random Forest                                                                        \\ 
+            \hline
+            1 day      & 50.86                                     & 23.91                                     & 27.3                                                                                 \\ 
+            \hline
+            2 days     & {93.1}   & {63.42}  & {72.88}                                             \\ 
+            \hline
+            5 days     & {123.48} & {113.7}  & {103.49}                                            \\ 
+            \hline
+            10 days    & {141.06} & {135.38} & {126.08}  \\ 
+            \hline
+            15 days    & {160.25} & {146.12} & {138.96}                                            \\ 
+            \hline
+            30 days    & {209.92} & {257.5}  & {253.6}                                             \\
+            \hline
+            \end{tabular}
+            \bigskip
+            \caption{Mean Squared Error performance of the SVM, Decision Tree Regressor and Random Forest Regressor models for the stock prediction component}
+            \label{Table: pred_MSE}
+            \end{subtable}
+            
+            \bigskip
+            
+            \begin{subtable}{\linewidth}
+            \centering
+            \begin{tabular}{|l|l|l|l|}
+            \multicolumn{4}{l}{Mean Absolute Error}                                                                                                                                             \\ 
+            \hline
+            Time Frame & SVM                                     & Decision Trees                          & Random Forest                                                                      \\ 
+            \hline
+            1 day      & {3.38} & {2.41} & {2.16}                                            \\ 
+            \hline
+            2 days     & {3.96} & {3.03} & {2.89}                                            \\ 
+            \hline
+            5 days     & {4.67} & {4.06} & {3.82}                                            \\ 
+            \hline
+            10 days    & 5.31                                    & 4.69                                    & {4.44}                                            \\ 
+            \hline
+            15 days    & 5.47                                    & 4.86                                    & 4.63                                                                               \\ 
+            \hline
+            30 days    & 6.31                                    & 5.84                                    & 5.71                                                                               \\
+            \hline
+            \end{tabular}
+            \bigskip
+            \caption{Mean Absolute Error performance of the SVM, Decision Tree Regressor and Random Forest Regressor models for the stock prediction component}
+            \label{Table: pred_MAE}
+            \end{subtable}
+        
+        \caption{Mean Squared Error and Median Absolute Error for stock prediction models}
+        \label{Table: pred_final}
+        \end{table}
+    
+    %BACKGROUND
+    
+    %WHAT DOING (QUESTION)
+    
+    %HOW GOING TO DO - data set
+    
+    %TELL EXPECTATIONS
+    
+    %DESCRIBE THING (TABLE)
+    
+    %MAKE OBSERVATIONS FROM TABLE
+    
+    %DRAW CONCLUSION
+    
+    %SAY WHAT IT MEANS ABOUT SSYTEM
+    
+    \section{Frontend User study}
+    \label{eval:user_study}
+    The frontend is the part of the system with which a potential user will interact and it displays the companies along with their predictions and stock verdicts. The frontend requires to be straightforward and easy to use and therefore to measure this it was decided a user study would be conducted to evaluate the system. Each candidate would be given time with the system and asked to answer a brief questionnaire on their experience with the system within regards to its usability. 
+        
+        \subsection{System Usability Scale}
+        The system usability scale \citep{website:SUS} was selected as the foundation of the user study and questionnaire due to it being a robust and widely used metric. Each participant is asked to answer ten questions, scoring from one to five, with one being strongly disagreed and five being strongly agreed. The ten questions can be found in Appendix \cite{Ap:SUS}.
+        
+        Once a participant has answered all the questions, their answers can be turned into a score ranging from 0 to 100. averaging this score across all participants allows the system to be compared with the average score of other systems that have used the System Usability Scale.
+            
+        \subsection{Running the User study}
+        Participants were asked to go onto the web page with the mind frame of being an amateur financial trader who is looking for potential investment opportunities. Each participant was given ten or so minutes to operate the system with some limited interaction between them and the facilitator to guide them to use all areas of the system if they could. Once finished participants were asked to complete the System Usability Scale questionnaire and provide any other feedback they had.
+            
+        \subsection{Results}
+        Six people took the user study with the highest score being 92.5 and the lowest score being 85. Averaging across all six participants the system usability score for the system was 88.75/100. This puts it in the upper average of systems evaluated using the metric. Throughout the user study, multiple users expressed that the system was simple and easy to use however, two users did comment on the lack of accessibility features such as increasing the text size and colour blind mode. Additionally, two users commented they would use the system in tandem with other similar websites. A further breakdown of the results can be found in Appendix \ref{Ap:Results}
+        
+    \section{Key Findings}
+        
+    \begin{itemize}
+        \item The Stanford \citep{technology:Stanza} named entity recognition model was far better than the Spacy \cite{technology:Spacy} model used prior to evaluation and saw noticeable improvements in end to end testing. 
+        
+        \item Textblob \citep{technology:Textblob} provided the best results for sentiment analysis. however, it only had a minor impact on the end to end performance
+        
+        \item Changing the stock prediction model from an SVM model to a Random Forest regressor saw a significant boost in performance in what had been the main bottleneck for the system.
+        
+        \item The Webapp scored 88.75 out of 100 on the System usability scale and was generally well-received, with the majority of participants describing it as easy to use.
+    \end{itemize}
+    
+    
+    \section{Summary}
+    This chapter describes the evaluation measures carried out across the system. The context analysis, sentiment analysis and stock prediction components were evaluated and improved upon both in individual and end to end testing. The frontend was evaluated using the System Usability Scale user study and a requirement validation Table was also shown.

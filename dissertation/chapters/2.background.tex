@@ -1,0 +1,65 @@
+\chapter{Background}
+\label{Background}
+
+
+
+\section{Academic Review}
+A review of various academic papers was conducted in order to understand how similar projects approached and overcame various challenges, namely how the systems were created and evaluated. The three main areas reviewed were Sentiment Analysis, Named Entity Recognition and Stock Prediction.
+
+
+    \subsection{Sentiment Analysis}
+    \label{background:Sentiment}
+    Much work has been done in the field of sentiment analysis with \cite{liu2010sentiment} describing it as "the computational study of opinions, sentiments, and emotions expressed in text.". There are many approaches to sentiment analysis such as lexicon based approaches or machine learning models to classify sentiment in text. \citep{7237157sentiment}
+    
+    "Sentiment Analysis Using Common-Sense and Context Information" \citep{Agarwal2015} and "Choosing your weapons: On sentiment analysis tools for software engineering research" \citep{7332508} present the different technologies and tools used in sentiment analysis along with techniques to evaluate them. 
+    
+
+    \subsection{Named Entity recognition}
+    \label{background:NER}
+    \cite{NER-book} describe named entity recognition as an "information extraction task aimed at identifying and classifying words of a sentence, a paragraph or a document" and is a key part of this project that has seen much development over the years. There are various existing technologies and methods discussed by \cite{context} which could be appropriate for this project. 
+    
+    "Evaluating and Combining Name Entity Recognition Systems" \citep{jiang-etal-2016-evaluating} and "{MUC}-5 Evaluation Metrics" \citep{chinchor-sundheim-1993-muc} was reviewed to understand the different approaches and techniques for named entity recognition and how an effective evaluation of the system can be performed.
+    
+    \subsection{Stock Prediction}
+    \label{backgroudn:prediction}
+    Machine learning has become a major topic in the computing world in recent years and has had many applications in stock prediction. Various papers relating to stock prediction have been published, such as "Prediction Models for Indian Stock Market" \citep{NAYAK2016441} and "An SVM-based approach for stock market trend prediction" \citep{6706743} that show some of the different models and techniques used. 
+    
+    For this project specifically "Stock prediction using twitter sentiment analysis" \citep{mittal2012stock} shows how a full system similar to the one in this project predicts stock prices using sentiment data.
+    
+        
+\section{Competitors}
+\label{Competitors}
+There are a variety of stock analysis sites and tools that provide similar functionality to what this project is intended to achieve. Three sites, Investing.com, TradingView and Stock Analysis, were identified for their popularity and similarity to this project.
+
+    \subsection{Investing.com}
+    Founded in 2007 Investing.com is one of the most popular financial analytic sites with more than forty-six million monthly users \citep{website:Investing.com}. The site provides market overviews, stock analysis and individual company analysis displaying useful information such as relevant articles, statistics and discussions. A technical summary for each stock is also provided with a "Strong Sell" and "Strong Buy" indicator for 5 minutes, 15 minutes, an hour, a day and a month into the future. It also has a stock sentiment indicator, however this is merely a poll between users rather than the analysis of news stories this project aims to achieve. Also, although the search bar allows for easy navigation between pages, the abundance of ads, popups and poor layout gives the site an unprofessional look as well as making information difficult to find. Only through paying £5.48 per month can these ads be removed. Moreover, to gain access to the more advanced insights and metrics a subscription of £11 per month is required. 
+    
+    \subsection{TradingView}
+    Launched in 2011 TradingView is not as popular as Investing.com, however it is by far the most advanced and polished site out of the three identified and has a variety of features and information to help assist its users. The site is easy to navigate and displays a variety of information and technical data along with potential forecasts from other users. The technical section includes a host of moving averages and prediction metrics that combine to give an overall "Sell", "Neutral" or "Buy" recommendation. As with Investing.com, much of the more advanced data and insights are locked behind a paywall, ranging from £11 to £43 per month. 
+        
+    \subsection{Stock Analysis}
+    Compared to Trading View, Stock Analysis is far more lightweight and, unlike Trading View and Investing.com, none of the analytics or information is locked behind a paywall or registration process. The site has good navigation through its search bar and, although it does have ads, they are considerably less intrusive than those on Investing.com. Financials and statistics are provided for each stock, along with relevant news articles and analysis of company performance. Stock Analysis’ weak points lie in the lack of real scrutiny. There is a Buy/Sell forecast, however there is no indication of where the forecast comes from and outside of this, the site does not provide a clear opinion on the attractiveness of a given company as Tradingview or Investing.com do.
+    
+    \subsection{Overall}   
+	We can see that all three websites provide various financial information with relevant news articles and stories for every company, along with some verdict of attractiveness, such as strong sell or strong buy. The websites, however, do not show any predictions on the future stock price or trends for a given company’s future, or any indication of the current sentiment. 
+	
+    Looking at these competitors we can see the similar features and systems we should implement into our own system. Firstly, a central search bar that allows navigation between companies similar to all three websites is needed. Secondly, Stock Analysis and Trading View's sleek and simplistic design was far superior to Investing.com’s and is a style that should be emulated in our designs. Lastly, a clear indication of verdict and performance of a stock similar to Trading View should be added to both help user navigation and decision making.
+	
+
+\section{Technologies}
+
+    \subsection{Backend}
+    Flask \citep{technology:Flask} is used as the foundation for many of the backend components due to it being an extremely lightweight and well documented framework. The news crawler uses Newspaper3k \citep{technology:Newspaper} a python library that allows for articles to be scraped via news sources RSS feeds. This was chosen due to it being simplistic to implement, while also providing sufficient data about the articles being collected. Articles’ sentences are extracted using NLTK \citep{Technology:NLTK} text tokenizer. NLTK was chosen as it provides pre-built tokenizers that centre around extracting sentences from large bodies of text. For the entity identification portion of the project, Spacy \citep{technology:Spacy} an open source, natural language processing library was used, due it providing many options for entity identification, ranging from the simple to complex. VADER sentiment \citep{Technology:Vader}, standing for Valence Aware Dictionary and sEntiment Reasoner, was initially chosen for the sentiment analysis component as it provides a quick, easy-to-use sentiment model that is focused on sentiment analysis from social media comments. For the prediction component Sklearn \citep{technology:Scikit-learn} was used extensively as it provides a whole host of features and pre-made models to manipulate and train data while also having detailed documentation on these various models and features. This also allowed for different models to be evaluated later in the project with relative ease. 
+
+    \subsection{Database}
+    Data collected and processed by the backend is stored in using PostgreSQL \citep{technology:PostgreSQL}. Postgres was chosen as it provides extensive query options, easy containerization and various extensions including \cite{technology:Timescale}, which is used to manage the secondary database that stores prediction data points. 
+    
+    \subsection{Frontend}
+    The frontend is build using the Django framework \citep{technology:Django}. Django was chosen over other frameworks such as Angular or Jhipster as it allowed for a much faster simplistic implementation of the frontend while also providing the framework needed for a quick and secure integration with the rest of the project. Chartjs \citep{technology:Chartjs} was used to display stock information as it came with many customization options while also being easy to implement. 
+
+    \subsection{Additional Technologies}
+    In addition to the abovementioned core technologies, other various libraries and technologies were used extensively throughout the project. These include Yahoo APIs via the yfinance \citep{technology:yfinance} library to collect up-to-date market information, Pandas \citep{technology:Pandas} is used for data handling and manipulation and Sqlalchemy \citep{technology:sqlalchemy} along with Psycopg2 \cite{technology:psycopg2} is used for accessing the databases. These libraries were chosen for varying reasons, however they were selected mainly because they interacted and worked well with the main technologies used in the system. 
+    
+
+\section{Summary}
+   This section details the literature and competitor sites reviewed in preparation for this project and the various technologies used throughout the final system.  

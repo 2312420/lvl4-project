@@ -1,0 +1,27 @@
+\chapter{Conclusion}    
+\label{Conclusion}
+
+    \section{Summary}
+    In summary, this project aimed to construct a system that could be of use to a financial analyst or investor by tracking the attractiveness and profitability of companies' stock prices. After some revisions, a service-based architecture was decided upon, with the components used to process articles acting as small microservices around a central control component. The system is able to gather articles gathered from well-known News sources and extract sentences from them. The system then uses then uses entity identification to understand what company is being discussed in the sentence, with sentiment analysis being used to award a polarity score. The system then uses the sentence's sentiment and context to predict future stock prices and award a \textit{HOT} or \textit{NOT}. The frontend webapp then displays this verdict to users and allows them to view future predictions, stock price and information on various companies. Once the system was operational, steps were taken to evaluate the effectiveness of the system through individual component analysis, end to end testing and user study of the webapp's usability.
+    
+    
+    \section{Future Work}
+    If given more time to work on the project, various improvements, changes, and potential features could be made to the overall system. Below are some of the more key or important changes that could be made: 
+        
+        \subsection{Deployment}
+        The next logical step for the project would be to deploy the webapp so that users could access the site. Additional features to the webapp could also introduced such as a more in-depth custom prediction system, along with more financial and company information.
+        
+        \subsection{Personalisation}
+        One of the "Could" requirements was to implement personalisation options for users, however this was not completed due to time constraints. Implementing the option to create accounts and have personal landing pages with \textit{favourite} and frequently visited companies would help to create a more personal and streamlined experience for users. 
+        
+        \subsection{Companies and Sources}
+        Adding a wider variety of companies to the system would help to make the webapp more useful to users and operate on the level of similar sites which contain thousands of companies. Moreover increasing the number of sources and news crawlers would help to increase the amount of data the system can use and potentially provide more accurate predictions.
+        
+        \subsection{Backend Improvements}
+        Further evaluation and improvement of the backend component models, specifically the Context analysis, Sentiment Analysis and Stock Prediction components would further help to increase the performance and quality of the predictions.
+        
+        
+    \section{Reflection}
+    This project has given me invaluable experience and insight into managing and undertaking a large scale project. It has shown the importance of project management and how this can improve the efficiency and ease of project development. The projects breadth and scope have also given valuable experience into how to utilize and adapt to using multiple different frameworks and technologies simultaneously and how they can be integrated to create an overall application. This project also stressed the importance and benefit of evaluation, more specifically how to carry out an evaluation and how the results of that evaluation can be used to improve upon the overall system.
+    
+ 
