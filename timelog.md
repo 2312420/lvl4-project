@@ -487,3 +487,17 @@
 
 * *2 hours* Working on dissertation
 * *3 hours* Getting repo up to handover standard
+
+## 7 Mar
+
+* *7 hours* Working on dissertation
+
+## 8 Mar
+
+* *5 hours* Working on dissertation
+* *1 hour* Getting sumbission ready
+
+## 9 Mar
+
+* *0.5 hour* Meeting with advisor
+* *2 hours* Final improvements
